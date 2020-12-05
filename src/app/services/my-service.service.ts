@@ -29,8 +29,4 @@ getPaziente() {
   return this.httpClient.get('http://localhost:8080/restex/paziente', { headers, responseType: 'text'})
 }
 
-metodoGit(){
-  
-}
-
 }
