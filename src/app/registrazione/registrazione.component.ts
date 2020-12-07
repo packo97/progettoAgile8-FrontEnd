@@ -14,8 +14,17 @@ export class Paziente {
 })
 export class RegistrazioneComponent implements OnInit {
 
+  tipo_registrazione : string = ""
   nome: string = "";
   cognome: string = "";
+  codice_fiscale: string = "";
+  numero_telefono: string = "";
+  email: string = "";
+  password: string = "";
+  indirizzo: string = "";
+  descrizione: string = "";
+  codice_identificativo_veterinario: string = ""
+
 
   constructor(
     private route : Router,
@@ -25,12 +34,44 @@ export class RegistrazioneComponent implements OnInit {
   ngOnInit() {
   }
 
-  registrazione(){
-    alert(this.nome + " " + this.cognome);
-    var json = {
-      nome: this.nome,
-      cognome: this.cognome
+  setTipo(scelta: number){
+    if(scelta == 1){
+      this.tipo_registrazione = "paziente";
     }
-    this.service.registrazione(json);
+    else
+      this.tipo_registrazione = "dottore";
+
+      alert(this.tipo_registrazione);
+  }
+
+  registrazione(){
+    if(this.tipo_registrazione == "paziente"){
+      var jsonPaziente = {
+        nome: this.nome,
+        cognome: this.cognome,
+        codice_fiscale: this.codice_fiscale,
+        numero_telefono: this.numero_telefono,
+        email:  this.email,
+        password:  this.password,
+      }
+      this.service.registrazionePaziente(jsonPaziente);
+    }
+    else if(this.tipo_registrazione == "dottore"){
+      var jsonDottore = {
+        nome: this.nome,
+        cognome: this.cognome,
+        codice_fiscale: this.codice_fiscale,
+        numero_telefono: this.numero_telefono,
+        email:  this.email,
+        password:  this.password,
+        indirizzo: this.indirizzo,
+        descrizione: this.descrizione,
+        codice_identificativo: this.codice_identificativo_veterinario,
+      }
+      alert(this.codice_identificativo_veterinario);
+      this.service.registrazioneDottore(jsonDottore);
+    }
+    
+    
   }
 }

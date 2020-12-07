@@ -17,7 +17,7 @@ constructor(
   private httpClient : HttpClient
 ) { }
 
-registrazione(json){
+registrazionePaziente(json){
  
   this.httpClient.post("http://localhost:8080/restex/paziente",json).subscribe(
     response => console.log(response)
@@ -25,9 +25,14 @@ registrazione(json){
   
 }
 
-getPaziente() {
-  const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
-  return this.httpClient.get('http://localhost:8080/restex/paziente', { headers, responseType: 'text'})
+registrazioneDottore(json){
+ 
+  this.httpClient.post("http://localhost:8080/restex/dottore",json).subscribe(
+    response => console.log(response)
+  );
+  
 }
+
+
 
 }
