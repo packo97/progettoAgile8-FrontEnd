@@ -2,11 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MyServiceService } from '../services/my-service.service';
 
-export class Paziente {
-  public nome: string;
-  public cognome: string;
-}
-
 @Component({
   selector: 'app-registrazione',
   templateUrl: './registrazione.component.html',

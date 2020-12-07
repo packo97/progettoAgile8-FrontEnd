@@ -2,11 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
- 
-export class Paziente {
-  nome: string;
-  cognome: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +13,7 @@ constructor(
 ) { }
 
 registrazionePaziente(json){
- 
+  alert(JSON.stringify(json))
   this.httpClient.post("http://localhost:8080/restex/paziente",json).subscribe(
     response => console.log(response)
   );

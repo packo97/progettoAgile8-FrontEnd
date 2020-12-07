@@ -1,0 +1,12 @@
+<div>
+  <input type="text" id="inputemail" placeholder="Email" [(ngModel)]="email">
+  <br>
+  <input type="password" id="inputpassword" placeholder="Password" [(ngModel)]="password">
+  <br>
+  <input type="radio" name="tipo" value="Paziente" [(ngModel)]="login_paziente" checked>
+  <label for="Paziente">Paziente</label><br>
+  <input type="radio" name="tipo" value="Dottore" [(ngModel)]="login_dottore">
+  <label for="Dottore">Dottore</label><br>
+  <br>
+  <button (click)=login() >LOGIN</button>
+</div>

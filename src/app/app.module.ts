@@ -9,12 +9,16 @@ import { RegistrazioneComponent } from './registrazione/registrazione.component'
 import { ErrorComponent } from './error/error.component';
 
 import {MyServiceService} from 'src/app/services/my-service.service';
+import {LoginService} from 'src/app/services/login.service';
+
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
-  declarations: [		
+  declarations: [			
     AppComponent,
       RegistrazioneComponent,
-      ErrorComponent
+      ErrorComponent,
+      LoginComponent
    ],
   imports: [
     BrowserModule,
@@ -22,7 +26,7 @@ import {MyServiceService} from 'src/app/services/my-service.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [MyServiceService],
+  providers: [MyServiceService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
