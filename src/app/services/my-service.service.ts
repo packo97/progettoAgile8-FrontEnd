@@ -17,10 +17,11 @@ constructor(
   private httpClient : HttpClient
 ) { }
 
-registrazione(paziente: any){
-  alert("sto qui")
-  const body=JSON.stringify(paziente);
-  this.httpClient.post("http://localhost:8080/restex/paziente",body);
+registrazione(json){
+ 
+  this.httpClient.post("http://localhost:8080/restex/paziente",json).subscribe(
+    response => console.log(response)
+  );
   
 }
 

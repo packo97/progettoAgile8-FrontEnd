@@ -27,8 +27,10 @@ export class RegistrazioneComponent implements OnInit {
 
   registrazione(){
     alert(this.nome + " " + this.cognome);
-    
-    //alert(this.service.getPaziente());
-    alert(this.service.registrazione('nome'));
+    var json = {
+      nome: this.nome,
+      cognome: this.cognome
+    }
+    this.service.registrazione(json);
   }
 }
