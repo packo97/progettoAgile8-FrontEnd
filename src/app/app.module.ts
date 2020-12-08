@@ -12,13 +12,19 @@ import {RegistrazioneService} from 'src/app/services/registrazione.service';
 import {LoginService} from 'src/app/services/login.service';
 
 import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
+
+import { PrenotazioneService} from 'src/app/services/prenotazione.service'
+import { PrenotazioneComponent } from './prenotazione/prenotazione.component';
 
 @NgModule({
-  declarations: [			
+  declarations: [					
     AppComponent,
       RegistrazioneComponent,
       ErrorComponent,
-      LoginComponent
+      LoginComponent,
+      HomeComponent,
+      PrenotazioneComponent
    ],
   imports: [
     BrowserModule,
@@ -26,7 +32,7 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [RegistrazioneService, LoginService],
+  providers: [RegistrazioneService, LoginService, PrenotazioneService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
