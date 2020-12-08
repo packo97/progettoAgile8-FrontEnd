@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { RegistrazioneComponent } from './registrazione/registrazione.component';
 import { ErrorComponent } from './error/error.component';
 
-import {MyServiceService} from 'src/app/services/my-service.service';
+import {RegistrazioneService} from 'src/app/services/registrazione.service';
 import {LoginService} from 'src/app/services/login.service';
 
 import { LoginComponent } from './login/login.component';
@@ -26,7 +26,7 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [MyServiceService, LoginService],
+  providers: [RegistrazioneService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

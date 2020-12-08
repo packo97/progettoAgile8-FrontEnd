@@ -2,11 +2,44 @@
   <div class="column col-sm-4">
   </div>
   <div class="column col-sm-4">
-    <div id="divSceltaIniziale" align="center">
-      <button id="buttonPaziente" class="btn btn-outline-dark btn-lg" type="button" (click)=setTipo(1)>Paziente</button>
-      <button id="buttonDottore" class="btn btn-outline-secondary btn-lg" type="button" (click)=setTipo(2)>Dottore</button>
-    </div>
-    <div id="login">
+    <div class="registration-form">
+    
+      <input type="text" id="inputNome" class="form-control" placeholder="Nome" [(ngModel)]="nome">
+      <br>
+      <input type="text" id="inputCognome" class="form-control" placeholder="Cognome" [(ngModel)]="cognome">
+      <br>
+      <input type="text" id="inputCodiceFiscale" class="form-control" placeholder="CodiceFiscale" [(ngModel)]="codice_fiscale">
+      <br>
+      <input type="text" id="inputnumeroTelefono" class="form-control" placeholder="Numero di telefono" [(ngModel)]="numero_telefono">
+      <br>
+      <input type="text" id="inputemail" class="form-control" placeholder="Email" [(ngModel)]="email">
+      <br>
+      <input type="password" id="inputpassword" class="form-control" placeholder="Password" [(ngModel)]="password">
+      <br>
+      <ng-container id="divLogin" *ngIf="tipo_registrazione == 'dottore'; then inputDottore else null"></ng-container>
+      <ng-template #inputDottore>
+        <input type="text" id="inputCodice_identificativo_veterinario" class="form-control" placeholder="Codice Identificativo Veterinario" [(ngModel)]="codice_identificativo_veterinario">
+        <br>
+      </ng-template>
+      <div class="row">
+        
+        <div class="form-icon paziente" (click)=setTipo(1)>
+          <span><i class="icon icon-user"></i></span>
+        </div>
+        
+        <div class="form-icon dottore" (click)=setTipo(2)>
+          <span><i class="icon icon-user"></i></span>  
+        </div>
+        
+        <div class="form-icon segretaria" (click)=setTipo(3)>
+          <span><i class="icon icon-user"></i></span>            
+        </div>
+      
+      </div>
+
+      <button class="form-control" (click)=registrazione() >Registrazione</button>
+      <a href="login">Torna al Login</a>
+  
     </div>
   </div>
   <div class="column col-sm-4">
@@ -14,27 +47,9 @@
 </div>
 
 
-  <input type="text" id="inputNome" placeholder="Nome" [(ngModel)]="nome">
-  <br>
-  <input type="text" id="inputCognome" placeholder="Cognome" [(ngModel)]="cognome">
-  <br>
-  <input type="text" id="inputCodiceFiscale" placeholder="CodiceFiscale" [(ngModel)]="codice_fiscale">
-  <br>
-  <input type="text" id="inputnumeroTelefono" placeholder="Numero di telefono" [(ngModel)]="numero_telefono">
-  <br>
-  <input type="text" id="inputemail" placeholder="Email" [(ngModel)]="email">
-  <br>
-  <input type="password" id="inputpassword" placeholder="Password" [(ngModel)]="password">
-  <br>
+  
  
 
-  <ng-container id="divLogin" *ngIf="tipo_registrazione == 'dottore'; then inputDottore else null"></ng-container>
-  <ng-template #inputDottore>
-    <input type="text" id="inputCodice_identificativo_veterinario" placeholder="Codice Identificativo Veterinario" [(ngModel)]="codice_identificativo_veterinario">
-    <br>
-    <input type="text" id="inputIndirizzo" placeholder="Indirizzo dello studio" [(ngModel)]="indirizzo">
-  </ng-template>
-  <br>
-  <button (click)=registrazione() >REGISTRATI</button>
+
  
   

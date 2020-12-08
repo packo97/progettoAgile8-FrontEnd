@@ -1,12 +1,42 @@
-<div>
-  <input type="text" id="inputemail" placeholder="Email" [(ngModel)]="email">
-  <br>
-  <input type="password" id="inputpassword" placeholder="Password" [(ngModel)]="password">
-  <br>
-  <input type="radio" name="tipo" value="Paziente" [(ngModel)]="login_paziente" checked>
-  <label for="Paziente">Paziente</label><br>
-  <input type="radio" name="tipo" value="Dottore" [(ngModel)]="login_dottore">
-  <label for="Dottore">Dottore</label><br>
-  <br>
-  <button (click)=login() >LOGIN</button>
+<div class="row">
+  <div class="column col-sm-4">
+  </div>
+  
+  
+  <div class="column col-sm-4">
+    
+    <div class="registration-form">
+      
+      <input type="text" id="inputemail" class="form-control" placeholder="Email" [(ngModel)]="email">
+      <br>
+      <input type="password" id="inputpassword" class="form-control" placeholder="Password" [(ngModel)]="password">
+      <br>
+    
+      <div class="row">
+        
+        <div class="form-icon paziente" (click)=setTipo(1)>
+          <span><i class="icon icon-user"></i></span>
+        </div>
+        
+        <div class="form-icon dottore" (click)=setTipo(2)>
+          <span><i class="icon icon-user"></i></span>  
+        </div>
+        
+        <div class="form-icon segretaria" (click)=setTipo(3)>
+          <span><i class="icon icon-user"></i></span>            
+        </div>
+        
+      </div>
+
+    <button class="form-control" (click)=login() >LOGIN</button>
+    <a href="registrazione">Registrati</a>
+
+    </div>
+    
+
+  </div>
+
+  <div class="column col-sm-4">
+  </div>
+  
 </div>

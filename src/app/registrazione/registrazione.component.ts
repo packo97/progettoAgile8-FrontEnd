@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MyServiceService } from '../services/my-service.service';
+import { RegistrazioneService } from '../services/registrazione.service';
 
 @Component({
   selector: 'app-registrazione',
@@ -16,14 +16,13 @@ export class RegistrazioneComponent implements OnInit {
   numero_telefono: string = "";
   email: string = "";
   password: string = "";
-  indirizzo: string = "";
   descrizione: string = "";
   codice_identificativo_veterinario: string = ""
 
 
   constructor(
     private route : Router,
-    private service : MyServiceService 
+    private service : RegistrazioneService 
   ) { }
 
   ngOnInit() {
@@ -33,10 +32,12 @@ export class RegistrazioneComponent implements OnInit {
     if(scelta == 1){
       this.tipo_registrazione = "paziente";
     }
-    else
+    else if(scelta == 2){
       this.tipo_registrazione = "dottore";
-
-      alert(this.tipo_registrazione);
+    }
+    else if(scelta == 3){
+      this.tipo_registrazione = "segretaria";
+    }
   }
 
   registrazione(){
@@ -59,14 +60,22 @@ export class RegistrazioneComponent implements OnInit {
         numero_telefono: this.numero_telefono,
         email:  this.email,
         password:  this.password,
-        indirizzo: this.indirizzo,
         descrizione: this.descrizione,
         codice_identificativo: this.codice_identificativo_veterinario,
       }
-      alert(this.codice_identificativo_veterinario);
       this.service.registrazioneDottore(jsonDottore);
     }
-    
+    else if(this.tipo_registrazione == "segretaria"){
+      var jsonSegretaria = {
+        nome: this.nome,
+        cognome: this.cognome,
+        codice_fiscale: this.codice_fiscale,
+        numero_telefono: this.numero_telefono,
+        email:  this.email,
+        password:  this.password,
+      }
+      this.service.registrazioneSegretaria(jsonSegretaria);
+    }
     
   }
 }
