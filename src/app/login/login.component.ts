@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
       this.autenticato = this.service.loginPaziente(json);
       if(this.autenticato == true){
         console.log("home");
-        //this.route.navigate(['homePaziente'])
+        this.route.navigate(['homePaziente'])
       }
       else
         console.log("non eseguito")

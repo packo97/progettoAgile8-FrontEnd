@@ -1,9 +1,18 @@
-<div id="coda_urgente">
+<div class="row">
+<div class="column col-sm-4">
+    <app-prenotazione></app-prenotazione>
+</div>
+<div class="column col-sm-4">
 
 </div>
-<div id="coda_in_attesa">
-
+<div class="column col-sm-4">
+    <input type="text" id="inputProblema" class="form-control" placeholder="Inserisci il tuo problema" [(ngModel)]="problema" value="problema">
+    <select class="form-control" id="selectDottori">
+        <option *ngFor="let dottore of dottori">
+            {{dottore.nome}} {{dottore.cognome}}
+        </option>
+    </select>
+    <button class="form-control" (click)=richiestaPrenotazione()>PRENOTATI</button>
 </div>
-<div id="coda_accettati">
-
 </div>
+

@@ -13,13 +13,21 @@ export class PrenotazioneService {
     private httpClient : HttpClient
   ) { }
   
+
+  addRichiestaPrenotazione(json){
+    this.httpClient.post("http://localhost:8080/restex/prenotazione",json).subscribe(
+      response => console.log(response)
+    );
+  }
+
+
   getCodaUrgenti() {
-  
     return this.httpClient.get<Prenotazione[]>("http://localhost:8080/restex/urgentiNonAccettati");
-    
   }
   
-  getCodaAttesa() {}
+  getCodaAttesa() {
+    return this.httpClient.get<Prenotazione[]>("http://localhost:8080/restex/inAttesa");
+  }
   
   getCodaAccettatti() {}
   

@@ -10,6 +10,7 @@ import { ErrorComponent } from './error/error.component';
 
 import {RegistrazioneService} from 'src/app/services/registrazione.service';
 import {LoginService} from 'src/app/services/login.service';
+import {DottoreService} from 'src/app/services/dottore.service'
 
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
@@ -32,7 +33,7 @@ import { PrenotazioneComponent } from './prenotazione/prenotazione.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [RegistrazioneService, LoginService, PrenotazioneService],
+  providers: [RegistrazioneService, LoginService, PrenotazioneService, DottoreService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

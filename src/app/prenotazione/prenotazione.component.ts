@@ -5,8 +5,9 @@ import { PrenotazioneService } from '../services/prenotazione.service';
 export class Prenotazione{
 
   constructor(
-    public descrizione: string
-    
+    public descrizione: string,
+    public paziente: number,
+    public dottore: number
     ){}
 
 }
@@ -18,24 +19,36 @@ export class Prenotazione{
 })
 export class PrenotazioneComponent implements OnInit {
 
-  private prenotazioniUrgenti: Prenotazione[]
+  prenotazioniUrgenti: Prenotazione[] = [];
+  prenotazioniAttesa: Prenotazione[] = [];
+  prenotazioniAccettate: Prenotazione[] = []
+
   constructor(private root: Router, private service: PrenotazioneService) { }
 
   ngOnInit() {
+    this.getCodaUrgenti();
+    this.getCodaAttesa();
   }
 
   getCodaUrgenti() {
     
     this.service.getCodaUrgenti().subscribe(
       response => {​​​​
-      console.log(response)
+      console.log(response);
       this.prenotazioniUrgenti = response;
       }​​​​
-      )
+    );
 
   }
 
-  getCodaAttesa() {}
+  getCodaAttesa() {
+    this.service.getCodaAttesa().subscribe(
+      response => {
+        console.log(response);
+        this.prenotazioniAttesa = response;
+      }
+    );
+  }
 
   getCodaAccettatti() {}
 }

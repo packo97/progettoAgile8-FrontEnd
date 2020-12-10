@@ -1,6 +1,16 @@
 
   <div *ngFor="let prenotazione of prenotazioniUrgenti">
-    <p>{​​​​{​​​​prenotazione.descrizione}​​​​}​​​​</td>
-
+    <p>{{prenotazione.descrizione}}</p>
   </div>
+
+  <ul class="list-group" *ngFor="let prenotazione of prenotazioniAttesa">
+    <li class="list-group-item">{{prenotazione.descrizione}}</li>
+  </ul>
+
+
+
+
+  
+
+
 
