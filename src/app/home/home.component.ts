@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from '../services/login.service';
 import { PrenotazioneService } from '../services/prenotazione.service';
-import { DottoreService, Dottore } from '../services/dottore.service';
+
+//import * as $ from 'jquery';
 
 @Component({
   selector: 'app-home',
@@ -10,44 +12,24 @@ import { DottoreService, Dottore } from '../services/dottore.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private root: Router, private service: PrenotazioneService, private dottoreService: DottoreService) { }
+  whoIsLogged: string;
 
-  problema: string;
-  dottori : Dottore[] = []
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private service: PrenotazioneService, private loginService: LoginService) { }
 
   ngOnInit() {
-    this.getDottori()
-  }
-
-  richiestaPrenotazione(){
-    var dottoreSelezionato = document.getElementById("selectDottori") as HTMLSelectElement;
-   
-    var json = {
-      descrizione: this.problema,
-      dottore_id: this.dottori[dottoreSelezionato.selectedIndex],
-      paziente_id: 1
-    }
-    this.service.addRichiestaPrenotazione(json)
-    
-  }
-
-  getDottori(){
-    this.dottoreService.getDottori().subscribe(
-      response => {
-        console.log("sono qui")
-        console.log(response);
-        this.dottori = response;
-      }
-    );
+    this.whoIsLogged = this.activatedRoute.snapshot.paramMap.get('whoIsLogged');
   }
 
   getCodaUrgenti() {
     this.service.getCodaUrgenti();
-
   }
 
   getCodaAttesa() {}
 
   getCodaAccettatti() {}
+
+  logout(){
+    this.router.navigate(['login']);
+  }
 
 }

@@ -39,31 +39,31 @@ export class LoginComponent implements OnInit {
       password: this.password,
     }
     if(this.tipo_login == "paziente"){
-      this.autenticato = this.service.loginPaziente(json);
-      if(this.autenticato == true){
-        console.log("home");
-        this.route.navigate(['homePaziente'])
-      }
-      else
-        console.log("non eseguito")
+      this.service.loginPaziente(json).subscribe(
+        response => {
+          console.log(response);
+          if(response == true)
+            this.route.navigate(['home/','paziente'])
+        }
+      );
     }
     else if(this.tipo_login == "dottore"){
-      this.autenticato = this.service.loginDottore(json);
-      if(this.autenticato == true){
-        console.log("home");
-        //this.route.navigate(['homePaziente'])
-      }
-      else
-        console.log("non eseguito")
+      this.service.loginPaziente(json).subscribe(
+        response => {
+          console.log(response);
+          if(response == true)
+            this.route.navigate(['home/','dottore'])
+        }
+      );
     }
     else if(this.tipo_login == "segretaria"){
-      this.autenticato = this.service.loginSegretaria(json);
-      if(this.autenticato == true){
-        console.log("home");
-        //this.route.navigate(['homePaziente'])
-      }
-      else
-        console.log("non eseguito");
+      this.service.loginPaziente(json).subscribe(
+        response => {
+          console.log(response);
+          if(response == true)
+            this.route.navigate(['home/','segretaria'])
+        }
+      );
     }
     else{
       alert("Seleziona la tipologia di utente che ti identifica, perfavore");

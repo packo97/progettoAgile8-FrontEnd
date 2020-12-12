@@ -1,0 +1,8 @@
+<h1 align=center>RICHIESTA</h1>
+<input type="text" id="inputProblema" class="form-control" placeholder="Inserisci il tuo problema" [(ngModel)]="problema" value="problema">
+  <select class="form-control" id="selectDottori">
+    <option *ngFor="let dottore of dottori">
+        {{dottore.nome}} {{dottore.cognome}}
+    </option>
+  </select>
+<button class="form-control" (click)=richiestaPrenotazione()>PRENOTATI</button>

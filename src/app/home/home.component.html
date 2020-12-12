@@ -1,18 +1,43 @@
-<div class="row">
-<div class="column col-sm-4">
-    <app-prenotazione></app-prenotazione>
-</div>
-<div class="column col-sm-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">Veterinary Clinic</a>
 
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Cartella</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit" (click)=logout()>Log out</button>
+    </form>
+  </div>
+</nav>
+
+<div class="pannello" *ngIf="whoIsLogged=='paziente'">
+  <div class="row">
+    <div class="column col-sm-4">
+        <app-prenotazione></app-prenotazione>
+    </div>
+    <div class="column col-sm-4">
+        <app-dettagli-prenotazione></app-dettagli-prenotazione>
+    </div>
+    <div class="column col-sm-4">
+        <app-richiesta-prenotazione></app-richiesta-prenotazione>
+    </div>
+  </div>
 </div>
-<div class="column col-sm-4">
-    <input type="text" id="inputProblema" class="form-control" placeholder="Inserisci il tuo problema" [(ngModel)]="problema" value="problema">
-    <select class="form-control" id="selectDottori">
-        <option *ngFor="let dottore of dottori">
-            {{dottore.nome}} {{dottore.cognome}}
-        </option>
-    </select>
-    <button class="form-control" (click)=richiestaPrenotazione()>PRENOTATI</button>
-</div>
+
+<div class="pannello" *ngIf="whoIsLogged=='segretaria'">
+  <div class="row">
+    <div class="column col-sm-8">
+        <app-gestione-richieste-prenotazioni></app-gestione-richieste-prenotazioni>
+    </div>
+    <div class="column col-sm-4">
+        
+    </div>
+  </div>
 </div>
 

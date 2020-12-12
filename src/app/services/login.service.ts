@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class LoginService {
 
   private autenticato: boolean;
+  private whoIsLogged: string;
 
   constructor(
     private httpClient : HttpClient
@@ -14,33 +15,16 @@ export class LoginService {
 
 
   loginPaziente(json){
-    console.log(this.httpClient.post("http://localhost:8080/restex/loginPaziente",json).subscribe(
-      response => {
-        console.log(response);
-        this.autenticato = Boolean(response);
-      }
-    ));
-    return this.autenticato;
+    return this.httpClient.post("http://localhost:8080/restex/loginPaziente",json);
+
   }
 
   loginDottore(json){
-    this.httpClient.post("http://localhost:8080/restex/loginDottore",json).subscribe(
-      response => {
-        console.log(response);
-        this.autenticato = Boolean(response);  
-      }   
-    );
-    return this.autenticato;
+    this.httpClient.post("http://localhost:8080/restex/loginDottore",json);
   }
 
   loginSegretaria(json){
-    this.httpClient.post("http://localhost:8080/restex/loginSegretaria",json).subscribe(
-      response => {
-        console.log(response);
-        this.autenticato = Boolean(response);
-      }
-    );
-    return this.autenticato;
+    this.httpClient.post("http://localhost:8080/restex/loginSegretaria",json);
   }
 }
 

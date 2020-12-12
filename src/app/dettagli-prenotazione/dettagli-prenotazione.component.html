@@ -1,0 +1,33 @@
+<h1 align="center">DETTAGLI</h1>
+<div class="container" *ngIf="prenotazione != null">
+  <div class="row">
+    <div class="column col-sm-10"></div>
+    <div class="column col-sm-2">
+      <img *ngIf="prenotazione.urgente" src="/assets/ambulance.png"/>
+      <img *ngIf="prenotazione.urgente == false" src="/assets/normal.png"/>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column col-sm-3"><b>Stato</b></div>
+    <div class="column col-sm-9">
+      <p *ngIf="prenotazione.confermato">CONFERMATA</p>
+      <p *ngIf="prenotazione.confermato == false">IN ATTESA</p>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="column col-sm-3"><b>Descrizione</b></div>
+    <div class="column col-sm-9"><p>{{prenotazione.descrizione}}</p></div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="column col-sm-3"><img src="/assets/vet.png"/></div>
+    <div class="column col-sm-9"><p>{{prenotazione.dottore['nome']}} {{prenotazione.dottore['cognome']}}</p></div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="column col-sm-3"><img src="/assets/calendar.png"/></div>
+    <div class="column col-sm-9"><p>{{prenotazione.date_visita}}</p></div>
+  </div>
+
+</div>
