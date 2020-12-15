@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { PrenotazioneService } from '../services/prenotazione.service';
 import { Prenotazione } from '../prenotazione/prenotazione.component';
+import { Dottore, DottoreService } from '../services/dottore.service';
+import { MessageService } from 'primeng/api';
+
+
+
 
 @Component({
   selector: 'app-gestione-richieste-prenotazioni',
@@ -14,22 +19,22 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
 
   richieste: Prenotazione[];
 
-  constructor(private prenotazioneService: PrenotazioneService) { }
+  dottori: Dottore[];
+
+  data: Date;
+
+  dottoreSelezionato: Dottore;
+
+  constructor(private prenotazioneService: PrenotazioneService, private dottoreService: DottoreService, private messageService: MessageService) { }
 
   ngOnInit() {
-    this.prenotazioneService.getCodaAttesa().subscribe(
-      response => {
-        console.log(response);
-        this.richieste = response;
-      }
-    );
 
-    this.prenotazioneService.getCodaAccettati().subscribe(
+    this.dottoreService.getDottori().subscribe(
       response => {
         console.log(response);
-        this.prenotazioni_accettate = response;
+        this.dottori = response;
       }
-    );
+    )
   }
   
 
@@ -42,7 +47,38 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
                         event.previousIndex,
                         event.currentIndex);
     }
-
-    console.log(this.prenotazioni_accettate);
   }
+
+
+  refresh(prenotazione : Prenotazione){    
+    this.prenotazioneService.refreshPanelDetail(prenotazione);
+  }
+
+  refreshPrenotazioniByDoctor(indice: number){
+    
+    if(indice != null){    
+      this.dottoreSelezionato = this.dottori[indice];
+    }
+
+    if(this.data != null && this.dottoreSelezionato != null){
+      this.prenotazioneService.getAllPrenotazioniByDoctor(this.dottoreSelezionato).subscribe(
+        response => {
+          console.log(response);
+          this.prenotazioni_accettate = response;
+        }
+      );
+      this.prenotazioneService.getAllRichiesteByDoctor(this.dottoreSelezionato).subscribe(
+        response =>  {
+          console.log(response);
+          this.richieste = response;
+        }
+      ); 
+    }
+
+  }
+
+  salva(){
+    this.messageService.add({key: 'saved', severity:'success', summary: 'Saved', detail: 'Prenotazione Salvate'});
+  }
+
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { ConditionalExpr } from '@angular/compiler';
+import { AutenticazioneService } from '../services/autenticazione.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private route : Router,
-    private service : LoginService
+    //private service : LoginService,
+    private authService: AutenticazioneService,
   ) { }
 
   ngOnInit() {
@@ -34,40 +36,28 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
+    
     var json = {
       email: this.email,
       password: this.password,
+      tipo_login: this.tipo_login
     }
-    if(this.tipo_login == "paziente"){
-      this.service.loginPaziente(json).subscribe(
-        response => {
-          console.log(response);
-          if(response == true)
-            this.route.navigate(['home/','paziente'])
+   
+    this.authService.authenticate(json).subscribe(
+      response => {
+        console.log(response);
+        if(response==true) {
+          sessionStorage.setItem("user", json['email']);
+          this.autenticato = true;
+          this.route.navigate(['home', this.tipo_login]);
         }
-      );
-    }
-    else if(this.tipo_login == "dottore"){
-      this.service.loginPaziente(json).subscribe(
-        response => {
-          console.log(response);
-          if(response == true)
-            this.route.navigate(['home/','dottore'])
+        else {
+            this.autenticato = false;
+            //this.messageService.add({key: 'tc', severity:'error', summary: 'Error', detail: 'Bad username or password'});
         }
-      );
-    }
-    else if(this.tipo_login == "segretaria"){
-      this.service.loginPaziente(json).subscribe(
-        response => {
-          console.log(response);
-          if(response == true)
-            this.route.navigate(['home/','segretaria'])
-        }
-      );
-    }
-    else{
-      alert("Seleziona la tipologia di utente che ti identifica, perfavore");
-    }
+      }
+    );
   }
+
 
 }

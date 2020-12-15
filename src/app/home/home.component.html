@@ -9,7 +9,12 @@
       <li class="nav-item active">
         <a class="nav-link" href="#">Cartella</a>
       </li>
+      <li class="nav-item active">
+        <p>{{nome}} {{cognome}}</p>
+      </li>
     </ul>
+
+   
     <form class="form-inline my-2 my-lg-0">
       <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit" (click)=logout()>Log out</button>
     </form>
@@ -36,7 +41,7 @@
         <app-gestione-richieste-prenotazioni></app-gestione-richieste-prenotazioni>
     </div>
     <div class="column col-sm-4">
-        
+        <app-dettagli-prenotazione></app-dettagli-prenotazione>
     </div>
   </div>
 </div>

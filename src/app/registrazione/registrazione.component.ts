@@ -76,6 +76,6 @@ export class RegistrazioneComponent implements OnInit {
       }
       this.service.registrazioneSegretaria(jsonSegretaria);
     }
-    
+    this.route.navigate(['login']);
   }
 }

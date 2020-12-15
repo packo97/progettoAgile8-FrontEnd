@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { Prenotazione } from 'src/app/prenotazione/prenotazione.component'
+import { Paziente } from '../richiesta-prenotazione/richiesta-prenotazione.component';
+import { Dottore } from './dottore.service';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +39,18 @@ export class PrenotazioneService {
   
   getCodaAttesa() {
     return this.httpClient.get<Prenotazione[]>("http://localhost:8080/restex/inAttesa");
+  }
+
+  getAllPrenotazioniByPaziente(paziente: Paziente) {
+    return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/prenotazioniByPaziente",paziente);
+  }
+
+  getAllPrenotazioniByDoctor(dottore: Dottore) {
+    return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/prenotazioniByDoctor",dottore);
+  }
+
+  getAllRichiesteByDoctor(dottore: Dottore) {
+    return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/richiesteByDoctor",dottore);
   }
   
   getCodaAccettati() {

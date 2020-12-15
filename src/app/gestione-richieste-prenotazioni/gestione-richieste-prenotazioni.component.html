@@ -1,3 +1,25 @@
+
+
+<div class="p-grid">
+  <div class="p-col-4">
+    <div class="form-group">
+      <select class="form-control" id="sel1" (change)=refreshPrenotazioniByDoctor($event.target.value)>
+        <option>Seleziona il dottore</option>
+        <option *ngFor="let dottore of dottori;let i = index" [value]="i">{{dottore.nome}} {{dottore.cognome}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="p-col-4">
+    <p-calendar [(ngModel)]="data" placeholder="Seleziona data" dateFormat="dd-mm-yy" (onSelect)=refreshPrenotazioniByDoctor(null)></p-calendar>
+  </div>
+  <div class="p-col-4">
+    <button pButton type="button" label="Salva" icon="pi pi-check" (click)=salva()></button>
+  </div>
+</div>
+
+<p-toast key="saved" position="bottom-right"></p-toast>
+
+
 <div cdkDropListGroup>
   <div class="example-container">
     <h2>RICHIESTE</h2>
@@ -8,7 +30,7 @@
       class="example-list"
       cdkDropListSortingDisabled
       (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of richieste" cdkDrag>{{item.descrizione}}</div>
+      <div class="example-box" *ngFor="let item of richieste" cdkDrag (click)=refresh(item)>{{item.descrizione}}</div>
     </div>
   </div>
 
@@ -20,7 +42,7 @@
       [cdkDropListData]="prenotazioni_accettate"
       class="example-list"
       (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of prenotazioni_accettate" cdkDrag>{{item.descrizione}}</div>
+      <div class="example-box" *ngFor="let item of prenotazioni_accettate" cdkDrag (click)=refresh(item)>{{item.descrizione}}</div>
     </div>
   </div>
 </div>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PrenotazioneService } from '../services/prenotazione.service';
 import * as $ from 'jquery';
+import { HomeService } from '../services/home.service';
+import { Paziente } from '../richiesta-prenotazione/richiesta-prenotazione.component';
 export class Prenotazione{
 
   constructor(
@@ -23,38 +25,35 @@ export class Prenotazione{
 })
 export class PrenotazioneComponent implements OnInit {
 
-  prenotazioniUrgenti: Prenotazione[] = [];
-  prenotazioniAttesa: Prenotazione[] = [];
-  prenotazioniAccettate: Prenotazione[] = []
+  prenotazioni: Prenotazione[] = [];
 
-  constructor(private root: Router, private service: PrenotazioneService) { }
+
+  paziente: Paziente;
+
+  constructor(private root: Router, private service: PrenotazioneService, private homeService: HomeService) { }
 
   ngOnInit() {
-    this.getCodaUrgenti();
-    this.getCodaAttesa();
+    this.homeService.getPaziente(sessionStorage.getItem('user')).subscribe(
+      response => {
+        console.log(response);
+        this.paziente = response;
+        this.getAllPrenotazioniByPaziente(this.paziente);
+      }
+    );
+    
+    
   }
 
-  getCodaUrgenti() {
+  getAllPrenotazioniByPaziente(paziente: Paziente) {
     
-    this.service.getCodaUrgenti().subscribe(
+    this.service.getAllPrenotazioniByPaziente(paziente).subscribe(
       response => {​​​​
-      console.log(response);
-      this.prenotazioniUrgenti = response;
+        console.log(response);
+        this.prenotazioni = response;
       }​​​​
     );
 
   }
-
-  getCodaAttesa() {
-    this.service.getCodaAttesa().subscribe(
-      response => {
-        console.log(response);
-        this.prenotazioniAttesa = response;
-      }
-    );
-  }
-
-  getCodaAccettatti() {}
 
 
   refresh(prenotazione : Prenotazione){
