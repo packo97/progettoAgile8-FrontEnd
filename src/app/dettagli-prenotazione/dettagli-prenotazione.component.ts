@@ -15,7 +15,9 @@ export class DettagliPrenotazioneComponent implements OnInit {
 
   ngOnInit() {
     let subscription = this.service.getDetailChanged().subscribe(
-      item => this.prenotazione=item
+      item => {
+        this.prenotazione=item;
+      }
     );
   }
 

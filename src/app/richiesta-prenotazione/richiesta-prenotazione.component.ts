@@ -26,6 +26,7 @@ export class RichiestaPrenotazioneComponent implements OnInit {
   problema: string;
   dottori : Dottore[] = []
   private paziente: Paziente;
+  urgente: boolean;
 
   constructor(private service: PrenotazioneService, private dottoreService: DottoreService, private homeService: HomeService) { }
 
@@ -41,11 +42,11 @@ export class RichiestaPrenotazioneComponent implements OnInit {
 
   richiestaPrenotazione(){
     var dottoreSelezionato = document.getElementById("selectDottori") as HTMLSelectElement;
-    
     var json = {
       descrizione: this.problema,
       dottore: this.dottori[dottoreSelezionato.selectedIndex],
-      paziente: this.paziente
+      paziente: this.paziente,
+      urgente: this.urgente
     }
     this.service.addRichiestaPrenotazione(json)
     

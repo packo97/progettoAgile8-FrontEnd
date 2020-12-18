@@ -10,6 +10,7 @@ import { Dottore } from './dottore.service';
   providedIn: 'root'
 })
 export class PrenotazioneService {
+  
 
   constructor(
     private httpClient : HttpClient
@@ -33,6 +34,14 @@ export class PrenotazioneService {
     
   }
 
+  updateStato(prenotazione: Prenotazione) {
+    this.httpClient.put("http://localhost:8080/restex/prenotazione",prenotazione).subscribe(
+      response => {
+        console.log(response);
+      }
+    );
+  }
+
   getCodaUrgenti() {
     return this.httpClient.get<Prenotazione[]>("http://localhost:8080/restex/urgentiNonAccettati");
   }
@@ -45,13 +54,23 @@ export class PrenotazioneService {
     return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/prenotazioniByPaziente",paziente);
   }
 
-  getAllPrenotazioniByDoctor(dottore: Dottore) {
-    return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/prenotazioniByDoctor",dottore);
+  getAllPrenotazioniByDoctor(dottore: Dottore, data: Date) {
+    data.setHours(data.getHours()+1);
+    let json = {
+      dottore: dottore,
+      data: data
+    }
+    return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/prenotazioniByDoctor",json);
   }
 
   getAllRichiesteByDoctor(dottore: Dottore) {
     return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/richiesteByDoctor",dottore);
   }
+
+  getAllUrgentiByDoctor(dottore: Dottore) {
+    return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/urgentiNonAccettatiByDoctor", dottore);
+  }
+
   
   getCodaAccettati() {
     return this.httpClient.get<Prenotazione[]>("http://localhost:8080/restex/accettati");
@@ -59,7 +78,7 @@ export class PrenotazioneService {
   
   @Output() fire: EventEmitter<any> = new EventEmitter();
   refreshPanelDetail(prenotazione: Prenotazione) {
-    console.log('change started'); 
+    console.log('change started');
      this.fire.emit(prenotazione);
    }
 

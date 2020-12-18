@@ -1,5 +1,5 @@
 <h1 align="center">DETTAGLI</h1>
-<div class="container" *ngIf="prenotazione != null">
+<div class="container" *ngIf="prenotazione != null && prenotazione.id != null">
   <div class="row">
     <div class="column col-sm-10"></div>
     <div class="column col-sm-2">
@@ -20,19 +20,19 @@
     <div class="column col-sm-9"><p>{{prenotazione.descrizione}}</p></div>
   </div>
   <hr>
-  <div class="row">
+  <div class="row" *ngIf="prenotazione.dottore">
     <div class="column col-sm-3"><img src="/assets/vet.png"/></div>
     <div class="column col-sm-9"><p>{{prenotazione.dottore['nome']}} {{prenotazione.dottore['cognome']}}</p></div>
   </div>
   <hr>
-  <div class="row">
+  <div class="row" *ngIf="prenotazione.paziente">
     <div class="column col-sm-3"><img src="/assets/dog.png"/></div>
     <div class="column col-sm-9"><p>{{prenotazione.paziente['nome']}} {{prenotazione.paziente['cognome']}}</p></div>
   </div>
   <hr>
   <div class="row">
     <div class="column col-sm-3"><img src="/assets/calendar.png"/></div>
-    <div class="column col-sm-9"><p>{{prenotazione.date_visita}}</p></div>
+    <div class="column col-sm-9"><p>{{prenotazione.data_visita}}</p></div>
   </div>
 
 </div>

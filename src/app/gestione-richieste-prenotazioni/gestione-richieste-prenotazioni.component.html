@@ -20,8 +20,8 @@
 <p-toast key="saved" position="bottom-right"></p-toast>
 
 
-<div cdkDropListGroup>
-  <div class="example-container">
+<div cdkDropListGroup class="p-grid">
+  <div class="example-container" class="p-col-4">
     <h2>RICHIESTE</h2>
 
     <div
@@ -29,20 +29,33 @@
       [cdkDropListData]="richieste"
       class="example-list"
       cdkDropListSortingDisabled
-      (cdkDropListDropped)="drop($event)">
+      (cdkDropListDropped)="drop($event,'richieste')">
       <div class="example-box" *ngFor="let item of richieste" cdkDrag (click)=refresh(item)>{{item.descrizione}}</div>
     </div>
   </div>
 
-  <div class="example-container">
+  <div class="example-container" class="p-col-4">
+    <h2>URGENTI</h2>
+
+    <div
+      cdkDropList
+      [cdkDropListData]="urgenti"
+      class="example-list"
+      cdkDropListSortingDisabled
+      (cdkDropListDropped)="drop($event,'urgenti')">
+      <div class="example-box" *ngFor="let item of urgenti" cdkDrag (click)=refresh(item)>{{item.descrizione}}</div>
+    </div>
+  </div>
+
+  <div class="example-container" class="p-col-4">
     <h2>ACCETTATE</h2>
 
     <div
       cdkDropList
       [cdkDropListData]="prenotazioni_accettate"
       class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of prenotazioni_accettate" cdkDrag (click)=refresh(item)>{{item.descrizione}}</div>
+      (cdkDropListDropped)="drop($event,'prenotazioni_accettate')">
+      <div class="example-box" *ngFor="let item of prenotazioni_accettate" cdkDrag (click)=refresh(item) [cdkDragDisabled]="!item.id">{{item.descrizione}}</div>
     </div>
   </div>
 </div>

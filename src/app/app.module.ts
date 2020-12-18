@@ -33,6 +33,7 @@ import { CalendarModule } from 'primeng/calendar';
 import {ButtonModule} from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import {CheckboxModule} from 'primeng/checkbox';
 
 @NgModule({
   declarations: [								
@@ -57,7 +58,8 @@ import { MessageService } from 'primeng/api';
     DragDropModule,
     CalendarModule,
     ButtonModule,
-    ToastModule
+    ToastModule,
+    CheckboxModule
   ],
   providers: [RegistrazioneService, LoginService, PrenotazioneService, DottoreService, AutenticazioneService, RouteGuardService, HomeService, MessageService],
   bootstrap: [AppComponent]

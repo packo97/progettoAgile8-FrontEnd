@@ -5,4 +5,5 @@
         {{dottore.nome}} {{dottore.cognome}}
     </option>
   </select>
+  <p-checkbox [(ngModel)]="urgente" label="Urgente" [binary]="true"></p-checkbox>
 <button class="form-control" (click)=richiestaPrenotazione()>PRENOTATI</button>

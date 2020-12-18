@@ -9,10 +9,10 @@ export class Prenotazione{
   constructor(
     public id: number,
     public descrizione: string,
-    public paziente: number,
-    public dottore: number,
+    public paziente: any,
+    public dottore: any,
     public confermato: boolean,
-    public date_visita: Date,
+    public data_visita: Date,
     public urgente: boolean
     ){}
 
