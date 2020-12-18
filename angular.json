@@ -95,7 +95,10 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": ["../node_modules/jquery/dist/jquery.min.js", "../node_modules/bootstrap/dist/js/bootstrap.js" ]
+            "scripts": [
+              "../node_modules/jquery/dist/jquery.min.js",
+              "../node_modules/bootstrap/dist/js/bootstrap.js"
+            ]
           }
         },
         "lint": {
@@ -124,6 +127,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "ProgettoAgile8-FrontEnd"
+    }
+  },
+  "defaultProject": "ProgettoAgile8-FrontEnd",
+  "cli": {
+    "analytics": "c303a48f-3227-4d1f-8232-5a4d6bc43b1c"
+  }
 }

@@ -13,30 +13,33 @@
       <br>
     
       <div class="row">
-        
-        <div class="form-icon paziente" (click)=setTipo(1)>
-          <span><i class="icon icon-user"></i></span>
-        </div>
-        
-        <div class="form-icon dottore" (click)=setTipo(2)>
-          <span><i class="icon icon-user"></i></span>  
-        </div>
-        
-        <div class="form-icon segretaria" (click)=setTipo(3)>
-          <span><i class="icon icon-user"></i></span>            
-        </div>
-        
+        <div class="col-12">
+        <button type="button" class="btn btn-outline-secondary">
+          <div class="form-icon paziente" (click)=setTipo(1)>
+            <span><i class="icon icon-user"></i></span>
+          </div>
+        </button>
+        <button type="button" class="btn btn-outline-secondary">
+          <div class="form-icon dottore" (click)=setTipo(2)>
+            <span><i class="icon icon-user"></i></span>  
+          </div>
+        </button>
+        <button type="button" class="btn btn-outline-secondary">
+          <div class="form-icon segretaria" (click)=setTipo(3)>
+            <span><i class="icon icon-user"></i></span>            
+          </div>
+      </button>
+      </div> 
       </div>
 
-    <button class="form-control" (click)=login() >LOGIN</button>
+    <button class="form-control btn-login" (click)=login() >LOGIN</button>
     <a href="registrazione">Registrati</a>
 
     </div>
-    
-
   </div>
 
   <div class="column col-sm-4">
   </div>
+  <p-toast key="saved" position="bottom-right"></p-toast>
   
 </div>
