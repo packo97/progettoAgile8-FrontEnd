@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { ConditionalExpr } from '@angular/compiler';
 import { AutenticazioneService } from '../services/autenticazione.service';
+import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-login',
@@ -20,6 +22,8 @@ export class LoginComponent implements OnInit {
     private route : Router,
     //private service : LoginService,
     private authService: AutenticazioneService,
+    private messageService: MessageService,
+
   ) { }
 
   ngOnInit() {
@@ -42,6 +46,7 @@ export class LoginComponent implements OnInit {
       password: this.password,
       tipo_login: this.tipo_login
     }
+<<<<<<< HEAD
    
     this.authService.authenticate(json).subscribe(
       response => {
@@ -55,9 +60,40 @@ export class LoginComponent implements OnInit {
         else {
             this.autenticato = false;
             //this.messageService.add({key: 'tc', severity:'error', summary: 'Error', detail: 'Bad username or password'});
+=======
+    if(this.tipo_login=="")
+    {
+      alert("");
+      this.salva2()
+    }
+    else{
+      this.authService.authenticate(json).subscribe(
+        response => {
+          console.log(response);
+          if(response==true) {
+              sessionStorage.setItem("user", json['email']);
+              this.autenticato = true;
+              this.route.navigate(['home', this.tipo_login]);
+          }
+          else {
+              this.autenticato = false;
+              this.salva()
+              //this.messageService.add({key: 'tc', severity:'error', summary: 'Error', detail: 'Bad username or password'});
+          }
+          
+          
+>>>>>>> cb79abc88af936ade33f747a9ad1a6f2ca891422
         }
-      }
-    );
+      );
+
+    }
+    
+  }
+  salva(){
+    this.messageService.add({key: 'saved', severity:'error', summary: 'Login', detail: 'Email o password errati'});
+  }
+  salva2(){
+    this.messageService.add({key: 'saved', severity:'error', summary: 'Login', detail: 'Seleziona una categoria di utente'});
   }
 
 

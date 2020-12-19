@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegistrazioneService } from '../services/registrazione.service';
+import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-registrazione',
@@ -22,7 +24,8 @@ export class RegistrazioneComponent implements OnInit {
 
   constructor(
     private route : Router,
-    private service : RegistrazioneService 
+    private service : RegistrazioneService, 
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -31,6 +34,7 @@ export class RegistrazioneComponent implements OnInit {
   setTipo(scelta: number){
     if(scelta == 1){
       this.tipo_registrazione = "paziente";
+
     }
     else if(scelta == 2){
       this.tipo_registrazione = "dottore";
@@ -41,41 +45,60 @@ export class RegistrazioneComponent implements OnInit {
   }
 
   registrazione(){
-    if(this.tipo_registrazione == "paziente"){
-      var jsonPaziente = {
-        nome: this.nome,
-        cognome: this.cognome,
-        codice_fiscale: this.codice_fiscale,
-        numero_telefono: this.numero_telefono,
-        email:  this.email,
-        password:  this.password,
-      }
-      this.service.registrazionePaziente(jsonPaziente);
+    if(this.nome=="" || this.cognome=="" || this.codice_fiscale=="" || this.numero_telefono=="" || this.email=="" || this.password=="")
+    {
+      this.salva();
     }
-    else if(this.tipo_registrazione == "dottore"){
-      var jsonDottore = {
-        nome: this.nome,
-        cognome: this.cognome,
-        codice_fiscale: this.codice_fiscale,
-        numero_telefono: this.numero_telefono,
-        email:  this.email,
-        password:  this.password,
-        descrizione: this.descrizione,
-        codice_identificativo: this.codice_identificativo_veterinario,
+    else{
+      if(this.tipo_registrazione == "paziente"){
+        var jsonPaziente = {
+          nome: this.nome,
+          cognome: this.cognome,
+          codice_fiscale: this.codice_fiscale,
+          numero_telefono: this.numero_telefono,
+          email:  this.email,
+          password:  this.password,
+        }
+        this.service.registrazionePaziente(jsonPaziente);
+        this.route.navigate(['login']);
       }
-      this.service.registrazioneDottore(jsonDottore);
-    }
-    else if(this.tipo_registrazione == "segretaria"){
-      var jsonSegretaria = {
-        nome: this.nome,
-        cognome: this.cognome,
-        codice_fiscale: this.codice_fiscale,
-        numero_telefono: this.numero_telefono,
-        email:  this.email,
-        password:  this.password,
+      else if(this.tipo_registrazione == "dottore"){
+        var jsonDottore = {
+          nome: this.nome,
+          cognome: this.cognome,
+          codice_fiscale: this.codice_fiscale,
+          numero_telefono: this.numero_telefono,
+          email:  this.email,
+          password:  this.password,
+          descrizione: this.descrizione,
+          codice_identificativo: this.codice_identificativo_veterinario,
+        }
+        this.service.registrazioneDottore(jsonDottore);
+        this.route.navigate(['login']);
       }
-      this.service.registrazioneSegretaria(jsonSegretaria);
+      else if(this.tipo_registrazione == "segretaria"){
+        var jsonSegretaria = {
+          nome: this.nome,
+          cognome: this.cognome,
+          codice_fiscale: this.codice_fiscale,
+          numero_telefono: this.numero_telefono,
+          email:  this.email,
+          password:  this.password,
+        }
+        this.service.registrazioneSegretaria(jsonSegretaria);
+        this.route.navigate(['login']);
+      }
+      else{
+        this.salva2()
+      }
     }
-    this.route.navigate(['login']);
+    
+  }
+
+  salva2(){
+    this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Seleziona una categoria di utente'});
+  }
+  salva(){
+    this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Inserisci dei dati validi'});
   }
 }
