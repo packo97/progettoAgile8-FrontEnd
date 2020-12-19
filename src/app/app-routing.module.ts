@@ -6,11 +6,13 @@ import { LoginComponent } from './login/login.component';
 import { PrenotazioneComponent } from './prenotazione/prenotazione.component';
 import {HomeComponent} from './home/home.component'
 import { RouteGuardService } from './services/routeGuard.service';
+import { CartellaClinicaComponent } from './cartella-clinica/cartella-clinica.component';
 
 const routes: Routes = [
   {path : 'registrazione', component : RegistrazioneComponent},
   {path : 'login', component : LoginComponent},
   {path : 'home/:whoIsLogged', component : HomeComponent,  canActivate: [RouteGuardService]},
+  {path : 'cartella', component: CartellaClinicaComponent, canActivate: [RouteGuardService]},
   {path : '**', component : ErrorComponent}
 ];
 

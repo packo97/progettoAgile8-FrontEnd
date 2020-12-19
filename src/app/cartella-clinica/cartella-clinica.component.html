@@ -1,0 +1,98 @@
+
+<div class="p-grid">
+
+  <div class="p-col-1"></div>
+
+  <div class="p-col-4">
+    <h1>Lista pazienti</h1>
+    <span class="p-input-icon-left">
+      <i class="pi pi-search"></i>
+      <input type="text" pInputText placeholder="Cerca paziente" [(ngModel)]="valoreRicerca" (keypress)=ricerca()/>
+    </span>
+    <div id="risultatoRicerca"> 
+      <p-card *ngFor="let paziente of pazienti" (click)=selezionato(paziente)>
+        <h1>{{paziente.nome}} {{paziente.cognome}}</h1>
+      </p-card>
+    </div>
+  </div>
+
+  <div class="p-col-6" *ngIf="pazienteSelezionato!=null">
+    <p-card>
+      <p-header>
+        <h1>{{pazienteSelezionato.nome}} {{pazienteSelezionato.cognome}}</h1>
+        <button pButton type="button" label="Salva" icon="pi pi-check" (click)=salva()></button>
+      </p-header>
+      <div class="p-grid">
+        <label class="p-col-2">Codice Fiscale: </label>
+        <p class="p-col-10">{{pazienteSelezionato.codice_fiscale}}</p>
+      </div>
+      <hr>
+      <div class="p-grid">
+        <label class="p-col-2">Numero di telefono: </label>
+        <p class="p-col-10">{{pazienteSelezionato.numero_telefono}}</p>
+      </div>
+      <hr>
+      <div class="p-grid">
+        <label class="p-col-2">E-mail: </label>
+        <p class="p-col-10">{{pazienteSelezionato.email}}</p>
+      </div>
+      <hr>
+
+      <p-tabView>
+        <p-tabPanel header="Animale" >
+          <div class="p-grid">
+            <span class="p-float-label p-col-4">
+              <input id="float-input" type="text" pInputText [(ngModel)]="nome"> 
+              <label for="float-input">Nome</label>
+            </span>
+            <p-calendar class="p-col-4" [(ngModel)]="data_nascita" placeholder="Seleziona data" dateFormat="dd-mm-yy"></p-calendar>
+    
+            <span class="p-float-label p-col-4">
+              <input id="float-input" type="text" pInputText [(ngModel)]="genere"> 
+              <label for="float-input">Genere</label>
+            </span>
+          </div>
+          <div class="p-grid">
+            <span class="p-float-label p-col-4">
+              <input id="float-input" type="text" pInputText [(ngModel)]="tipo"> 
+              <label for="float-input">Tipo</label>
+            </span>
+            <span class="p-float-label p-col-4">
+              <input id="float-input" type="text" pInputText [(ngModel)]="peso"> 
+              <label for="float-input">Peso</label>
+            </span>
+            <span class="p-float-label p-col-4">
+              <input id="float-input" type="text" pInputText [(ngModel)]="altezza"> 
+              <label for="float-input">Altezza</label>
+            </span>
+          </div>
+        </p-tabPanel>
+
+        <p-tabPanel header="Prescrizioni">
+          <p-fileUpload name="myfile[]" url="http://localhost:8080/restex/prescrizione" multiple="multiple"
+          accept="image/*" maxFileSize="1000000">
+          <ng-template pTemplate="toolbar">
+              <div>Upload 3 Files</div>
+          </ng-template>
+          <ng-template let-file pTemplate="file">
+              <div>Custom UI to display a file</div>
+          </ng-template>
+          <ng-template pTemplate="content" let-files>
+              <div>Additional content.</div>
+          </ng-template>
+  </p-fileUpload>
+        </p-tabPanel>
+
+
+        <p-tabPanel header="Ricevute">
+            Lista Ricevuta
+        </p-tabPanel>
+      </p-tabView>
+
+    </p-card>
+  </div>
+  <div class="p-col-1"></div>
+</div>
+
+
+<p-toast key="saved" position="bottom-right"></p-toast>

@@ -15,6 +15,10 @@ import { ErrorComponent } from './error/error.component';
 import {RegistrazioneService} from 'src/app/services/registrazione.service';
 import {LoginService} from 'src/app/services/login.service';
 import {DottoreService} from 'src/app/services/dottore.service'
+import {PazienteService} from 'src/app/services/paziente.service'
+import {AnimaleService} from 'src/app/services/animale.service'
+
+
 
 import {RouteGuardService} from 'src/app/services/routeGuard.service';
 import {AutenticazioneService} from 'src/app/services/autenticazione.service';
@@ -34,9 +38,15 @@ import {ButtonModule} from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import {CheckboxModule} from 'primeng/checkbox';
+import {InputTextModule} from 'primeng/inputtext';
+import {OrderListModule} from 'primeng/orderlist';
+import { CartellaClinicaComponent } from './cartella-clinica/cartella-clinica.component';
+import {CardModule} from 'primeng/card';
+import {TabViewModule} from 'primeng/tabview';
+import {FileUploadModule} from 'primeng/fileupload'
 
 @NgModule({
-  declarations: [								
+  declarations: [									
     AppComponent,
       RegistrazioneComponent,
       ErrorComponent,
@@ -45,7 +55,8 @@ import {CheckboxModule} from 'primeng/checkbox';
       PrenotazioneComponent,
       DettagliPrenotazioneComponent,
       RichiestaPrenotazioneComponent,
-      GestioneRichiestePrenotazioniComponent
+      GestioneRichiestePrenotazioniComponent,
+      CartellaClinicaComponent
    ],
   imports: [
     BrowserModule,
@@ -59,9 +70,14 @@ import {CheckboxModule} from 'primeng/checkbox';
     CalendarModule,
     ButtonModule,
     ToastModule,
-    CheckboxModule
+    CheckboxModule,
+    InputTextModule,
+    OrderListModule,
+    CardModule,
+    TabViewModule,
+    FileUploadModule
   ],
-  providers: [RegistrazioneService, LoginService, PrenotazioneService, DottoreService, AutenticazioneService, RouteGuardService, HomeService, MessageService],
+  providers: [RegistrazioneService, LoginService, PrenotazioneService, PazienteService, AnimaleService, DottoreService, AutenticazioneService, RouteGuardService, HomeService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

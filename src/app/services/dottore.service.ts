@@ -11,6 +11,15 @@ export class Dottore{
 }
 
 
+export class Segretaria{
+
+  constructor(
+    public id: string,
+    public nome: string,
+    public cognome: string    
+  ){}
+}
+
 @Injectable({
   providedIn: 'root'
 })

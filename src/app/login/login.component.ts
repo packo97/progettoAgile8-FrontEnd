@@ -47,7 +47,8 @@ export class LoginComponent implements OnInit {
       response => {
         console.log(response);
         if(response==true) {
-          sessionStorage.setItem("user", json['email']);
+          sessionStorage.setItem("user", this.email);
+          sessionStorage.setItem("profile", this.tipo_login);
           this.autenticato = true;
           this.route.navigate(['home', this.tipo_login]);
         }

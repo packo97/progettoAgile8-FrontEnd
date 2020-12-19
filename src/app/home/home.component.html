@@ -6,8 +6,8 @@
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Cartella</a>
+      <li class="nav-item active" *ngIf="whoIsLogged=='dottore'">
+        <a class="nav-link" href="cartella">Cartelle</a>
       </li>
       <li class="nav-item active">
         <p>{{nome}} {{cognome}}</p>
@@ -39,6 +39,18 @@
   <div class="row">
     <div class="column col-sm-8">
         <app-gestione-richieste-prenotazioni></app-gestione-richieste-prenotazioni>
+    </div>
+    <div class="column col-sm-4">
+        <app-dettagli-prenotazione></app-dettagli-prenotazione>
+    </div>
+  </div>
+</div>
+
+
+<div class="pannello" *ngIf="whoIsLogged=='dottore'">
+  <div class="row">
+    <div class="column col-sm-8">
+        <app-prenotazione></app-prenotazione>
     </div>
     <div class="column col-sm-4">
         <app-dettagli-prenotazione></app-dettagli-prenotazione>

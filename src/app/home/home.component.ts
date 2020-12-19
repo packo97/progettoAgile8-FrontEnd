@@ -23,22 +23,33 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.whoIsLogged = this.activatedRoute.snapshot.paramMap.get('whoIsLogged');
     console.log(sessionStorage.getItem('user'));
-    let paziente = this.homeService.getPaziente(sessionStorage.getItem('user')).subscribe(
-      response => {
-        console.log(response);
-        this.nome = response['nome'];
-        this.cognome = response['cognome'];
-      }
-    );
+    if(sessionStorage.getItem('profile')=="paziente")
+      this.homeService.getPaziente(sessionStorage.getItem('user')).subscribe(
+        response => {
+          console.log(response);
+          this.nome = response['nome'];
+          this.cognome = response['cognome'];
+        }
+      );
+    else if(sessionStorage.getItem('profile')=="dottore")
+      this.homeService.getDottore(sessionStorage.getItem('user')).subscribe(
+        response => {
+          console.log(response);
+          this.nome = response['nome'];
+          this.cognome = response['cognome'];
+        }
+      );
+      else if(sessionStorage.getItem('profile')=="segretaria")
+      this.homeService.getSegretaria(sessionStorage.getItem('user')).subscribe(
+        response => {
+          console.log(response);
+          this.nome = response['nome'];
+          this.cognome = response['cognome'];
+        }
+      );
+    
   }
 
-  getCodaUrgenti() {
-    this.service.getCodaUrgenti();
-  }
-
-  getCodaAttesa() {}
-
-  getCodaAccettatti() {}
 
   logout(){
     this.authService.clearAll();

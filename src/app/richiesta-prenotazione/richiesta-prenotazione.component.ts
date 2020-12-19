@@ -5,13 +5,14 @@ import { PrenotazioneService } from '../services/prenotazione.service';
 
 export class Paziente{
   constructor(
-    private nome: string,
-    private cognome: string,
-    private codice_fiscale: string,
-    private numero_telefono: string,
-    private email: string,
+    public id: number,
+    public nome: string,
+    public cognome: string,
+    public codice_fiscale: string,
+    public numero_telefono: string,
+    public email: string,
     private password: string,
-    private animale: string
+    public animale: string
   ){}
 }
 

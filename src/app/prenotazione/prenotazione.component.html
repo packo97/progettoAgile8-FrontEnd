@@ -3,7 +3,10 @@
     <p>{{prenotazione.descrizione}}</p>
   </div>
 -->
+
+<p-calendar [(ngModel)]="data" placeholder="Seleziona data" dateFormat="dd-mm-yy" (onSelect)=refreshPrenotazioni()></p-calendar>
   
+
   <h1 align="center">LISTA PRENOTAZIONI</h1>
   
   <ul class="list-group" >
