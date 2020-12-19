@@ -10,8 +10,8 @@ export class RouteGuardService {
   constructor(private authService: AutenticazioneService, private route: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state:  RouterStateSnapshot)  {
-    console.log(this.authService.isLogged())
-    if (!this.authService.isLogged())
+  
+    if (!this.authService.isLogged(route.params['whoIsLogged']))
     {
       this.route.navigate(['login']);
       return false;

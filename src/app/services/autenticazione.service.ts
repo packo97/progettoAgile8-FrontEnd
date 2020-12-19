@@ -28,8 +28,8 @@ export class AutenticazioneService {
     return (sessionStorage.getItem("user") != null) ? utente : "";
   }
 
-  isLogged = () => {
-    return sessionStorage.getItem("user") != null ? true : false;
+  isLogged = (whoIsLogged: string) => {
+    return sessionStorage.getItem("profile") == whoIsLogged ? true : false;
   }
 
 
