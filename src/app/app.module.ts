@@ -17,6 +17,7 @@ import {LoginService} from 'src/app/services/login.service';
 import {DottoreService} from 'src/app/services/dottore.service'
 import {PazienteService} from 'src/app/services/paziente.service'
 import {AnimaleService} from 'src/app/services/animale.service'
+import {FileService} from 'src/app/services/file.service'
 
 
 
@@ -43,10 +44,13 @@ import {OrderListModule} from 'primeng/orderlist';
 import { CartellaClinicaComponent } from './cartella-clinica/cartella-clinica.component';
 import {CardModule} from 'primeng/card';
 import {TabViewModule} from 'primeng/tabview';
-import {FileUploadModule} from 'primeng/fileupload'
+import {FileUploadModule} from 'primeng/fileupload';
+import {TabMenuModule} from 'primeng/tabmenu';
+import { MenuBarComponent } from './menu-bar/menu-bar.component';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 @NgModule({
-  declarations: [									
+  declarations: [										
     AppComponent,
       RegistrazioneComponent,
       ErrorComponent,
@@ -56,7 +60,8 @@ import {FileUploadModule} from 'primeng/fileupload'
       DettagliPrenotazioneComponent,
       RichiestaPrenotazioneComponent,
       GestioneRichiestePrenotazioniComponent,
-      CartellaClinicaComponent
+      CartellaClinicaComponent,
+      MenuBarComponent
    ],
   imports: [
     BrowserModule,
@@ -75,9 +80,11 @@ import {FileUploadModule} from 'primeng/fileupload'
     OrderListModule,
     CardModule,
     TabViewModule,
-    FileUploadModule
+    FileUploadModule,
+    TabMenuModule,
+    InputTextareaModule
   ],
-  providers: [RegistrazioneService, LoginService, PrenotazioneService, PazienteService, AnimaleService, DottoreService, AutenticazioneService, RouteGuardService, HomeService, MessageService],
+  providers: [RegistrazioneService, LoginService, PrenotazioneService, PazienteService, AnimaleService, DottoreService, AutenticazioneService, RouteGuardService, HomeService, MessageService, FileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

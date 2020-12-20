@@ -36,7 +36,8 @@ export class PrenotazioneComponent implements OnInit {
   data: Date;
 
 
-  constructor(private root: Router, private service: PrenotazioneService, private homeService: HomeService) { }
+  constructor(private root: Router, private service: PrenotazioneService, private homeService: HomeService) {
+   }
 
   ngOnInit() {
 
@@ -95,10 +96,15 @@ export class PrenotazioneComponent implements OnInit {
 
 
   refresh(prenotazione : Prenotazione){
+    let lista = this.prenotazioni;
     $(".list-group-item").each(function(i, obj) {
       $(obj).removeClass("list-group-item-info");
-      $(obj).addClass("list-group-item-warning");
+      if(lista[i].confermato)
+        $(obj).addClass("list-group-item-success");
+      else
+        $(obj).addClass("list-group-item-warning");
     });
+    
     $("#"+prenotazione.id).removeClass("list-group-item-warning").addClass("list-group-item-info");
     
     this.service.refreshPanelDetail(prenotazione);

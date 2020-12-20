@@ -14,6 +14,6 @@ export class AnimaleService {
   }
 
   getAnimali(paziente: Paziente){
-    return this.httpClient.post("http://localhost:8080/restex/animaleByPaziente/",paziente);
+    return this.httpClient.post("http://localhost:8080/restex/animaleByPaziente",paziente);
   }
 }

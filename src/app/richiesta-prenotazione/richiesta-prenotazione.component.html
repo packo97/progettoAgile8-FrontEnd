@@ -1,9 +1,17 @@
 <h1 align=center>RICHIESTA</h1>
-<input type="text" id="inputProblema" class="form-control" placeholder="Inserisci il tuo problema" [(ngModel)]="problema" value="problema">
+<div class="container">
+  <span class="p-float-label">
+    <textarea id="inputProblema" [rows]="5" [cols]="57" pInputTextarea autoResize="autoResize" [(ngModel)]="problema" value="problema"></textarea> 
+    <label for="inputProblema">Inserisci il tuo problema</label> 
+  </span>
+  <hr>
   <select class="form-control" id="selectDottori">
     <option *ngFor="let dottore of dottori">
         {{dottore.nome}} {{dottore.cognome}}
     </option>
   </select>
+  <hr>
   <p-checkbox [(ngModel)]="urgente" label="Urgente" [binary]="true"></p-checkbox>
-<button class="form-control" (click)=richiestaPrenotazione()>PRENOTATI</button>
+  <hr>
+  <button class="form-control" (click)=richiestaPrenotazione()>PRENOTATI</button>
+</div>

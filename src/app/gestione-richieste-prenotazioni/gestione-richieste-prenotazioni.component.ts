@@ -42,6 +42,12 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
   drop(event: CdkDragDrop<string[]>, droppedOn: "richieste" | "prenotazioni_accettate" | "urgenti") {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      if(droppedOn === "prenotazioni_accettate"){
+        for(let i=0; i<this.prenotazioni_accettate.length; i++)
+          if(this.prenotazioni_accettate[i].id==null)
+            this.prenotazioni_accettate[i] = new Prenotazione(null,"Time-slot libero alle " + (9+i),null,null,null,null,null)
+      }
+        
     } else {
       if (droppedOn === "richieste" || droppedOn === "urgenti") {
         transferArrayItem(event.previousContainer.data,

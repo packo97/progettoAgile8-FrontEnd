@@ -12,7 +12,7 @@ const routes: Routes = [
   {path : 'registrazione', component : RegistrazioneComponent},
   {path : 'login', component : LoginComponent},
   {path : 'home/:whoIsLogged', component : HomeComponent,  canActivate: [RouteGuardService]},
-  {path : 'cartella', component: CartellaClinicaComponent, canActivate: [RouteGuardService]},
+  {path : 'cartella', component: CartellaClinicaComponent},
   {path : '**', component : ErrorComponent}
 ];
 
