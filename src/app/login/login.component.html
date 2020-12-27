@@ -1,9 +1,19 @@
-<div class="row">
-  <div class="column col-sm-4">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<div class= "container">
+  <hr>
+  <div class="row justify-content-md-center">
+    <h2 class="text-center" id="title">Veterinary clinic </h2>
   </div>
-  
-  
-  <div class="column col-sm-4">
+    <p class="row justify-content-md-center">
+      <small id="passwordHelpInline" class="text-muted"> Developer: follow me on facebook <a href="https://www.facebook.com/JheanYu"> John niro yumang</a> inspired from <a href="https://p.w3layouts.com/">https://p.w3layouts.com/</a>.</small>
+    </p>
+     <hr>
+</div>
+<div class="row justify-content-md-center">
+  <div class="column  col-sm-4 ">
+
+  </div>
+  <div class="column  col-sm-4 ">
     
     <div class="registration-form">
       
@@ -12,7 +22,7 @@
       <input type="password" id="inputpassword" class="form-control" placeholder="Password" [(ngModel)]="password">
       <br>
     
-      <div class="row">
+      <div class="row justify-content-md-center">
         <div class="col-12">
         <button type="button" class="btn btn-outline-secondary">
           <div class="form-icon paziente" (click)=setTipo(1)>
@@ -38,8 +48,11 @@
     </div>
   </div>
 
-  <div class="column col-sm-4">
+  <div class="column  col-sm-4 ">
+
   </div>
+ 
   <p-toast key="saved" position="bottom-right"></p-toast>
   
 </div>
+

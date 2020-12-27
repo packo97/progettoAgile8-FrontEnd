@@ -13,7 +13,7 @@ export class Prenotazione{
     public paziente: any,
     public dottore: any,
     public confermato: boolean,
-    public data_visita: Date,
+    public data_visita: any,
     public urgente: boolean
     ){}
 
@@ -26,7 +26,7 @@ export class Prenotazione{
 })
 export class PrenotazioneComponent implements OnInit {
 
-  prenotazioni: Prenotazione[] = [];
+  public prenotazioni: Prenotazione[] = [];
 
 
   paziente: Paziente;

@@ -49,6 +49,7 @@ import {FileUploadModule} from 'primeng/fileupload';
 import {TabMenuModule} from 'primeng/tabmenu';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+<<<<<<< HEAD
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -63,6 +64,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   timeGridPlugin,
 ]);
 
+=======
+import { MessaggiComponent } from './messaggi/messaggi.component';
+>>>>>>> 76784dee1d3bf93469e82c92f0ace69f7e5d2b19
 
 @NgModule({
   declarations: [											
@@ -77,7 +81,11 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
       GestioneRichiestePrenotazioniComponent,
       CartellaClinicaComponent,
       MenuBarComponent,
+<<<<<<< HEAD
       VistaGlobaleComponent
+=======
+      MessaggiComponent
+>>>>>>> 76784dee1d3bf93469e82c92f0ace69f7e5d2b19
    ],
   imports: [
     BrowserModule,

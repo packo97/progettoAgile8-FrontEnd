@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Dottore, DottoreService } from '../services/dottore.service';
 import { HomeService } from '../services/home.service';
 import { PrenotazioneService } from '../services/prenotazione.service';
+import {Prenotazione, PrenotazioneComponent} from '../prenotazione/prenotazione.component';
 
 export class Paziente{
   constructor(
@@ -29,7 +30,7 @@ export class RichiestaPrenotazioneComponent implements OnInit {
   private paziente: Paziente;
   urgente: boolean;
 
-  constructor(private service: PrenotazioneService, private dottoreService: DottoreService, private homeService: HomeService) { }
+  constructor( private service: PrenotazioneService, private dottoreService: DottoreService, private homeService: HomeService) { }
 
   ngOnInit() {
     this.getDottori()

@@ -1,0 +1,71 @@
+<app-menu-bar></app-menu-bar>
+<div class="container ">
+  <div *ngIf="vuota; then vuotaa else nonVuota"></div>
+    <ng-template #vuotaa>
+      <p class="text-center font-weight-bold">Nessun messaggio da visualizzare.</p>
+    </ng-template>
+    <ng-template #nonVuota>
+      <div class="list-group">
+        <ng-container *ngFor="let messaggio of messaggi">
+          <div *ngIf="messaggio.vista; then visto else nonVisto"></div>
+          <ng-template #visto>
+            <a  class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{messaggio.oggetto}}</h5>
+                <small>{{messaggio.data}}</small>
+              </div>
+              <p class="mb-1">{{messaggio.testo}}</p>
+              <div class="row">
+                <div class="col-sm-11"><small>{{messaggio.dottore}}</small></div>
+                <div class="col-sm-1">
+                  <button type="button" class="btn btn-outline-danger btn-sm" (click)=cancella(messaggio)>Cancella</button>
+                  <!-- Button trigger modal 
+                  <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+                    Cancella-modal
+                  </button>
+                -->
+                </div>
+              </div>
+            </a>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"  data-dismiss="modal" (click)=cancella(messaggio)>Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template #nonVisto>
+            <a  class="list-group-item list-group-item-action flex-column align-items-start active">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{messaggio.oggetto}}</h5>
+                <small>{{messaggio.data}}</small>
+              </div>
+              <p class="mb-1">{{messaggio.testo}}</p>
+              <div class="row">
+                <div class="col-sm-11"><small>{{messaggio.dottore}}</small></div>
+                <div class="col-sm-1">
+                  <button type="button" class="btn btn-outline-danger btn-sm" (click)=cancella(messaggio)>Cancella</button>
+                </div>
+              </div>
+            </a>
+          </ng-template>
+        </ng-container>
+        
+      </div>
+    </ng-template>
+
+</div>
+<!-- Modal -->

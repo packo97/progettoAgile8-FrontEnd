@@ -1,0 +1,14 @@
+.visto{
+    content:url(/assets/occhio.png);
+}
+
+.form-icon{
+    width: 100%;
+    height: 100%;
+    text-align: right;
+}
+.menu{
+    content:url(/assets/menu.svg);
+    width: 10%;
+    height:10%;
+}
