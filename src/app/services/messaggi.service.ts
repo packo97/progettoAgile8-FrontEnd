@@ -14,6 +14,10 @@ export class MessaggiService {
 
 constructor(private httpClient : HttpClient) { }
 
+getNotificheSegretaria() {
+  return this.httpClient.get<Messaggio[]>("http://localhost:8080/restex/notificheBySegretaria");
+}
+
 getNotifichePaziente(email: String) {
   return this.httpClient.get<Messaggio[]>(`http://localhost:8080/restex/notificheByPaziente/${email}`);
 }

@@ -188,11 +188,8 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
     this.urgenti.forEach(
       prenotazioni => {
         prenotazioni.confermato = false;
-<<<<<<< HEAD
         prenotazioni.urgente = true;
-=======
         prenotazioni.data_visita = null;
->>>>>>> 76784dee1d3bf93469e82c92f0ace69f7e5d2b19
       }
     )
 

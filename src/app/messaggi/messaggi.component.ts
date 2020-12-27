@@ -21,7 +21,7 @@ export class Messaggio{
 @Component({
   selector: 'app-messaggi',
   templateUrl: './messaggi.component.html',
-  styleUrls: ['./messaggi.component.scss']
+  styleUrls: ['./messaggi.component.css']
 })
 export class MessaggiComponent implements OnInit {
 
@@ -47,6 +47,22 @@ export class MessaggiComponent implements OnInit {
           }
         }
       );
+    else if(sessionStorage.getItem('profile')=="segretaria")
+        this.messaggiService.getNotificheSegretaria().subscribe(
+          response => {
+            console.log(response);
+            for (let i = 0; i < response.length; i++) {
+                response[i].data=this.convertiData(response[i].data)
+            }
+            this.messaggi = response;
+            if(this.messaggi.length==0){
+              this.vuota=true;
+            }
+            else{
+              this.vuota=false;
+            }
+          }
+        );
   }
 
   cancella(messaggio){

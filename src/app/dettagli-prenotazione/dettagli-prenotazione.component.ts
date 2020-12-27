@@ -23,6 +23,9 @@ export class DettagliPrenotazioneComponent implements OnInit {
   }
 
   convertiData(data){
+    if(data==null || data=="La data della visità non è assegnata")
+      return "La data della visità non è assegnata";
+    console.log(data);
     var str = data.toString(); 
     var giorni = str.split("T",2); 
     var dataCorretta = giorni[0].toString().split("-"); 
