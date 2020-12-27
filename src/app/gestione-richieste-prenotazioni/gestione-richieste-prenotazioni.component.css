@@ -26,8 +26,23 @@
     box-sizing: border-box;
     cursor: move;
     background: white;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: bold;
   }
+
+  .accettata{
+    background: rgba(27, 219, 69, 0.849);
+  }
+
+  .urgente{
+    background: rgb(250, 74, 74);
+  }
+
+  .richiesta{
+    background: rgb(228, 228, 95);
+  }
+  
+  
   
   .cdk-drag-preview {
     box-sizing: border-box;

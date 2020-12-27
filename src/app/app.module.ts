@@ -33,7 +33,8 @@ import { DettagliPrenotazioneComponent } from './dettagli-prenotazione/dettagli-
 import { RichiestaPrenotazioneComponent } from './richiesta-prenotazione/richiesta-prenotazione.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GestioneRichiestePrenotazioniComponent } from './gestione-richieste-prenotazioni/gestione-richieste-prenotazioni.component';
-  
+import { VistaGlobaleComponent } from './vista-globale/vista-globale.component';  
+
 import { CalendarModule } from 'primeng/calendar';
 import {ButtonModule} from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
@@ -48,9 +49,23 @@ import {FileUploadModule} from 'primeng/fileupload';
 import {TabMenuModule} from 'primeng/tabmenu';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import {DialogModule} from 'primeng/dialog';
+import {DialogService, DynamicDialogConfig, DynamicDialogModule} from 'primeng/dynamicdialog';
+import {EventEmitterService} from './services/eventEmitter.service';
+
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  interactionPlugin,
+  timeGridPlugin,
+]);
+
 
 @NgModule({
-  declarations: [										
+  declarations: [											
     AppComponent,
       RegistrazioneComponent,
       ErrorComponent,
@@ -61,7 +76,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
       RichiestaPrenotazioneComponent,
       GestioneRichiestePrenotazioniComponent,
       CartellaClinicaComponent,
-      MenuBarComponent
+      MenuBarComponent,
+      VistaGlobaleComponent
    ],
   imports: [
     BrowserModule,
@@ -82,9 +98,13 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     TabViewModule,
     FileUploadModule,
     TabMenuModule,
-    InputTextareaModule
+    InputTextareaModule,
+    FullCalendarModule,
+    DialogModule,
+    DynamicDialogModule
+
   ],
-  providers: [RegistrazioneService, LoginService, PrenotazioneService, PazienteService, AnimaleService, DottoreService, AutenticazioneService, RouteGuardService, HomeService, MessageService, FileService],
+  providers: [EventEmitterService, RegistrazioneService, LoginService, PrenotazioneService, PazienteService, AnimaleService, DottoreService, AutenticazioneService, RouteGuardService, HomeService, MessageService, FileService, DialogService, DynamicDialogConfig],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

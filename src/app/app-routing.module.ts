@@ -7,12 +7,14 @@ import { PrenotazioneComponent } from './prenotazione/prenotazione.component';
 import {HomeComponent} from './home/home.component'
 import { RouteGuardService } from './services/routeGuard.service';
 import { CartellaClinicaComponent } from './cartella-clinica/cartella-clinica.component';
+import { VistaGlobaleComponent } from './vista-globale/vista-globale.component';
 
 const routes: Routes = [
   {path : 'registrazione', component : RegistrazioneComponent},
   {path : 'login', component : LoginComponent},
   {path : 'home/:whoIsLogged', component : HomeComponent,  canActivate: [RouteGuardService]},
   {path : 'cartella', component: CartellaClinicaComponent},
+  {path : 'globale', component: VistaGlobaleComponent},
   {path : '**', component : ErrorComponent}
 ];
 

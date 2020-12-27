@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { PrenotazioneService } from '../services/prenotazione.service';
 import { Prenotazione } from '../prenotazione/prenotazione.component';
 import { Dottore, DottoreService } from '../services/dottore.service';
 import { MessageService } from 'primeng/api';
-
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { VistaGlobaleComponent } from '../vista-globale/vista-globale.component';
+import { EventEmitterService } from '../services/eventEmitter.service';
+import * as $ from 'jquery';
 
 
 
@@ -26,8 +29,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
   data: Date;
 
   dottoreSelezionato: Dottore;
-
-  constructor(private prenotazioneService: PrenotazioneService, private dottoreService: DottoreService, private messageService: MessageService) { }
+  constructor(private eventEmitterService: EventEmitterService,public dialogService: DialogService, private prenotazioneService: PrenotazioneService, private dottoreService: DottoreService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.dottoreService.getDottori().subscribe(
@@ -35,7 +37,18 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
         console.log(response);
         this.dottori = response;
       }
-    )
+    );
+
+    //quando viene selezionata una data dal full calendar-> chiudi il modal -> seleziona la nuova data -> refresh dei dati visualizzati
+    if (this.eventEmitterService.subsVar==undefined) {    
+      this.eventEmitterService.subsVar = this.eventEmitterService.    
+      invokeFirstComponentFunction.subscribe((name:string) => {    
+        this.ref.close();
+        this.data = new Date(name);
+        this.refreshPrenotazioniByDoctor(null);
+      });    
+    }    
+
   }
   
 
@@ -104,7 +117,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
     }
 
     if(this.data != null && this.dottoreSelezionato != null){
-      this.prenotazioneService.getAllPrenotazioniByDoctor(this.dottoreSelezionato, this.data).subscribe(
+      this.prenotazioneService.getAllPrenotazioniByDoctorAndDate(this.dottoreSelezionato, this.data).subscribe(
         response => {
           this.showAccettate(response);
         }
@@ -161,7 +174,8 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
   salva(){
     this.prenotazioni_accettate.forEach(
       prenotazioni => {
-        prenotazioni.confermato = true;
+        if(prenotazioni.id)
+          prenotazioni.confermato = true;
       }
     )
     this.richieste.forEach(
@@ -173,6 +187,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
     this.urgenti.forEach(
       prenotazioni => {
         prenotazioni.confermato = false;
+        prenotazioni.urgente = true;
       }
     )
 
@@ -194,5 +209,18 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
     this.messageService.add({key: 'saved', severity:'success', summary: 'Saved', detail: 'Prenotazione Salvate'});
   }
 
+  ref: DynamicDialogRef;
 
+  show() {
+    this.ref = this.dialogService.open(VistaGlobaleComponent, {
+        width: '80%',
+        contentStyle: {"max-height": "800px"},
+        data: {dottore: this.dottoreSelezionato},
+
+    });
+
+  }
+
+  
+  
 }

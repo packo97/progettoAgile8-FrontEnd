@@ -85,7 +85,7 @@ export class PrenotazioneComponent implements OnInit {
 
   getAllPrenotazioniByDoctor(dottore: Dottore) {
     
-    this.service.getAllPrenotazioniByDoctor(dottore,this.data).subscribe(
+    this.service.getAllPrenotazioniByDoctorAndDate(dottore,this.data).subscribe(
       response => {​​​​
         console.log(response);
         this.prenotazioni = response;

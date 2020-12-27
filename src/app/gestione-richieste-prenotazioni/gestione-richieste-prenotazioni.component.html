@@ -12,8 +12,11 @@
   <div class="p-col-4">
     <p-calendar [(ngModel)]="data" placeholder="Seleziona data" dateFormat="dd-mm-yy" (onSelect)=refreshPrenotazioniByDoctor(null)></p-calendar>
   </div>
-  <div class="p-col-4">
-    <button pButton type="button" label="Salva" icon="pi pi-check" (click)=salva()></button>
+  <div class="p-col-2">
+    <button pButton type="button" icon="pi pi-info-circle" label="Vista globale" (click)=show()></button>
+  </div>
+  <div class="p-col-2">
+    <button pButton type="button" class="p-button-success" icon="pi pi-check" label="Salva" (click)=salva()></button>
   </div>
 </div>
 
@@ -30,7 +33,10 @@
       class="example-list"
       cdkDropListSortingDisabled
       (cdkDropListDropped)="drop($event,'richieste')">
-      <div class="example-box" *ngFor="let item of richieste" cdkDrag (click)=refresh(item)>{{item.descrizione}}</div>
+      <ng-container *ngFor="let item of richieste">
+        <div class="example-box richiesta" cdkDrag (click)=refresh(item)>{{item.descrizione}}</div>
+      </ng-container>
+      
     </div>
   </div>
 
@@ -43,7 +49,10 @@
       class="example-list"
       cdkDropListSortingDisabled
       (cdkDropListDropped)="drop($event,'urgenti')">
-      <div class="example-box" *ngFor="let item of urgenti" cdkDrag (click)=refresh(item)>{{item.descrizione}}</div>
+      <ng-container *ngFor="let item of urgenti">
+        <div class="example-box urgente" cdkDrag (click)=refresh(item)>{{item.descrizione}}</div>
+      </ng-container>
+      
     </div>
   </div>
 
@@ -55,7 +64,18 @@
       [cdkDropListData]="prenotazioni_accettate"
       class="example-list"
       (cdkDropListDropped)="drop($event,'prenotazioni_accettate')">
-      <div class="example-box" *ngFor="let item of prenotazioni_accettate" cdkDrag (click)=refresh(item) [cdkDragDisabled]="!item.id">{{item.descrizione}}</div>
+      <ng-container *ngFor="let item of prenotazioni_accettate">
+        <div class="example-box accettata" *ngIf="item.confermato && !item.urgente"cdkDrag (click)=refresh(item) [cdkDragDisabled]="!item.id">{{item.descrizione}}</div>
+        <div class="example-box urgente" *ngIf="item.urgente" cdkDrag (click)=refresh(item) [cdkDragDisabled]="!item.id">{{item.descrizione}}</div>
+        <div class="example-box richiesta" *ngIf="!item.confermato && item.id && !item.urgente"cdkDrag (click)=refresh(item) [cdkDragDisabled]="!item.id">{{item.descrizione}}</div>
+        <div class="example-box" *ngIf="!item.confermato && !item.id"cdkDrag (click)=refresh(item) [cdkDragDisabled]="!item.id">{{item.descrizione}}</div>
+      </ng-container>
+
+     
     </div>
   </div>
 </div>
+
+
+
+

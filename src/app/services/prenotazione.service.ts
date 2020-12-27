@@ -54,13 +54,17 @@ export class PrenotazioneService {
     return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/prenotazioniByPaziente",paziente);
   }
 
-  getAllPrenotazioniByDoctor(dottore: Dottore, data: Date) {
+  getAllPrenotazioniByDoctorAndDate(dottore: Dottore, data: Date) {
     data.setHours(data.getHours()+1);
     let json = {
       dottore: dottore,
       data: data
     }
-    return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/prenotazioniByDoctor",json);
+    return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/prenotazioniByDoctorAndDate",json);
+  }
+
+  getAllPrenotazioniByDoctor(dottore: Dottore) {//aggiustare back-end
+    return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/prenotazioniByDoctor",dottore);
   }
 
   getAllRichiesteByDoctor(dottore: Dottore) {
