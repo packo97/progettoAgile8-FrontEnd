@@ -1,3 +1,16 @@
+
+.login-main-text{
+    margin-top: 20%;
+    padding: 60px;
+    color: #fff;
+}
+.sidenav {
+    height: 100%;
+    background-color: #000;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
 .registration-form{
     background-color: #fff;
     max-width: 600px;
@@ -25,6 +38,7 @@
     line-height: 100px;
    
 }
+
 
 .paziente{
     content:url(/assets/dog.png);

@@ -48,9 +48,10 @@ import {FileUploadModule} from 'primeng/fileupload';
 import {TabMenuModule} from 'primeng/tabmenu';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import { MessaggiComponent } from './messaggi/messaggi.component';
 
 @NgModule({
-  declarations: [										
+  declarations: [											
     AppComponent,
       RegistrazioneComponent,
       ErrorComponent,
@@ -61,7 +62,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
       RichiestaPrenotazioneComponent,
       GestioneRichiestePrenotazioniComponent,
       CartellaClinicaComponent,
-      MenuBarComponent
+      MenuBarComponent,
+      MessaggiComponent
    ],
   imports: [
     BrowserModule,

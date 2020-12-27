@@ -167,12 +167,14 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
     this.richieste.forEach(
       prenotazioni => {
         prenotazioni.confermato = false;
+        prenotazioni.data_visita = null;
       }
     )
 
     this.urgenti.forEach(
       prenotazioni => {
         prenotazioni.confermato = false;
+        prenotazioni.data_visita = null;
       }
     )
 
