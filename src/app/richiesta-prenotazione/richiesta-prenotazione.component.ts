@@ -13,7 +13,7 @@ export class Paziente{
     public numero_telefono: string,
     public email: string,
     private password: string,
-    public animale: Animale
+    public animale: Animale[]
   ){}
 }
 

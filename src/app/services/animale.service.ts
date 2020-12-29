@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Paziente } from '../richiesta-prenotazione/richiesta-prenotazione.component';
+import { Animale, Paziente } from '../richiesta-prenotazione/richiesta-prenotazione.component';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,6 @@ export class AnimaleService {
   }
 
   getAnimali(paziente: Paziente){
-    return this.httpClient.post("http://localhost:8080/restex/animaleByPaziente",paziente);
+    return this.httpClient.post<Animale[]>("http://localhost:8080/restex/animaleByPaziente",paziente);
   }
 }

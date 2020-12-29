@@ -29,7 +29,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
   data: Date;
 
   dottoreSelezionato: Dottore;
-  constructor(private eventEmitterService: EventEmitterService,public dialogService: DialogService, private prenotazioneService: PrenotazioneService, private dottoreService: DottoreService, private messageService: MessageService) { }
+  constructor(private eventEmitterService: EventEmitterService,private dialogService: DialogService, private prenotazioneService: PrenotazioneService, private dottoreService: DottoreService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.dottoreService.getDottori().subscribe(

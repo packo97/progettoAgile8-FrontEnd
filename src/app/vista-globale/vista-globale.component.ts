@@ -9,6 +9,8 @@ import { EventEmitterService } from '../services/eventEmitter.service';
 import { Prenotazione } from '../prenotazione/prenotazione.component';
 import { Tooltip } from 'primeng/tooltip';
 import * as $ from 'jquery';
+import { Dottore } from '../services/dottore.service';
+import { CartellaClinicaComponent } from '../cartella-clinica/cartella-clinica.component';
 @Component({
   selector: 'app-vista-globale',
   templateUrl: './vista-globale.component.html',
@@ -34,9 +36,8 @@ export class VistaGlobaleComponent implements OnInit {
 
   events: any[] = [];
 
-  
-
   ngOnInit() {
+  
     let dottore = this.config.data.dottore;
     if(dottore != null){
       this.prenotazioneService.getAllPrenotazioniByDoctor(dottore).subscribe(

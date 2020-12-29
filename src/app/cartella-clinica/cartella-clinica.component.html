@@ -1,5 +1,5 @@
 <app-menu-bar></app-menu-bar>
-<div id=test></div>
+
 <div class="p-grid">
 
   <div class="p-col-1"></div>
@@ -21,8 +21,10 @@
     <p-card>
       <p-header class="p-grid">
         <div class="p-col-1"></div>
-        <h1 class="p-col-8">{{pazienteSelezionato.nome}} {{pazienteSelezionato.cognome}}</h1>
-        <button pButton type="button" label="Salva" icon="pi pi-check" (click)=salva() class="p-col-2"></button>
+        <h1 class="p-col-3">{{pazienteSelezionato.nome}} {{pazienteSelezionato.cognome}}</h1>
+        <button pButton type="button" icon="pi pi-info-circle" label="Inserisci Prenotazione" (click)=showFormInserisciPrenotazione() class="p-col-2 p-button-warning"></button>
+        <button pButton type="button" icon="pi pi-info-circle" label="Vista globale" (click)=show() class="p-col-2"></button>
+        <button pButton type="button" label="Salva" icon="pi pi-check" (click)=salva() class="p-col-2 p-button-success"></button>
         <div class="p-col-1"></div>
       </p-header>
       <div class="p-grid">
@@ -40,51 +42,56 @@
         <p class="p-col-10">{{pazienteSelezionato.email}}</p>
       </div>
       <hr>
-
+      <div class="p-grid">
+        <label class="p-col-2">Animale: </label>
+        <p-dropdown class="p-col-10" [options]="this.pazienteSelezionato.animale" [(ngModel)]="this.animaleSelezionato" optionLabel="nome"></p-dropdown>
+      </div>
+      <hr>
       <p-tabView>
         <p-tabPanel header="Animale" >
           <div class="p-grid" *ngIf="pazienteSelezionato.animale">
             <span class="p-float-label p-col-4">
-              <input id="inputNome" type="text" pInputText [(ngModel)]="pazienteSelezionato.animale.nome"> 
+              <input id="inputNome" type="text" pInputText [(ngModel)]="this.animaleSelezionato.nome"> 
               <label for="inputNome">Nome</label>
             </span>
-            <p-calendar class="p-col-4" [(ngModel)]="pazienteSelezionato.animale.data_nascita" placeholder="Seleziona data" dateFormat="dd-mm-yy"></p-calendar>
-    
+            <span class="p-float-label p-col-4"> 
+              <!-- <label for="inputData">Data Nascita</label> float label doesn't work with p-calendar -->
+              <p-calendar id="inputData" class="p-col-4" [(ngModel)]="this.animaleSelezionato.data_nascita" dateFormat="dd-mm-yy"></p-calendar>
+            </span>
             <span class="p-float-label p-col-4">
-              <input id="inputGenere" type="text" pInputText [(ngModel)]="pazienteSelezionato.animale.genere"> 
+              <input id="inputGenere" type="text" pInputText [(ngModel)]="this.animaleSelezionato.genere"> 
               <label for="inputGenere">Genere</label>
             </span>
           </div>
           <hr>
           <div class="p-grid" *ngIf="pazienteSelezionato.animale">
             <span class="p-float-label p-col-4">
-              <input id="inputTipo" type="text" pInputText [(ngModel)]="pazienteSelezionato.animale.tipo"> 
+              <input id="inputTipo" type="text" pInputText [(ngModel)]="this.animaleSelezionato.tipo"> 
               <label for="inputTipo">Tipo</label>
             </span>
             <span class="p-float-label p-col-4">
-              <input id="inputPeso" type="text" pInputText [(ngModel)]="pazienteSelezionato.animale.peso"> 
-              <label for="inputPeso">Peso</label>
+              <input id="inputPeso" type="text" pInputText [(ngModel)]="this.animaleSelezionato.peso"> 
+              <label for="inputPeso">Peso (Kg)</label>
             </span>
             <span class="p-float-label p-col-4">
-              <input id="inputAltezza" type="text" pInputText [(ngModel)]="pazienteSelezionato.animale.altezza"> 
-              <label for="inputAltezza">Altezza</label>
+              <input id="inputAltezza" type="text" pInputText [(ngModel)]="this.animaleSelezionato.altezza"> 
+              <label for="inputAltezza">Altezza (cm)</label>
             </span>
           </div>
           <hr>
+  
         </p-tabPanel>
 
         <p-tabPanel header="Prescrizioni">
-          <p-fileUpload *ngIf="whoIsLogged=='dottore'" name="myfile[]" customUpload="true" multiple="multiple" (uploadHandler)="onUpload($event)" accept="application/pdf">
+          <p-fileUpload *ngIf="whoIsLogged=='dottore'" name="myfile[]" customUpload="true" multiple="multiple" (uploadHandler)="onUploadPrescrizioni($event)" accept="application/pdf">
             <ng-template pTemplate="toolbar">
                 <div></div>
             </ng-template>
             <ng-template let-file pTemplate="file">
-                <div>Custom UI to display a file</div>
             </ng-template>
             <ng-template pTemplate="content" let-files>
-                <div id="pdfList">
-                  <button *ngFor="let prescrizione of prescrizioni" pButton type="button" label="Download Prescrizione {{prescrizione.id}}" class="p-button-text" (click)=downloadPDF(prescrizione)></button>
-                  
+                <div id="pdfList" *ngFor="let prescrizione of prescrizioni">
+                  <button *ngIf="prescrizione.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download Prescrizione {{prescrizione.id}} associata all'animale {{prescrizione.animale.nome}}" class="p-button-text" (click)=downloadPrescrizione(prescrizione)></button>
                 </div>
             </ng-template>
           </p-fileUpload>
@@ -92,7 +99,18 @@
 
 
         <p-tabPanel header="Ricevute">
-            Lista Ricevuta
+          <p-fileUpload *ngIf="whoIsLogged=='dottore'" name="myfile[]" customUpload="true" multiple="multiple" (uploadHandler)="onUploadRicevute($event)" accept="application/pdf">
+            <ng-template pTemplate="toolbar">
+                <div></div>
+            </ng-template>
+            <ng-template let-file pTemplate="file">
+            </ng-template>
+            <ng-template pTemplate="content" let-files>
+                <div id="ricevuteList" *ngFor="let ricevuta of ricevute">
+                  <button *ngIf="ricevuta.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download Ricevuta {{ricevuta.id}} associata all'animale {{ricevuta.animale.nome}}" class="p-button-text" (click)=downloadRicevuta(ricevuta)></button>
+                </div>
+            </ng-template>
+          </p-fileUpload>
         </p-tabPanel>
       </p-tabView>
 
@@ -103,3 +121,28 @@
 
 
 <p-toast key="saved" position="bottom-right"></p-toast>
+
+
+
+<p-dialog header="Inserisci prenotazione" [(visible)]="display" [style]="{width: '70vw', heigth: '200vw'}">
+  <div class="p-grid">
+    <label for="inputNome" class="p-col-3">Descrizione: </label>
+    <textarea id="inputProblema" [rows]="3" [cols]="57" pInputTextarea autoResize="autoResize" [(ngModel)]="problema" value="problema"></textarea> 
+  </div>
+  <div class="p-grid">
+    <label for="inputData" class="p-col-3">Data Nascita: </label>
+    <p-calendar id="inputData" class="p-col-6" dateFormat="dd-mm-yy"></p-calendar>
+  </div>
+  <div class='p-grid'>
+    <label for="inputData" class="p-col-3">Slot liberi: </label>
+    <p-dropdown class="p-col-6" [options]="this.slotLiberi" [(ngModel)]="this.slotSelezionato"></p-dropdown>
+  </div>
+  <div class='p-grid'>
+    <label for="inputData" class="p-col-3">E' possibile spostare la prenotazione: </label>
+    <p-checkbox [(ngModel)]="bloccata" label="Bloccata" [binary]="true"></p-checkbox>
+  </div>
+  <div class='p-grid'>
+    <button pButton type="button" label="Salva" icon="pi pi-check" (click)=inserisciPrenotazione() class="p-col-2 p-button-success"></button>
+  </div>
+  <div id="test"></div>
+</p-dialog>

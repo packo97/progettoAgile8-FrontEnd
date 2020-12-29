@@ -57,6 +57,8 @@ import {DialogModule} from 'primeng/dialog';
 import {DialogService, DynamicDialogConfig, DynamicDialogModule} from 'primeng/dynamicdialog';
 import {EventEmitterService} from './services/eventEmitter.service';
 import { MessaggiComponent } from './messaggi/messaggi.component';
+import {AccordionModule} from 'primeng/accordion';
+import {DropdownModule} from 'primeng/dropdown';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -80,7 +82,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
       CartellaClinicaComponent,
       MenuBarComponent,
       VistaGlobaleComponent,
-      MessaggiComponent
+      MessaggiComponent,
    ],
   imports: [
     BrowserModule,
@@ -104,8 +106,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     InputTextareaModule,
     FullCalendarModule,
     DialogModule,
-    DynamicDialogModule
-
+    DynamicDialogModule,
+    AccordionModule,
+    DropdownModule,
   ],
   providers: [EventEmitterService, RegistrazioneService, LoginService, PrenotazioneService, PazienteService, AnimaleService, DottoreService, AutenticazioneService, RouteGuardService, HomeService, MessageService, FileService, DialogService, DynamicDialogConfig],
   bootstrap: [AppComponent]

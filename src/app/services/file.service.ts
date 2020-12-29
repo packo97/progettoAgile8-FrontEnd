@@ -9,19 +9,33 @@ export class FileService {
 
   constructor(private httpClient: HttpClient) { }
 
-  uploadFile(fd: FormData){
+  uploadPrescrizione(fd: FormData){
     return this.httpClient.post("http://localhost:8080/restex/prescrizione",fd);
+  }
+
+  uploadRicevute(fd: FormData){
+    return this.httpClient.post("http://localhost:8080/restex/ricevuta",fd);
   }
 
   getAllPrescrizioniByAnimale(animale: Animale){
     return this.httpClient.post<any[]>("http://localhost:8080/restex/prescrizioniByAnimale",animale);
   }
 
-  download(id: number): any {
+  getAllRicevuteByAnimale(animale: Animale){
+    return this.httpClient.post<any[]>("http://localhost:8080/restex/ricevuteByAnimale",animale);
+  }
+
+  downloadPrescrizione(id: number): any {
     const httpOptions = {
-      //'responseType'  : 'arraybuffer' as 'json'
-       'responseType'  : 'blob' as 'json'        //This also worked
+       'responseType'  : 'blob' as 'json'    
     };
-    return this.httpClient.get<any>(`http://localhost:8080/restex/pdf/${id}`,httpOptions);
+    return this.httpClient.get<any>(`http://localhost:8080/restex/prescrizionePDF/${id}`,httpOptions);
+  }
+
+  downloadRicevuta(id: number): any {
+    const httpOptions = {
+       'responseType'  : 'blob' as 'json'    
+    };
+    return this.httpClient.get<any>(`http://localhost:8080/restex/ricevutaPDF/${id}`,httpOptions);
   }
 }
