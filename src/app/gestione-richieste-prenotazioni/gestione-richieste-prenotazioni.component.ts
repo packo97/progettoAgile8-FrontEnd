@@ -51,15 +51,34 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
 
   }
   
+  convertiData(data){
+    if(data==null || data=="La data della visita non è assegnata")
+      return "La data della visita non è assegnata";
+
+    var str = data.toString(); 
+    var giorni = str.split("T",2); 
+    if(giorni.length==2)
+    { 
+      var dataCorretta = giorni[0].toString().split("-"); 
+      var oreMinuti = giorni[1].toString().split(":",2);
+      var s =dataCorretta[2]+"-"+dataCorretta[1]+"-"+dataCorretta[0]+"  "+oreMinuti[0]+":"+oreMinuti[1];
+      return s;
+    }
+    return data;
+
+  }
 
   drop(event: CdkDragDrop<string[]>, droppedOn: "richieste" | "prenotazioni_accettate" | "urgenti") {
+
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+     
       if(droppedOn === "prenotazioni_accettate"){
         for(let i=0; i<this.prenotazioni_accettate.length; i++)
           if(this.prenotazioni_accettate[i].id==null)
-            this.prenotazioni_accettate[i] = new Prenotazione(null,"Time-slot libero alle " + (9+i),null,null,null,null,null)
-      }
+            this.prenotazioni_accettate[i] = new Prenotazione(null,"Time-slot libero alle " + (9+i),null,null,null,null,null);
+        }
+      
         
     } else {
       if (droppedOn === "richieste" || droppedOn === "urgenti") {
@@ -88,6 +107,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
       }
     }
     this.refreshData();
+
   }
 
   refreshData(){
@@ -96,17 +116,27 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
       
       let newDate = new Date(this.data);
       newDate.setHours(this.data.getHours()+hour);
-      p.data_visita = newDate;
+
+      var split_data_orario = newDate.toLocaleString().split(", ",2);
+      var split_giorno_mese_anno = split_data_orario[0].split("/",3);
+      var dataFormatoCorretto= split_giorno_mese_anno[2]+"-"+split_giorno_mese_anno[1]+"-"+split_giorno_mese_anno[0]+"T".concat(split_data_orario[1]+".000Z");
+
+      p.data_visita = this.convertiData(dataFormatoCorretto);
       hour++;
     }
     console.log("data after refresh: " + this.data);
+    for(let p of this.richieste){
+      p.data_visita="La data della visita non è assegnata";
+    }
+    for(let p of this.urgenti){
+      p.data_visita="La data della visita non è assegnata";
+    }
   }
 
   refresh(prenotazione : Prenotazione){
     console.log("data: " + this.data);
     console.log("prenotazione: ");
     console.log(prenotazione);
-    
     this.prenotazioneService.refreshPanelDetail(prenotazione);
   }
 
