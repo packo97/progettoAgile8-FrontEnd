@@ -1,11 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+
 import { MessageService } from 'primeng/api';
-import { Paziente } from '../richiesta-prenotazione/richiesta-prenotazione.component';
+import { Animale, Paziente } from '../richiesta-prenotazione/richiesta-prenotazione.component';
 import { AnimaleService } from '../services/animale.service';
 import { Dottore } from '../services/dottore.service';
 import { FileService } from '../services/file.service';
 import { HomeService } from '../services/home.service';
 import { PazienteService } from '../services/paziente.service';
+
+
+
+export class Prescrizione{
+  constructor(
+    public id: number,
+    public dottore: Dottore,
+    public animale: Animale,
+    public content: any
+  ){}
+}
 
 @Component({
   selector: 'app-cartella-clinica',
@@ -22,12 +34,7 @@ export class CartellaClinicaComponent implements OnInit {
 
   dottore: Dottore;
 
-  nome: string;
-  data_nascita: Date;
-  genere: string;
-  tipo: string;
-  altezza: number;
-  peso: number;
+  prescrizioni: Prescrizione[] = [];
 
   whoIsLogged: string;
 
@@ -56,6 +63,7 @@ export class CartellaClinicaComponent implements OnInit {
         }
       );
     }
+
   }
 
   ricerca(){
@@ -74,20 +82,42 @@ export class CartellaClinicaComponent implements OnInit {
       response => {
         console.log(response);
         this.loadAnimale(response);
+        this.fileService.getAllPrescrizioniByAnimale(this.pazienteSelezionato.animale).subscribe(
+          response => {
+            console.log(response);
+            for(let prescrizione of response){
+              this.prescrizioni.push(prescrizione);
+            }
+          }
+        );
       }
     );
+  }
+          
+  downloadPDF(prescrizione: Prescrizione){
+         
+    this.fileService.download(prescrizione.id).subscribe(
+      response => {
+        console.log("download");
+        console.log(response);
+        let file = new Blob([response], { type: 'application/pdf' });
+              
+        var fileURL = URL.createObjectURL(file);
+        
+        window.open(fileURL, '_blank');
+      });
   }
 
 
   salva(){
 
     let json = {
-      nome: this.nome,
+      /*nome: this.nome,
       data_nascita: this.data_nascita,
       genere: this.genere,
       tipo: this.tipo,
       peso: this.peso,
-      altezza: this.altezza,
+      altezza: this.altezza,*/
       paziente: this.pazienteSelezionato
     }
 
@@ -101,12 +131,8 @@ export class CartellaClinicaComponent implements OnInit {
   }
 
   loadAnimale(response: Object){
-    this.nome = this.pazienteSelezionato.animale[0]['nome'];
-    this.data_nascita = new Date(this.pazienteSelezionato.animale[0]['data_nascita']);
-    this.genere = this.pazienteSelezionato.animale[0]['genere'];
-    this.tipo = this.pazienteSelezionato.animale[0]['tipo'];
-    this.altezza = this.pazienteSelezionato.animale[0]['altezza'];
-    this.peso = this.pazienteSelezionato.animale[0]['peso'];
+    response[0].data_nascita = new Date(response[0].data_nascita);
+    this.pazienteSelezionato.animale = response[0];
   }
 
   onUpload(event) {
@@ -118,8 +144,8 @@ export class CartellaClinicaComponent implements OnInit {
       
       
       data.append('dottore', JSON.stringify(this.dottore));
-      data.append('animale', JSON.stringify(this.pazienteSelezionato.animale[0]));
-      console.log(data)
+      data.append('animale', JSON.stringify(this.pazienteSelezionato.animale));
+   
       this.fileService.uploadFile(data).subscribe(
         response => {
           console.log(response);

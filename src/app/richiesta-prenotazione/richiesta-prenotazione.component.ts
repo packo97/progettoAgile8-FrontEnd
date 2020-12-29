@@ -13,7 +13,19 @@ export class Paziente{
     public numero_telefono: string,
     public email: string,
     private password: string,
-    public animale: string
+    public animale: Animale
+  ){}
+}
+
+export class Animale{
+  constructor(
+    public id: number,
+    public nome: string,
+    public data_nascita: Date,
+    public tipo: string,
+    public genere: string,
+    public peso: number,
+    public altezza: number
   ){}
 }
 

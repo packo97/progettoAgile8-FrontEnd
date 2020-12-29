@@ -1,5 +1,5 @@
 <app-menu-bar></app-menu-bar>
-
+<div id=test></div>
 <div class="p-grid">
 
   <div class="p-col-1"></div>
@@ -43,30 +43,30 @@
 
       <p-tabView>
         <p-tabPanel header="Animale" >
-          <div class="p-grid">
+          <div class="p-grid" *ngIf="pazienteSelezionato.animale">
             <span class="p-float-label p-col-4">
-              <input id="inputNome" type="text" pInputText [(ngModel)]="nome"> 
+              <input id="inputNome" type="text" pInputText [(ngModel)]="pazienteSelezionato.animale.nome"> 
               <label for="inputNome">Nome</label>
             </span>
-            <p-calendar class="p-col-4" [(ngModel)]="data_nascita" placeholder="Seleziona data" dateFormat="dd-mm-yy"></p-calendar>
+            <p-calendar class="p-col-4" [(ngModel)]="pazienteSelezionato.animale.data_nascita" placeholder="Seleziona data" dateFormat="dd-mm-yy"></p-calendar>
     
             <span class="p-float-label p-col-4">
-              <input id="inputGenere" type="text" pInputText [(ngModel)]="genere"> 
+              <input id="inputGenere" type="text" pInputText [(ngModel)]="pazienteSelezionato.animale.genere"> 
               <label for="inputGenere">Genere</label>
             </span>
           </div>
           <hr>
-          <div class="p-grid">
+          <div class="p-grid" *ngIf="pazienteSelezionato.animale">
             <span class="p-float-label p-col-4">
-              <input id="inputTipo" type="text" pInputText [(ngModel)]="tipo"> 
+              <input id="inputTipo" type="text" pInputText [(ngModel)]="pazienteSelezionato.animale.tipo"> 
               <label for="inputTipo">Tipo</label>
             </span>
             <span class="p-float-label p-col-4">
-              <input id="inputPeso" type="text" pInputText [(ngModel)]="peso"> 
+              <input id="inputPeso" type="text" pInputText [(ngModel)]="pazienteSelezionato.animale.peso"> 
               <label for="inputPeso">Peso</label>
             </span>
             <span class="p-float-label p-col-4">
-              <input id="inputAltezza" type="text" pInputText [(ngModel)]="altezza"> 
+              <input id="inputAltezza" type="text" pInputText [(ngModel)]="pazienteSelezionato.animale.altezza"> 
               <label for="inputAltezza">Altezza</label>
             </span>
           </div>
@@ -76,13 +76,16 @@
         <p-tabPanel header="Prescrizioni">
           <p-fileUpload *ngIf="whoIsLogged=='dottore'" name="myfile[]" customUpload="true" multiple="multiple" (uploadHandler)="onUpload($event)" accept="application/pdf">
             <ng-template pTemplate="toolbar">
-                <div>Upload 3 Files</div>
+                <div></div>
             </ng-template>
             <ng-template let-file pTemplate="file">
                 <div>Custom UI to display a file</div>
             </ng-template>
             <ng-template pTemplate="content" let-files>
-                <div>Additional content.</div>
+                <div id="pdfList">
+                  <button *ngFor="let prescrizione of prescrizioni" pButton type="button" label="Download Prescrizione {{prescrizione.id}}" class="p-button-text" (click)=downloadPDF(prescrizione)></button>
+                  
+                </div>
             </ng-template>
           </p-fileUpload>
         </p-tabPanel>
