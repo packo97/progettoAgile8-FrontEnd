@@ -216,9 +216,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
       //p.data_visita=new Date(p.data_visita);
 
     }
-    alert(this.prenotazioni_accettate[0].data_visita);
-
-
+  
     this.prenotazioni_accettate.forEach(
       prenotazioni => {
         if(prenotazioni.id)
@@ -241,8 +239,10 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
     )
 
     for(let prenotazione of this.prenotazioni_accettate){
-      if(prenotazione.id != null)
+      if(prenotazione.id != null){
         this.prenotazioneService.updateStato(prenotazione);
+      }
+        
     }
 
     for(let prenotazione of this.richieste){
@@ -254,6 +254,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
       if(prenotazione.id != null)
         this.prenotazioneService.updateStato(prenotazione);
     }
+
 
     this.messageService.add({key: 'saved', severity:'success', summary: 'Saved', detail: 'Prenotazione Salvate'});
   }

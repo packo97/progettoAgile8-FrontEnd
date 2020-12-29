@@ -68,8 +68,13 @@ export class CartellaClinicaComponent implements OnInit {
         response => {
           console.log(response);
           this.pazienteSelezionato = response;
-          //solo il primo per ora
-          this.loadAnimale(response.animale);
+          this.animaleService.getAnimali(this.pazienteSelezionato).subscribe(
+            response => {
+              console.log(response);
+              this.loadAnimale(response);
+
+            }
+          );
           
         }
       );
@@ -101,26 +106,7 @@ export class CartellaClinicaComponent implements OnInit {
       response => {
         console.log(response);
         this.loadAnimale(response);
-        if(this.animaleSelezionato!=null)
-          for(let animale of this.pazienteSelezionato.animale){
-            this.fileService.getAllPrescrizioniByAnimale(animale).subscribe(
-              response => {
-                console.log(response);
-                for(let prescrizione of response){
-                  this.prescrizioni.push(prescrizione);
-                }
-              }
-            );
-
-          this.fileService.getAllRicevuteByAnimale(animale).subscribe(
-            response => {
-              console.log(response);
-              for(let ricevuta of response){
-                this.ricevute.push(ricevuta);
-              }
-            }
-          );
-        }
+        
           
       }
     );
@@ -180,13 +166,34 @@ export class CartellaClinicaComponent implements OnInit {
   }
 
   loadAnimale(response: Animale[]){
-    for(let r of response)
-      r.data_nascita = new Date(r.data_nascita);
+    
+    if(response != null){
+      for(let r of response)
+        r.data_nascita = new Date(r.data_nascita);
+        this.pazienteSelezionato.animale = response;
+        this.animaleSelezionato = this.pazienteSelezionato.animale[0];
+      }
 
-    if(response.length>0){
-      this.pazienteSelezionato.animale = response;
-      this.animaleSelezionato = this.pazienteSelezionato.animale[0];
-    }
+    if(this.animaleSelezionato!=null)
+    for(let animale of this.pazienteSelezionato.animale){
+      this.fileService.getAllPrescrizioniByAnimale(animale).subscribe(
+        response => {
+          console.log(response);
+          for(let prescrizione of response){
+            this.prescrizioni.push(prescrizione);
+          }
+        }
+      );
+
+    this.fileService.getAllRicevuteByAnimale(animale).subscribe(
+      response => {
+        console.log(response);
+        for(let ricevuta of response){
+          this.ricevute.push(ricevuta);
+        }
+      }
+    );
+  }
   }
 
   onUploadPrescrizioni(event) {

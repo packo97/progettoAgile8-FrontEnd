@@ -22,8 +22,8 @@
       <p-header class="p-grid">
         <div class="p-col-1"></div>
         <h1 class="p-col-3">{{pazienteSelezionato.nome}} {{pazienteSelezionato.cognome}}</h1>
-        <button pButton type="button" icon="pi pi-plus" label="Inserisci Prenotazione" (click)=showFormInserisciPrenotazione() class="p-col-2 p-button-warning"></button>
-        <button pButton type="button" icon="pi pi-info-circle" label="Vista globale" (click)=show() class="p-col-2"></button>
+        <button *ngIf="whoIsLogged=='dottore'" pButton type="button" icon="pi pi-plus" label="Inserisci Prenotazione" (click)=showFormInserisciPrenotazione() class="p-col-2 p-button-warning"></button>
+        <button *ngIf="whoIsLogged=='dottore'" pButton type="button" icon="pi pi-info-circle" label="Vista globale" (click)=show() class="p-col-2"></button>
         <button pButton type="button" label="Salva" icon="pi pi-save" (click)=salva() class="p-col-2 p-button-success"></button>
         <div class="p-col-1"></div>
       </p-header>
@@ -86,33 +86,19 @@
 
         <p-tabPanel header="Prescrizioni">
           <p-fileUpload *ngIf="whoIsLogged=='dottore'" name="myfile[]" customUpload="true" multiple="multiple" (uploadHandler)="onUploadPrescrizioni($event)" accept="application/pdf">
-            <ng-template pTemplate="toolbar">
-                <div></div>
-            </ng-template>
-            <ng-template let-file pTemplate="file">
-            </ng-template>
-            <ng-template pTemplate="content" let-files>
-                <div id="pdfList" *ngFor="let prescrizione of prescrizioni">
-                  <button *ngIf="prescrizione.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download Prescrizione {{prescrizione.id}} associata all'animale {{prescrizione.animale.nome}}" class="p-button-text" (click)=downloadPrescrizione(prescrizione)></button>
-                </div>
-            </ng-template>
           </p-fileUpload>
+          <div id="pdfList" *ngFor="let prescrizione of prescrizioni">
+            <button *ngIf="prescrizione.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download Prescrizione {{prescrizione.id}} associata all'animale {{prescrizione.animale.nome}}" class="p-button-text" (click)=downloadPrescrizione(prescrizione)></button>
+          </div>
         </p-tabPanel>
 
 
         <p-tabPanel header="Ricevute">
           <p-fileUpload *ngIf="whoIsLogged=='dottore'" name="myfile[]" customUpload="true" multiple="multiple" (uploadHandler)="onUploadRicevute($event)" accept="application/pdf">
-            <ng-template pTemplate="toolbar">
-                <div></div>
-            </ng-template>
-            <ng-template let-file pTemplate="file">
-            </ng-template>
-            <ng-template pTemplate="content" let-files>
-                <div id="ricevuteList" *ngFor="let ricevuta of ricevute">
-                  <button *ngIf="ricevuta.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download Ricevuta {{ricevuta.id}} associata all'animale {{ricevuta.animale.nome}}" class="p-button-text" (click)=downloadRicevuta(ricevuta)></button>
-                </div>
-            </ng-template>
           </p-fileUpload>
+          <div id="ricevuteList" *ngFor="let ricevuta of ricevute">
+            <button *ngIf="ricevuta.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download Ricevuta {{ricevuta.id}} associata all'animale {{ricevuta.animale.nome}}" class="p-button-text" (click)=downloadRicevuta(ricevuta)></button>
+          </div>
         </p-tabPanel>
       </p-tabView>
 
@@ -149,7 +135,7 @@
   <div id="test"></div>
 </p-dialog>
 
-<p-dialog header="Inserisci prenotazione" [(visible)]="displayAnimale" [style]="{width: '70vw', heigth: '200vw'}">
+<p-dialog header="Inserisci animale" [(visible)]="displayAnimale" [style]="{width: '70vw', heigth: '200vw'}">
   <div class="p-grid" >
     <span class="p-float-label p-col-4">
       <input id="inputNome" type="text" pInputText [(ngModel)]="this.newAnimale.nome"> 
