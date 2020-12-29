@@ -122,6 +122,8 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
       var dataFormatoCorretto= split_giorno_mese_anno[2]+"-"+split_giorno_mese_anno[1]+"-"+split_giorno_mese_anno[0]+"T".concat(split_data_orario[1]+".000Z");
 
       p.data_visita = this.convertiData(dataFormatoCorretto);
+      //p.data_visita = dataFormatoCorretto;
+
       hour++;
     }
     console.log("data after refresh: " + this.data);
@@ -132,6 +134,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
       p.data_visita="La data della visita non è assegnata";
     }
   }
+  
 
   refresh(prenotazione : Prenotazione){
     console.log("data: " + this.data);
@@ -202,6 +205,20 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
 
 
   salva(){
+
+    for(let p of this.prenotazioni_accettate){
+      var split_data_orario = p.data_visita.split("  ",2);
+      console.log(split_data_orario);
+      var split_giorno_mese_anno = split_data_orario[0].split("-",3);
+      var dataFormatoCorretto= split_giorno_mese_anno[2]+"-"+split_giorno_mese_anno[1]+"-"+split_giorno_mese_anno[0]+"T".concat(split_data_orario[1]+":00.000Z");
+      p.data_visita=new Date(dataFormatoCorretto);
+
+      //p.data_visita=new Date(p.data_visita);
+
+    }
+    alert(this.prenotazioni_accettate[0].data_visita);
+
+
     this.prenotazioni_accettate.forEach(
       prenotazioni => {
         if(prenotazioni.id)

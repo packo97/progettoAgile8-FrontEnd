@@ -10,6 +10,11 @@ export class AnimaleService {
   constructor(private httpClient: HttpClient) { }
 
   salva(json: any){
+
+    return this.httpClient.put("http://localhost:8080/restex/animale", json);
+  }
+  add(json: any){
+
     return this.httpClient.post("http://localhost:8080/restex/animale", json);
   }
 

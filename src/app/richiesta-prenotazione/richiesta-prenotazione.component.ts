@@ -25,6 +25,7 @@ export class Animale{
     public tipo: string,
     public genere: string,
     public peso: number,
+    public paziente:Paziente,
     public altezza: number
   ){}
 }

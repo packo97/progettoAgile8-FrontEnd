@@ -2,12 +2,14 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Prenotazione } from '../prenotazione/prenotazione.component';
 import { Animale, Paziente } from '../richiesta-prenotazione/richiesta-prenotazione.component';
 import { AnimaleService } from '../services/animale.service';
 import { Dottore } from '../services/dottore.service';
 import { FileService } from '../services/file.service';
 import { HomeService } from '../services/home.service';
 import { PazienteService } from '../services/paziente.service';
+import { PrenotazioneService } from '../services/prenotazione.service';
 import { VistaGlobaleComponent } from '../vista-globale/vista-globale.component';
 
 
@@ -55,7 +57,7 @@ export class CartellaClinicaComponent implements OnInit {
 
 
 
-  constructor(private dialogService: DialogService,private homeService: HomeService, private pazienteService: PazienteService, private animaleService: AnimaleService, private messageService: MessageService, private fileService: FileService) { }
+  constructor(private dialogService: DialogService,private prenotazioneService: PrenotazioneService, private homeService: HomeService, private pazienteService: PazienteService, private animaleService: AnimaleService, private messageService: MessageService, private fileService: FileService) { }
 
   ngOnInit() {
 
@@ -99,16 +101,16 @@ export class CartellaClinicaComponent implements OnInit {
       response => {
         console.log(response);
         this.loadAnimale(response);
-
-        for(let animale of this.pazienteSelezionato.animale){
-          this.fileService.getAllPrescrizioniByAnimale(animale).subscribe(
-            response => {
-              console.log(response);
-              for(let prescrizione of response){
-                this.prescrizioni.push(prescrizione);
+        if(this.animaleSelezionato!=null)
+          for(let animale of this.pazienteSelezionato.animale){
+            this.fileService.getAllPrescrizioniByAnimale(animale).subscribe(
+              response => {
+                console.log(response);
+                for(let prescrizione of response){
+                  this.prescrizioni.push(prescrizione);
+                }
               }
-            }
-          );
+            );
 
           this.fileService.getAllRicevuteByAnimale(animale).subscribe(
             response => {
@@ -123,7 +125,7 @@ export class CartellaClinicaComponent implements OnInit {
       }
     );
   }
-          
+
   downloadPrescrizione(prescrizione: Prescrizione){
          
     this.fileService.downloadPrescrizione(prescrizione.id).subscribe(
@@ -181,8 +183,10 @@ export class CartellaClinicaComponent implements OnInit {
     for(let r of response)
       r.data_nascita = new Date(r.data_nascita);
 
-    this.pazienteSelezionato.animale = response;
-    this.animaleSelezionato = this.pazienteSelezionato.animale[0];
+    if(response.length>0){
+      this.pazienteSelezionato.animale = response;
+      this.animaleSelezionato = this.pazienteSelezionato.animale[0];
+    }
   }
 
   onUploadPrescrizioni(event) {
@@ -250,15 +254,64 @@ export class CartellaClinicaComponent implements OnInit {
 
 
   display: boolean = false;
+  displayAnimale: boolean = false;
   problema: string;
   bloccata: boolean;
-  slotLiberi: any[] = [];
-  slotSelezionato: any;
+  slotLiberi: string[] = [];
+  slotSelezionato: string;
+
+  newAnimale : Animale= new Animale(1,null,null,null,null,null,null,null);
+
   showFormInserisciPrenotazione() {
       this.display = true;
   }
 
   inserisciPrenotazione(){
-    alert("prenotazione");
+    let ora = Number(this.slotSelezionato.replace("Time-slot libero alle ",""));
+    this.data.setHours(ora+1); //TODO bug da risolvere
+    alert(this.data);
+   
+    let p=new Prenotazione(1,this.problema,this.pazienteSelezionato,this.dottore,true,this.data,false);
+    this.prenotazioneService.addRichiestaPrenotazione(p)
+    this.messageService.add({key: 'saved', severity:'success', summary: 'Saved', detail: 'Prenotazione inserita'});
+    this.display=false;
+    
+    
+  }
+  inserisciAnimale(){
+    this.newAnimale.paziente=this.pazienteSelezionato;
+    this.animaleService.add(this.newAnimale).subscribe(
+      response =>{
+        console.log(response);
+        this.messageService.add({key: 'saved', severity:'success', summary: 'Saved', detail: 'Animale inserito correttamente'});
+        this.displayAnimale=false;
+      }
+    );
+  }
+  showDialogAnimale(){
+    this.displayAnimale=true;
+  }
+
+  public data:Date;   
+  refreshSlot(){
+    
+    this.prenotazioneService.getAllPrenotazioniByDoctorAndDate(this.dottore,this.data).subscribe(
+      response =>{        
+        for(let i=0; i<12; i++){
+          let presente=false;
+          for(let p of response){
+              var orario = new Date(p.data_visita).getHours();
+              if(orario==i+9)
+              {
+                presente=true;
+              }
+            }
+            if(!presente){
+              let ora=i+9;
+              this.slotLiberi.push("Time-slot libero alle "+ ora);
+            }
+          }
+      }
+    );
   }
 }
