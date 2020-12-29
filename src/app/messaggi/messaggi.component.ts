@@ -11,7 +11,7 @@ export class Messaggio{
     public oggetto: string,
     public data: any,
     public vista: boolean,
-    public segretaria: boolean,
+    public ricevitore: string,
     public paziente: any,
     public dottore: String,
     ){}
@@ -49,6 +49,22 @@ export class MessaggiComponent implements OnInit {
       );
     else if(sessionStorage.getItem('profile')=="segretaria")
         this.messaggiService.getNotificheSegretaria().subscribe(
+          response => {
+            console.log(response);
+            for (let i = 0; i < response.length; i++) {
+                response[i].data=this.convertiData(response[i].data)
+            }
+            this.messaggi = response;
+            if(this.messaggi.length==0){
+              this.vuota=true;
+            }
+            else{
+              this.vuota=false;
+            }
+          }
+        );
+        else if(sessionStorage.getItem('profile')=="dottore")
+        this.messaggiService.getNotificheDottore(sessionStorage.getItem('user')).subscribe(
           response => {
             console.log(response);
             for (let i = 0; i < response.length; i++) {

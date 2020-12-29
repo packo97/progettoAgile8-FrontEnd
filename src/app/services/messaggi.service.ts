@@ -21,8 +21,17 @@ getNotificheSegretaria() {
 getNotifichePaziente(email: String) {
   return this.httpClient.get<Messaggio[]>(`http://localhost:8080/restex/notificheByPaziente/${email}`);
 }
-thereAreAnyNewMessage(email: String) {
+getNotificheDottore(email: String) {
+  return this.httpClient.get<Messaggio[]>(`http://localhost:8080/restex/notificheByDottore/${email}`);
+}
+thereAreAnyNewMessagePaziente(email: String) {
   return this.httpClient.get<Nuovimessaggi>(`http://localhost:8080/restex/newNotificheByPaziente/${email}`);
+}
+thereAreAnyNewMessageSegretaria() {
+  return this.httpClient.get<Nuovimessaggi>(`http://localhost:8080/restex/newNotificheBySegretaria`);
+}
+thereAreAnyNewMessageDottore(email: String) {
+  return this.httpClient.get<Nuovimessaggi>(`http://localhost:8080/restex/newNotificheByDottore/${email}`);
 }
 cancellaMessaggio(messaggio: Messaggio) {
   this.httpClient.delete("http://localhost:8080/restex/cancellaMessaggio/"+messaggio.id).subscribe(

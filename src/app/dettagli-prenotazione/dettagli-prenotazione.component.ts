@@ -23,15 +23,20 @@ export class DettagliPrenotazioneComponent implements OnInit {
   }
 
   convertiData(data){
-    if(data==null || data=="La data della visità non è assegnata")
-      return "La data della visità non è assegnata";
     console.log(data);
+    if(data==null || data=="La data della visita non è assegnata")
+      return "La data della visita non è assegnata";
+  
     var str = data.toString(); 
     var giorni = str.split("T",2); 
-    var dataCorretta = giorni[0].toString().split("-"); 
-    var oreMinuti = giorni[1].toString().split(":",2);
-    var s =dataCorretta[2]+"-"+dataCorretta[1]+"-"+dataCorretta[0]+"  "+oreMinuti[0]+":"+oreMinuti[1];
-    return s;
+    if(giorni.length==2)
+    { 
+      var dataCorretta = giorni[0].toString().split("-"); 
+      var oreMinuti = giorni[1].toString().split(":",2);
+      var s =dataCorretta[2]+"-"+dataCorretta[1]+"-"+dataCorretta[0]+"  "+oreMinuti[0]+":"+oreMinuti[1];
+      return s;
+    }
+    return data;
 
   }
 

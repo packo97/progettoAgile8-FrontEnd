@@ -33,19 +33,50 @@ export class MenuBarComponent implements OnInit {
       {label: 'Messaggi ', icon: 'pi pi-fw pi-envelope', routerLink:"/messaggi"},
       {label: 'Log out', icon: 'pi pi-fw pi-cog', command: () => this.logout()}
      ];
-
-    this.messaggiService.thereAreAnyNewMessage(sessionStorage.getItem('user')).subscribe(
-      response =>{
-        if(response['nuoviMessaggi']=="true")
-        {
-          this.icona= 'pi pi-fw pi-spin pi-envelope';
-          this.items[2].icon=this.icona;
+     
+     if(sessionStorage.getItem('profile')=="paziente"){
+      this.messaggiService.thereAreAnyNewMessagePaziente(sessionStorage.getItem('user')).subscribe(
+        response =>{
+          if(response['nuoviMessaggi']=="true")
+          {
+            this.icona= 'pi pi-fw pi-spin pi-envelope';
+            this.items[2].icon=this.icona;
+          }
+         
+         this.activeItem = this.items[0];
+  
         }
-       
-       this.activeItem = this.items[0];
-
-      }
-    );
+      );
+     }
+     else if(sessionStorage.getItem('profile')=="segretaria"){
+      this.messaggiService.thereAreAnyNewMessageSegretaria().subscribe(
+        response =>{
+          if(response['nuoviMessaggi']=="true")
+          {
+            this.icona= 'pi pi-fw pi-spin pi-envelope';
+            this.items[2].icon=this.icona;
+          }
+         
+         this.activeItem = this.items[0];
+  
+        }
+      );
+     }
+     else if(sessionStorage.getItem('profile')=="dottore"){
+      this.messaggiService.thereAreAnyNewMessageDottore(sessionStorage.getItem('user')).subscribe(
+        response =>{
+          if(response['nuoviMessaggi']=="true")
+          {
+            this.icona= 'pi pi-fw pi-spin pi-envelope';
+            this.items[2].icon=this.icona;
+          }
+         
+         this.activeItem = this.items[0];
+  
+        }
+      );
+     }
+    
      
     
   }
