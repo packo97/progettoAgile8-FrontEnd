@@ -167,7 +167,7 @@ export class CartellaClinicaComponent implements OnInit {
 
   loadAnimale(response: Animale[]){
     
-    if(response != null){
+    if(response.length >0){
       for(let r of response)
         r.data_nascita = new Date(r.data_nascita);
         this.pazienteSelezionato.animale = response;
