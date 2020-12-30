@@ -205,18 +205,19 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
 
 
   salva(){
+    let cloned = this.prenotazioni_accettate.map(x => Object.assign({}, x));
 
-    for(let p of this.prenotazioni_accettate){
+    for(let p of cloned){
       var split_data_orario = p.data_visita.split("  ",2);
       console.log(split_data_orario);
       var split_giorno_mese_anno = split_data_orario[0].split("-",3);
       var dataFormatoCorretto= split_giorno_mese_anno[2]+"-"+split_giorno_mese_anno[1]+"-"+split_giorno_mese_anno[0]+"T".concat(split_data_orario[1]+":00.000Z");
-      p.data_visita=new Date(dataFormatoCorretto);
+      p.data_visita=dataFormatoCorretto;
 
       //p.data_visita=new Date(p.data_visita);
 
     }
-  
+ 
     this.prenotazioni_accettate.forEach(
       prenotazioni => {
         if(prenotazioni.id)
@@ -240,7 +241,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
       }
     )
 
-    for(let prenotazione of this.prenotazioni_accettate){
+    for(let prenotazione of cloned){
       if(prenotazione.id != null){
         this.prenotazioneService.updateStato(prenotazione);
       }
