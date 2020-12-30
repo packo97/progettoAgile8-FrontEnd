@@ -227,6 +227,8 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
       prenotazioni => {
         prenotazioni.confermato = false;
         prenotazioni.data_visita = null;
+        prenotazioni.urgente = false;
+
       }
     )
 
