@@ -263,7 +263,6 @@ export class CartellaClinicaComponent implements OnInit {
   display: boolean = false;
   displayAnimale: boolean = false;
   problema: string;
-  bloccata: boolean;
   slotLiberi: string[] = [];
   slotSelezionato: string;
 
