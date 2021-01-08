@@ -28,7 +28,17 @@ export class Ricevuta{
     public id: number,
     public dottore: Dottore,
     public animale: Animale,
-    public content: any
+    public content: any,
+  ){}
+}
+
+export class Esame{
+  constructor(
+    public id: number,
+    public descrizione: string,
+    public dottore: Dottore,
+    public animale: Animale,
+    public content: any,
   ){}
 }
 
@@ -51,17 +61,19 @@ export class CartellaClinicaComponent implements OnInit {
 
   ricevute: Ricevuta[] = [];
 
+  esami: Esame[] = [];
+
   whoIsLogged: string;
 
   animaleSelezionato: Animale;
 
-
+  display_descrizione: boolean;
 
   constructor(private dialogService: DialogService,private prenotazioneService: PrenotazioneService, private homeService: HomeService, private pazienteService: PazienteService, private animaleService: AnimaleService, private messageService: MessageService, private fileService: FileService) { }
 
   ngOnInit() {
 
-
+    this.display_descrizione=false;
     this.whoIsLogged = sessionStorage.getItem("profile");
     if(this.whoIsLogged=="paziente"){
       this.homeService.getPaziente(sessionStorage.getItem("user")).subscribe(
@@ -140,6 +152,20 @@ export class CartellaClinicaComponent implements OnInit {
       });
   }
 
+  downloadEsame(esame: Esame){
+         
+    this.fileService.downloadEsame(esame.id).subscribe(
+      response => {
+        console.log("download");
+        console.log(response);
+        let file = new Blob([response], { type: 'application/pdf' });
+              
+        var fileURL = URL.createObjectURL(file);
+        
+        window.open(fileURL, '_blank');
+      });
+  }
+
 
   salva(){
     for(let animale of this.pazienteSelezionato.animale){
@@ -190,6 +216,15 @@ export class CartellaClinicaComponent implements OnInit {
         console.log(response);
         for(let ricevuta of response){
           this.ricevute.push(ricevuta);
+        }
+      }
+    );
+
+    this.fileService.getAllEsamiByAnimale(animale).subscribe(
+      response => {
+        console.log(response);
+        for(let esame of response){
+          this.esami.push(esame);
         }
       }
     );
@@ -247,6 +282,40 @@ export class CartellaClinicaComponent implements OnInit {
       detail: ''
     });
   }
+  showDialogDescrizione(event){
+    this.display_descrizione=true;
+    for (let file of event.files) {
+      this.datiesame.append('file', file);
+      
+      
+      this.datiesame.append('dottore', JSON.stringify(this.dottore));
+      this.datiesame.append('animale', JSON.stringify(this.animaleSelezionato));
+    
+    }
+  }
+  datiesame = new FormData();
+  onUploadEsami() {
+    
+    
+    this.datiesame.append('descrizione', this.descrizione);
+
+    
+      
+      console.log(this.descrizione);
+      this.fileService.uploadEsami(this.datiesame).subscribe(
+        response => {
+          console.log(response);
+        }
+      );
+    
+
+    this.messageService.add({
+      key: 'saved',
+      severity: 'success',
+      summary: 'File Uploaded',
+      detail: ''
+    });
+  }
 
   ref: DynamicDialogRef;
 
@@ -265,6 +334,7 @@ export class CartellaClinicaComponent implements OnInit {
   problema: string;
   slotLiberi: string[] = [];
   slotSelezionato: string;
+  descrizione: string;
 
   newAnimale : Animale= new Animale(1,null,null,null,null,null,null,null);
 

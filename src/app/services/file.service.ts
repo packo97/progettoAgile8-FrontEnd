@@ -17,12 +17,20 @@ export class FileService {
     return this.httpClient.post("http://localhost:8080/restex/ricevuta",fd);
   }
 
+  uploadEsami(fd: FormData){
+    return this.httpClient.post("http://localhost:8080/restex/esame",fd);
+  }
+
   getAllPrescrizioniByAnimale(animale: Animale){
     return this.httpClient.post<any[]>("http://localhost:8080/restex/prescrizioniByAnimale",animale);
   }
 
   getAllRicevuteByAnimale(animale: Animale){
     return this.httpClient.post<any[]>("http://localhost:8080/restex/ricevuteByAnimale",animale);
+  }
+
+  getAllEsamiByAnimale(animale: Animale){
+    return this.httpClient.post<any[]>("http://localhost:8080/restex/esamiByAnimale",animale);
   }
 
   downloadPrescrizione(id: number): any {
@@ -37,5 +45,12 @@ export class FileService {
        'responseType'  : 'blob' as 'json'    
     };
     return this.httpClient.get<any>(`http://localhost:8080/restex/ricevutaPDF/${id}`,httpOptions);
+  }
+
+  downloadEsame(id: number): any {
+    const httpOptions = {
+       'responseType'  : 'blob' as 'json'    
+    };
+    return this.httpClient.get<any>(`http://localhost:8080/restex/esamePDF/${id}`,httpOptions);
   }
 }

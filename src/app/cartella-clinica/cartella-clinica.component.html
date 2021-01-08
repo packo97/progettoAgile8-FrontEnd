@@ -100,6 +100,34 @@
             <button *ngIf="ricevuta.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download Ricevuta {{ricevuta.id}} associata all'animale {{ricevuta.animale.nome}}" class="p-button-text" (click)=downloadRicevuta(ricevuta)></button>
           </div>
         </p-tabPanel>
+
+        <p-tabPanel header="Esami medici">
+          <p-fileUpload *ngIf="whoIsLogged=='dottore'" name="myfile[]"  customUpload="true" multiple="multiple" (uploadHandler)="showDialogDescrizione($event)" accept="application/pdf">
+          </p-fileUpload>
+          <div class="p-grid">
+           </div>
+          <hr>
+          <table style="width:100%">
+            <tr>
+              <th>Descrizione esame</th>
+              <th class="tuttoadestra">Download</th>
+            </tr>
+              <!--<div id="esamiList" *ngFor="let esame of esami"> -->
+           
+              <tr id="esamiList" *ngFor="let esame of esami">
+                <td>{{esame.descrizione}} di {{esame.animale.nome}}</td>
+                <td class="tuttoadestra">             
+                   <button *ngIf="esame.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download"  class="p-button-text"  (click)=downloadEsame(esame)></button>
+                </td>
+
+              </tr>
+              <!--
+              <button *ngIf="esame.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download Esame {{esame.id}} associato all'animale {{esame.animale.nome}}" class="p-button-text" (click)=downloadEsame(esame)></button>
+              <p>Descrizione esame: {{esame.descrizione}}</p>
+              -->
+              <!--</div> -->
+          </table>  
+        </p-tabPanel>
       </p-tabView>
 
     </p-card>
@@ -164,4 +192,15 @@
   <hr>
   <button pButton type="button" label="Salva" icon="pi pi-save" (click)= inserisciAnimale() class="p-col-2 p-button-success"></button>
       
+</p-dialog>
+
+
+<p-dialog header="Inserisci descrizione esame medico" [(visible)]="display_descrizione">
+  <div class="p-grid">
+    <label for="inputDescrizione" class="p-col-3">Descrizione: </label>
+    <textarea id="inptDescrizione" [rows]="3" [cols]="57" pInputTextarea autoResize="autoResize" [(ngModel)]="descrizione" value="descrizione"></textarea> 
+    <button pButton type="button" label="Salva" icon="pi pi-save" (click)= onUploadEsami() class="p-col-2 p-button-success"></button>
+
+  
+  </div>
 </p-dialog>
