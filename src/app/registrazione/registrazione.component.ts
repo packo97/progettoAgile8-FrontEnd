@@ -21,6 +21,9 @@ export class RegistrazioneComponent implements OnInit {
   descrizione: string = "";
   codice_identificativo_veterinario: string = ""
 
+  regexpCF : RegExp = new RegExp('^[a-zA-Z]{6}[0-9]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9]{2}([a-zA-Z]{1}[0-9]{3})[a-zA-Z]{1}$');
+  regexpNT : RegExp = new RegExp('^[0-9]+$');
+
 
   constructor(
     private route : Router,
@@ -46,9 +49,31 @@ export class RegistrazioneComponent implements OnInit {
 
   registrazione(){
     if(this.nome=="" || this.cognome=="" || this.codice_fiscale=="" || this.numero_telefono=="" || this.email=="" || this.password=="")
-    {
-      this.salva();
+      this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Compila tutti i campi'});
+    else if(this.regexpNT.test(this.numero_telefono)==false)
+      this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Il numero di telefono non è valido'});
+    else if(this.regexpCF.test(this.codice_fiscale)==false)
+      this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Il codice fiscale non è valido'});
+    else if(this.numero_telefono.length<9 || this.numero_telefono.length>12)
+      this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Inserisci un numero di telefono valido'});
+    else if(this.password.length<8)
+      this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Password troppo corta'});
+    else if(this.password.length>25)
+      this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Password troppo lunga'});
+    else if(this.email!="" && this.email!=null)
+    {     
+      var emailDiviso = this.email.split("@",2);
+      if(emailDiviso.length==2)
+      {
+        var emailDiviso2 = emailDiviso[1].split(".",2);
+        if(emailDiviso2.length!=2)
+          this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Inserisci una email valida'});
+      }
+      else{
+        this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Inserisci una email valida'});
+      }
     }
+
     else{
       if(this.tipo_registrazione == "paziente"){
         var jsonPaziente = {
@@ -89,16 +114,10 @@ export class RegistrazioneComponent implements OnInit {
         this.route.navigate(['login']);
       }
       else{
-        this.salva2()
+        this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Seleziona una categoria di utente'});
       }
     }
     
   }
 
-  salva2(){
-    this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Seleziona una categoria di utente'});
-  }
-  salva(){
-    this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Inserisci dei dati validi'});
-  }
 }

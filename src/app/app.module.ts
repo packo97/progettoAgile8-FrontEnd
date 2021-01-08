@@ -26,6 +26,7 @@ import {RouteGuardService} from 'src/app/services/routeGuard.service';
 import {AutenticazioneService} from 'src/app/services/autenticazione.service';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { RecuperaPasswordComponent } from './recupera-password/recupera-password.component';
 
 import { HomeService} from 'src/app/services/home.service';
 import { PrenotazioneService} from 'src/app/services/prenotazione.service'
@@ -85,7 +86,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
       MenuBarComponent,
       VistaGlobaleComponent,
       MessaggiComponent,
-      InfoAccountComponent
+      InfoAccountComponent,
+      RecuperaPasswordComponent,
    ],
   imports: [
     BrowserModule,
