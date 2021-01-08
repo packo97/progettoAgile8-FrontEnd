@@ -9,10 +9,12 @@ import { RouteGuardService } from './services/routeGuard.service';
 import { CartellaClinicaComponent } from './cartella-clinica/cartella-clinica.component';
 import { VistaGlobaleComponent } from './vista-globale/vista-globale.component';
 import { MessaggiComponent } from './messaggi/messaggi.component';
+import { RecuperaPasswordComponent } from './recupera-password/recupera-password.component';
 
 const routes: Routes = [
   {path : 'registrazione', component : RegistrazioneComponent},
   {path : 'login', component : LoginComponent},
+  {path : 'recuperaPassword', component : RecuperaPasswordComponent},
   {path : 'home/:whoIsLogged', component : HomeComponent,  canActivate: [RouteGuardService]},
   {path : 'cartella', component: CartellaClinicaComponent},
   {path : 'globale', component: VistaGlobaleComponent},
