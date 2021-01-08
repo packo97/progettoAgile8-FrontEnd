@@ -1,0 +1,82 @@
+<app-menu-bar></app-menu-bar>
+
+<div id="headerAccount" class="p-grid">
+  <div class="p-col-2"></div>
+  <p-card class="p-col-8" align="center">
+    <img *ngIf="img==null" src="/assets/dog.png"/>
+    <img *ngIf="img!=null" [src]="img">
+    <p-fileUpload mode="basic" (uploadHandler)=upload($event) name="demo[]" customUpload="true" accept="image/*" maxFileSize="10000" chooseLabel="Modifica"></p-fileUpload>
+    <hr>
+    <b *ngIf="!modifica" id="nome-cognome">{{nome}} {{cognome}}</b>
+    <input *ngIf="modifica" type="text" pInputText [(ngModel)]="nome"/>
+    <input *ngIf="modifica" type="text" pInputText [(ngModel)]="cognome"/>
+  </p-card>
+  <div class="p-col-2"></div>  
+</div>
+
+<div id="contentAccount" class="p-grid">
+  <div class="p-col-2"></div>
+  <p-card class="p-col-4">
+    <div class="p-grid">
+      <b class="p-col-3">Codice Fiscale: </b>
+      <div class="p-col-8"></div>
+    </div>
+    <p *ngIf="!modifica">{{codice_fiscale}}</p>
+    <input *ngIf="modifica" type="text" pInputText [(ngModel)]="codice_fiscale"/>
+  </p-card>
+  <p-card class="p-col-4">
+    <div class="p-grid">
+      <b class="p-col-5">Numero di telefono: </b>
+      <div class="p-col-6"></div>
+    </div>
+    <p *ngIf="!modifica">{{numero_telefono}}</p>
+    <input *ngIf="modifica" type="text" pInputText [(ngModel)]="numero_telefono"/>
+  </p-card>
+  <div class="p-col-2"></div>
+</div>
+
+<div id="contentAccount" class="p-grid">
+  <div class="p-col-2"></div>
+  <p-card class="p-col-4">
+    <div class="p-grid">
+      <b class="p-col-3">Email: </b>
+      <div class="p-col-8"></div>
+    </div>
+    <p *ngIf="!modifica">{{email}}</p>
+    <input *ngIf="modifica" type="text" pInputText [(ngModel)]="email"/>
+  </p-card>
+  <p-card class="p-col-4" *ngIf="animali!=null">
+    <div class="p-grid">
+      <span *ngFor="let animale of animali" class="p-col-2" align="center">
+        <img src="/assets/dog.png"/>
+        <b>{{animale.nome}}</b>
+      </span> 
+    </div> 
+  </p-card>
+  <div class="p-col-2"></div>
+</div>
+
+<div id="footerAccount" class="p-grid">
+  <div class="p-col-2"></div>
+  <button pButton type="button" label="Cambia Password" class="p-button-raised p-button-danger" (click)=cambiaPassword()></button>
+  <button *ngIf="!modifica" pButton type="button" label="Modifa dati" icon="pi pi-pencil" class="p-button-raised p-button-info" (click)=attivaModifica()></button>
+  <button *ngIf="modifica" pButton type="button" label="Salva dati" icon="pi pi-save" class="p-button-raised p-button-success" (click)=salvaModifica()></button>
+  <div class="p-col-2"></div>
+</div>
+
+
+<p-dialog header="Cambia password" [(visible)]="showDialog">
+  <div class="p-float-label fieldDialog">
+    <input id="float-input" type="password" [(ngModel)]="passwordVecchia" pInputText> 
+    <label for="float-input">Password vecchia</label>
+  </div>
+  <div class="p-float-label fieldDialog">
+    <input id="float-input" type="password" [(ngModel)]="passwordNuova" pInputText> 
+    <label for="float-input">Password nuova</label>
+  </div>
+  <button pButton type="button" label="Salva Password" icon="pi pi-save" class="p-button-raised p-button-success fieldDialog" (click)=salvaPassword()></button>
+ 
+</p-dialog>
+
+<p-toast key="saved" position="bottom-right"></p-toast>
+  

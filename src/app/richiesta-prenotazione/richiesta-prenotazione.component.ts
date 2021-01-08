@@ -12,8 +12,9 @@ export class Paziente{
     public codice_fiscale: string,
     public numero_telefono: string,
     public email: string,
-    private password: string,
-    public animale: Animale[]
+    public password: string,
+    public animale: Animale[],
+    public img: any
   ){}
 }
 
