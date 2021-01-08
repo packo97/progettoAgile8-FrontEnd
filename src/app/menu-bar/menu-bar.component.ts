@@ -31,6 +31,7 @@ export class MenuBarComponent implements OnInit {
       {label: 'Veterinary Clinic', icon: 'pi pi-fw pi-home', routerLink: "/home/"+sessionStorage.getItem("profile")},
       {label: 'Cartella ',  icon: 'pi pi-fw pi-file', routerLink:"/cartella"},
       {label: 'Messaggi ', icon: 'pi pi-fw pi-envelope', routerLink:"/messaggi"},
+      {label: "Account", icon: 'pi pi-fw pi-user', routerLink: "/account"},
       {label: 'Log out', icon: 'pi pi-fw pi-cog', command: () => this.logout()}
      ];
      
@@ -58,7 +59,7 @@ export class MenuBarComponent implements OnInit {
           }
          
          this.activeItem = this.items[0];
-  
+        this.items[1].visible = false;
         }
       );
      }

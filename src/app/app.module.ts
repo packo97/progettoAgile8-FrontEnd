@@ -14,10 +14,11 @@ import { ErrorComponent } from './error/error.component';
 
 import {RegistrazioneService} from 'src/app/services/registrazione.service';
 import {LoginService} from 'src/app/services/login.service';
-import {DottoreService} from 'src/app/services/dottore.service'
-import {PazienteService} from 'src/app/services/paziente.service'
-import {AnimaleService} from 'src/app/services/animale.service'
-import {FileService} from 'src/app/services/file.service'
+import {DottoreService} from 'src/app/services/dottore.service';
+import {PazienteService} from 'src/app/services/paziente.service';
+import {AnimaleService} from 'src/app/services/animale.service';
+import {FileService} from 'src/app/services/file.service';
+import {SegretariaService} from 'src/app/services/segretaria.service';
 
 
 
@@ -25,6 +26,7 @@ import {RouteGuardService} from 'src/app/services/routeGuard.service';
 import {AutenticazioneService} from 'src/app/services/autenticazione.service';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { RecuperaPasswordComponent } from './recupera-password/recupera-password.component';
 
 import { HomeService} from 'src/app/services/home.service';
 import { PrenotazioneService} from 'src/app/services/prenotazione.service'
@@ -59,6 +61,7 @@ import {EventEmitterService} from './services/eventEmitter.service';
 import { MessaggiComponent } from './messaggi/messaggi.component';
 import {AccordionModule} from 'primeng/accordion';
 import {DropdownModule} from 'primeng/dropdown';
+import { InfoAccountComponent } from './info-account/info-account.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -69,7 +72,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 
 
 @NgModule({
-  declarations: [											
+  declarations: [												
     AppComponent,
       RegistrazioneComponent,
       ErrorComponent,
@@ -83,6 +86,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
       MenuBarComponent,
       VistaGlobaleComponent,
       MessaggiComponent,
+      InfoAccountComponent,
+      RecuperaPasswordComponent,
    ],
   imports: [
     BrowserModule,
@@ -110,7 +115,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AccordionModule,
     DropdownModule,
   ],
-  providers: [EventEmitterService, RegistrazioneService, LoginService, PrenotazioneService, PazienteService, AnimaleService, DottoreService, AutenticazioneService, RouteGuardService, HomeService, MessageService, FileService, DialogService, DynamicDialogConfig],
+  providers: [EventEmitterService, RegistrazioneService, LoginService, PrenotazioneService, PazienteService, AnimaleService, DottoreService, SegretariaService, AutenticazioneService, RouteGuardService, HomeService, MessageService, FileService, DialogService, DynamicDialogConfig],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

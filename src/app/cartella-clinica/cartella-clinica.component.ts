@@ -118,9 +118,8 @@ export class CartellaClinicaComponent implements OnInit {
       response => {
         console.log(response);
         this.loadAnimale(response);
-        
           
-      }
+      } 
     );
   }
 
@@ -199,6 +198,8 @@ export class CartellaClinicaComponent implements OnInit {
         this.pazienteSelezionato.animale = response;
         this.animaleSelezionato = this.pazienteSelezionato.animale[0];
       }
+    else
+      this.animaleSelezionato = null;
 
     if(this.animaleSelezionato!=null)
     for(let animale of this.pazienteSelezionato.animale){

@@ -1,0 +1,26 @@
+#headerAccount{
+    margin-top: 3%;
+}
+
+#contentAccount{
+    margin-top: 3%;
+}
+
+#footerAccount{
+    margin-top: 3%;
+}
+
+img{
+    border-radius: 50%;
+    border: 3px solid #4c4747;
+    padding: 10px;
+
+}
+
+#nome-cognome{
+    font-size: 24px;
+}
+
+.fieldDialog{
+    margin-bottom: 3%;
+}
