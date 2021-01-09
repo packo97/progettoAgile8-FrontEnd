@@ -63,6 +63,8 @@ import {AccordionModule} from 'primeng/accordion';
 import {DropdownModule} from 'primeng/dropdown';
 import { InfoAccountComponent } from './info-account/info-account.component';
 
+import {TableModule} from 'primeng/table';
+
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,
@@ -114,6 +116,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     DynamicDialogModule,
     AccordionModule,
     DropdownModule,
+    TableModule,
   ],
   providers: [EventEmitterService, RegistrazioneService, LoginService, PrenotazioneService, PazienteService, AnimaleService, DottoreService, SegretariaService, AutenticazioneService, RouteGuardService, HomeService, MessageService, FileService, DialogService, DynamicDialogConfig],
   bootstrap: [AppComponent]

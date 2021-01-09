@@ -13,6 +13,26 @@ import { PrenotazioneService } from '../services/prenotazione.service';
 import { VistaGlobaleComponent } from '../vista-globale/vista-globale.component';
 
 
+export class ItemRicevuta{
+  constructor(
+    public codice: number,
+    public  descrizione: string,
+    public quantita: number,
+    public prezzo: number,
+    public totale: number
+  ){}
+}
+
+export class ItemPrescrizione{
+  constructor(
+    public medicinale: string,
+    public quantita: number,
+    public dose_di_impiego: number,
+    public giorni_trattamento: number,
+    public giorni_sospensione: number
+  ){}
+}
+
 
 export class Prescrizione{
   constructor(
@@ -316,6 +336,8 @@ export class CartellaClinicaComponent implements OnInit {
       summary: 'File Uploaded',
       detail: ''
     });
+
+    this.display_descrizione = false;
   }
 
   ref: DynamicDialogRef;
@@ -388,6 +410,78 @@ export class CartellaClinicaComponent implements OnInit {
               this.slotLiberi.push("Time-slot libero alle "+ ora);
             }
           }
+      }
+    );
+  }
+
+  display_ricevuta: boolean;
+  display_item_ricevuta: boolean;
+  codice: number;
+  descrizione_item :string;
+  quantita_item: number;
+  prezzo_item: number;
+  importo_pagato: number;
+  lista_item_ricevuta: ItemRicevuta[] = [];
+  showRicevuta(){
+    this.display_ricevuta = true;
+  }
+
+  show_item_ricevuta(){
+    this.display_item_ricevuta = true;
+  }
+
+  aggiungiItemRicevuta(codice,descrizione_item,quantita,prezzo_item){
+    
+    let item : ItemRicevuta = new ItemRicevuta(codice, descrizione_item, quantita, prezzo_item, prezzo_item*this.quantita_item);
+    this.lista_item_ricevuta.push(item);
+    this.display_item_ricevuta = false;
+  }
+
+  creaRicevuta(){
+    this.fileService.creaRicevuta(this.dottore, this.pazienteSelezionato, this.lista_item_ricevuta, this.importo_pagato).subscribe(
+      response => {
+        console.log(response);
+        let file = new Blob([response], { type: 'application/pdf' });
+              
+        var fileURL = URL.createObjectURL(file);
+        
+        window.open(fileURL, '_blank');
+      }
+    );
+  }
+  
+  display_prescrizione: boolean;
+  display_item_prescrizione: boolean;
+  lista_item_prescrizione: ItemPrescrizione[] = [];
+  medicinale: string;
+  quantita_medicinale: number;
+  dose_di_impiego: number;
+  giorni_trattamento: number;
+  giorni_sospensione: number;
+
+  showPrescrizione(){
+    this.display_prescrizione = true;
+  }
+
+  show_item_prescrizione(){
+    this.display_item_prescrizione = true;
+  }
+
+  aggiungiItemPrescrizione(medicinale,quantita_medicinale,dose_di_impiego,giorni_trattamento,giorni_sospensione){
+    let item : ItemPrescrizione = new ItemPrescrizione(medicinale, quantita_medicinale, dose_di_impiego, giorni_trattamento,giorni_sospensione);
+    this.lista_item_prescrizione.push(item);
+    this.display_item_prescrizione = false;
+  }
+
+  creaPrescrizione(){
+    this.fileService.creaPrescrizione(this.dottore, this.pazienteSelezionato, this.lista_item_prescrizione).subscribe(
+      response => {
+        console.log(response);
+        let file = new Blob([response], { type: 'application/pdf' });
+              
+        var fileURL = URL.createObjectURL(file);
+        
+        window.open(fileURL, '_blank');
       }
     );
   }

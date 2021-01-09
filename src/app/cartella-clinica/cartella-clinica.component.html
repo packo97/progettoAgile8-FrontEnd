@@ -87,6 +87,8 @@
         <p-tabPanel header="Prescrizioni">
           <p-fileUpload *ngIf="whoIsLogged=='dottore'" name="myfile[]" customUpload="true" multiple="multiple" (uploadHandler)="onUploadPrescrizioni($event)" accept="application/pdf">
           </p-fileUpload>
+          <br>
+          <button pButton type="button" label="Crea Prescrizione" class="p-button-info" (click)=showPrescrizione()></button>
           <div id="pdfList" *ngFor="let prescrizione of prescrizioni">
             <button *ngIf="prescrizione.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download Prescrizione {{prescrizione.id}} associata all'animale {{prescrizione.animale.nome}}" class="p-button-text" (click)=downloadPrescrizione(prescrizione)></button>
           </div>
@@ -96,6 +98,9 @@
         <p-tabPanel header="Ricevute">
           <p-fileUpload *ngIf="whoIsLogged=='dottore'" name="myfile[]" customUpload="true" multiple="multiple" (uploadHandler)="onUploadRicevute($event)" accept="application/pdf">
           </p-fileUpload>
+          <br>
+          <button pButton type="button" label="Crea Ricevuta" class="p-button-info" (click)=showRicevuta()></button>
+
           <div id="ricevuteList" *ngFor="let ricevuta of ricevute">
             <button *ngIf="ricevuta.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download Ricevuta {{ricevuta.id}} associata all'animale {{ricevuta.animale.nome}}" class="p-button-text" (click)=downloadRicevuta(ricevuta)></button>
           </div>
@@ -200,7 +205,124 @@
     <label for="inputDescrizione" class="p-col-3">Descrizione: </label>
     <textarea id="inptDescrizione" [rows]="3" [cols]="57" pInputTextarea autoResize="autoResize" [(ngModel)]="descrizione" value="descrizione"></textarea> 
     <button pButton type="button" label="Salva" icon="pi pi-save" (click)= onUploadEsami() class="p-col-2 p-button-success"></button>
-
-  
   </div>
+</p-dialog>
+
+
+
+<p-dialog header="Crea ricevuta" [(visible)]="display_ricevuta">
+  <button pButton type="button" label="Aggiungi" icon="pi pi-plus" (click)= show_item_ricevuta() class="p-button-info"></button>
+  <button pButton type="button" label="Salva" icon="pi pi-save" (click)= creaRicevuta() class="p-button-success"></button>
+
+  <p-table [value]="lista_item_ricevuta">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Codice</th>
+            <th>Descrizione</th>
+            <th>Quantità</th>
+            <th>Prezzo</th>
+            <th>Totale linea</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+        <tr>
+            <td>{{item.codice}}</td>
+            <td>{{item.descrizione}}</td>
+            <td>{{item.quantita}}</td>
+            <td>{{item.prezzo}}</td>
+            <td>{{item.totale}}</td>
+        </tr>
+    </ng-template>
+  </p-table>
+  <hr>
+  <span  class="p-float-label">
+    <input pInputText id="inputImportoPagato" type="text" [(ngModel)]="importo_pagato" value="importo_pagato"> 
+    <label for="inputImportoPagato">Importo Pagato: </label>
+  </span>
+
+</p-dialog>
+
+<p-dialog header="Crea ricevuta" [(visible)]="display_item_ricevuta">
+  <div class="p-grid">
+    <span class="p-col-6 p-float-label">
+      <input id="inputCodice" type="text" pInputText [(ngModel)]="codice" value="codice"> 
+      <label for="inputCodice">Codice</label>
+    </span>
+    <span  class="p-col-6 p-float-label">
+      <input pInputText id="inputDescrizione" type="text" [(ngModel)]="descrizione_item" value="descrizione_item"> 
+      <label for="inputDescrizione">Descrizione: </label>
+    </span>
+  </div>
+  <div class="p-grid p-float-label">
+    <span class="p-col-6 p-float-label">
+      <input pInputText id="quantita_item" type="text" [(ngModel)]="quantita_item" value="quantita_item">
+      <label for="quantita_item" >Quantità: </label>
+    </span>
+    <span class="p-col-6 p-float-label">
+      <input pInputText id="prezzo_item" type="text" [(ngModel)]="prezzo_item" value="prezzo_item"> 
+      <label for="prezzo_item" >Prezzo: </label>
+    </span>
+ 
+  </div>
+  <button pButton type="button" label="Salva" icon="pi pi-save" (click)= aggiungiItemRicevuta(codice,descrizione_item,quantita_item,prezzo_item) class="p-button-success"></button>
+
+</p-dialog>
+
+
+
+<p-dialog header="Crea prescrizione" [(visible)]="display_prescrizione">
+  <button pButton type="button" label="Aggiungi" icon="pi pi-plus" (click)= show_item_prescrizione() class="p-button-info"></button>
+  <button pButton type="button" label="Salva" icon="pi pi-save" (click)= creaPrescrizione() class="p-button-success"></button>
+
+  <p-table [value]="lista_item_prescrizione">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Descrizione</th>
+            <th>Quantità</th>
+            <th>Dose di impiego</th>
+            <th>Durata del trattamento (giorni)</th>
+            <th>Tempo di sospensione (giorni)</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+        <tr>
+            <td>{{item.medicinale}}</td>
+            <td>{{item.quantita}}</td>
+            <td>{{item.dose_di_impiego}}</td>
+            <td>{{item.giorni_trattamento}}</td>
+            <td>{{item.giorni_sospensione}}</td>
+        </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>
+
+
+<p-dialog header="Aggiungi medicinale" [(visible)]="display_item_prescrizione">
+  <div class="p-grid">
+    <span class="p-col-6 p-float-label">
+      <input id="inputMedicinale" type="text" pInputText [(ngModel)]="medicinale" value="medicinale"> 
+      <label for="inputMedicinale">Medicinale</label>
+    </span>
+    <span  class="p-col-6 p-float-label">
+      <input pInputText id="inputQuantitaMedicinale" type="text" [(ngModel)]="quantita_medicinale" value="quantita_medicinale"> 
+      <label for="inputQuantitaMedicinale">Quantità: </label>
+    </span>
+  </div>
+  <div class="p-grid p-float-label">
+    <span class="p-col-4 p-float-label">
+      <input pInputText id="inputDose" type="text" [(ngModel)]="dose_di_impiego" value="dose_di_impiego">
+      <label for="inputDose" >Dose di impiego: </label>
+    </span>
+    <span class="p-col-4 p-float-label">
+      <input pInputText id="inputGiorniTrattamento" type="text" [(ngModel)]="giorni_trattamento" value="giorni_trattamento"> 
+      <label for="inputGiorniTrattamento" >Giorni trattamento: </label>
+    </span>
+    <span class="p-col-4 p-float-label">
+      <input pInputText id="inputGiorniSospensione" type="text" [(ngModel)]="giorni_sospensione" value="giorni_sospensione"> 
+      <label for="inputGiorniSospensione" >Giorni sospensione: </label>
+    </span>
+ 
+  </div>
+  <button pButton type="button" label="Salva" icon="pi pi-save" (click)= aggiungiItemPrescrizione(medicinale,quantita_medicinale,dose_di_impiego,giorni_trattamento,giorni_sospensione) class="p-button-success"></button>
+
 </p-dialog>

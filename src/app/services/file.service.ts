@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Ricevuta } from '../cartella-clinica/cartella-clinica.component';
 import { Animale, Paziente } from '../richiesta-prenotazione/richiesta-prenotazione.component';
 
 @Injectable({
@@ -52,5 +53,34 @@ export class FileService {
        'responseType'  : 'blob' as 'json'    
     };
     return this.httpClient.get<any>(`http://localhost:8080/restex/esamePDF/${id}`,httpOptions);
+  }
+
+  creaRicevuta(dottore, paziente, lista_item, importo_pagato){
+    let json = {
+      dottore: dottore,
+      paziente: paziente,
+      lista_item_ricevuta: lista_item,
+      importo_pagato: importo_pagato
+    }
+
+    const httpOptions = {
+      'responseType'  : 'blob' as 'json'    
+    };
+
+    return this.httpClient.post<any>("http://localhost:8080/restex/creaRicevuta",json, httpOptions);
+  }
+
+  creaPrescrizione(dottore, paziente, lista_item){
+    let json = {
+      dottore: dottore,
+      paziente: paziente,
+      lista_item_prescrizione: lista_item
+    }
+
+    const httpOptions = {
+      'responseType'  : 'blob' as 'json'    
+    };
+
+    return this.httpClient.post<any>("http://localhost:8080/restex/creaPrescrizione",json, httpOptions);
   }
 }
