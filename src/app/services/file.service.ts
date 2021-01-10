@@ -70,11 +70,12 @@ export class FileService {
     return this.httpClient.post<any>("http://localhost:8080/restex/creaRicevuta",json, httpOptions);
   }
 
-  creaPrescrizione(dottore, paziente, lista_item){
+  creaPrescrizione(dottore, paziente, lista_item, animale){
     let json = {
       dottore: dottore,
       paziente: paziente,
-      lista_item_prescrizione: lista_item
+      lista_item_prescrizione: lista_item,
+      animale: animale
     }
 
     const httpOptions = {

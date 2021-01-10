@@ -68,7 +68,53 @@ export class RegistrazioneComponent implements OnInit {
         var emailDiviso2 = emailDiviso[1].split(".",2);
         if(emailDiviso2.length!=2)
           this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Inserisci una email valida'});
-      }
+          else{
+            if(this.tipo_registrazione == "paziente"){
+              var jsonPaziente = {
+                nome: this.nome,
+                cognome: this.cognome,
+                codice_fiscale: this.codice_fiscale,
+                numero_telefono: this.numero_telefono,
+                email:  this.email,
+                password:  this.password,
+              }
+              this.service.registrazionePaziente(jsonPaziente);
+              this.route.navigate(['login']);
+            }
+            else if(this.tipo_registrazione == "dottore"){
+              var jsonDottore = {
+                nome: this.nome,
+                cognome: this.cognome,
+                codice_fiscale: this.codice_fiscale,
+                numero_telefono: this.numero_telefono,
+                email:  this.email,
+                password:  this.password,
+                descrizione: this.descrizione,
+                codice_identificativo: this.codice_identificativo_veterinario,
+              }
+              console.log("sonoqui");
+              this.service.registrazioneDottore(jsonDottore);
+              this.route.navigate(['login']);
+            }
+            else if(this.tipo_registrazione == "segretaria"){
+              var jsonSegretaria = {
+                nome: this.nome,
+                cognome: this.cognome,
+                codice_fiscale: this.codice_fiscale,
+                numero_telefono: this.numero_telefono,
+                email:  this.email,
+                password:  this.password,
+              }
+              this.service.registrazioneSegretaria(jsonSegretaria);
+              this.route.navigate(['login']);
+            }
+            else{
+              this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Seleziona una categoria di utente'});
+            }
+          }
+      
+      
+        }
       else{
         this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Inserisci una email valida'});
       }
@@ -98,6 +144,7 @@ export class RegistrazioneComponent implements OnInit {
           descrizione: this.descrizione,
           codice_identificativo: this.codice_identificativo_veterinario,
         }
+        console.log("sonoqui");
         this.service.registrazioneDottore(jsonDottore);
         this.route.navigate(['login']);
       }

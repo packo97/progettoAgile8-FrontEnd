@@ -17,6 +17,7 @@ export class RegistrazioneService {
   }
   
   registrazioneDottore(json){
+    console.log("ciao");
     this.httpClient.post("http://localhost:8080/restex/dottore",json).subscribe(
       response => console.log(response)
     );   

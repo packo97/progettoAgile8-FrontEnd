@@ -474,7 +474,7 @@ export class CartellaClinicaComponent implements OnInit {
   }
 
   creaPrescrizione(){
-    this.fileService.creaPrescrizione(this.dottore, this.pazienteSelezionato, this.lista_item_prescrizione).subscribe(
+    this.fileService.creaPrescrizione(this.dottore, this.pazienteSelezionato, this.lista_item_prescrizione, this.animaleSelezionato).subscribe(
       response => {
         console.log(response);
         let file = new Blob([response], { type: 'application/pdf' });
