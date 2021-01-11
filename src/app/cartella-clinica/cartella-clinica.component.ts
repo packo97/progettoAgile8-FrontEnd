@@ -441,11 +441,13 @@ export class CartellaClinicaComponent implements OnInit {
     this.fileService.creaRicevuta(this.dottore, this.pazienteSelezionato, this.lista_item_ricevuta, this.importo_pagato).subscribe(
       response => {
         console.log(response);
+        this.messageService.add({key: 'saved', severity:'success', summary: 'Creazione', detail: 'Ricevuta creata'});
         let file = new Blob([response], { type: 'application/pdf' });
               
         var fileURL = URL.createObjectURL(file);
         
         window.open(fileURL, '_blank');
+        this.display_ricevuta = false;
       }
     );
   }
@@ -477,12 +479,15 @@ export class CartellaClinicaComponent implements OnInit {
     this.fileService.creaPrescrizione(this.dottore, this.pazienteSelezionato, this.lista_item_prescrizione, this.animaleSelezionato).subscribe(
       response => {
         console.log(response);
+        this.messageService.add({key: 'saved', severity:'success', summary: 'Creazione', detail: 'Prescrizione creata'});
         let file = new Blob([response], { type: 'application/pdf' });
               
         var fileURL = URL.createObjectURL(file);
         
         window.open(fileURL, '_blank');
+        this.display_prescrizione = false;
       }
     );
+
   }
 }
