@@ -34,7 +34,6 @@ export class MessaggiComponent implements OnInit {
     if(sessionStorage.getItem('profile')=="paziente")
       this.messaggiService.getNotifichePaziente(sessionStorage.getItem('user')).subscribe(
         response => {
-          console.log(response);
           for (let i = 0; i < response.length; i++) {
               response[i].data=this.convertiData(response[i].data)
           }
@@ -50,7 +49,7 @@ export class MessaggiComponent implements OnInit {
     else if(sessionStorage.getItem('profile')=="segretaria")
         this.messaggiService.getNotificheSegretaria().subscribe(
           response => {
-            console.log(response);
+    
             for (let i = 0; i < response.length; i++) {
                 response[i].data=this.convertiData(response[i].data)
             }
@@ -63,10 +62,10 @@ export class MessaggiComponent implements OnInit {
             }
           }
         );
-        else if(sessionStorage.getItem('profile')=="dottore")
+    else if(sessionStorage.getItem('profile')=="dottore")
         this.messaggiService.getNotificheDottore(sessionStorage.getItem('user')).subscribe(
           response => {
-            console.log(response);
+    
             for (let i = 0; i < response.length; i++) {
                 response[i].data=this.convertiData(response[i].data)
             }

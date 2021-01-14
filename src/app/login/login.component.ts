@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
     else{
       this.authService.authenticate(json).subscribe(
         response => {
-          console.log(response);
           if(response==true) {
             sessionStorage.setItem("user", this.email);
             sessionStorage.setItem("profile", this.tipo_login);

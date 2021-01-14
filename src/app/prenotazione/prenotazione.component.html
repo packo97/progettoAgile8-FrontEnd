@@ -8,15 +8,21 @@
   
 
   <h1 align="center">LISTA PRENOTAZIONI</h1>
-  
+  <hr>
   <ul class="list-group" >
     <ng-container *ngFor="let prenotazione of prenotazioni">
       <div *ngIf="prenotazione.confermato; then thenBlock else elseBlock"></div>
-      <ng-template #thenBlock><li id="{{prenotazione.id}}" class="list-group-item list-group-item-success" (click)=refresh(prenotazione)>{{prenotazione.descrizione}} <img align="right" src="/assets/trash.png" (click)=deletePrenotazione(prenotazione)/></li></ng-template>
-      <ng-template #elseBlock><li id="{{prenotazione.id}}" class="list-group-item list-group-item-warning" (click)=refresh(prenotazione)>{{prenotazione.descrizione}} <img align= "right" src="/assets/trash.png" (click)=deletePrenotazione(prenotazione)/></li></ng-template>
+      <ng-template #thenBlock><li id="{{prenotazione.id}}" class="list-group-item list-group-item-success " (click)=refresh(prenotazione)>
+        {{prenotazione.descrizione}}
+        <img align="right" src="/assets/trash.png" (click)=deletePrenotazione(prenotazione)/></li></ng-template>
+      <ng-template #elseBlock><li id="{{prenotazione.id}}" class="list-group-item list-group-item-warning " (click)=refresh(prenotazione)>
+        {{prenotazione.descrizione}}
+         <img align= "right" src="/assets/trash.png" (click)=deletePrenotazione(prenotazione)/></li></ng-template>
     </ng-container>
   </ul>
+  <p class="text-center font-weight-bold" *ngIf="prenotazioni.length==0">Non ci sono prenotazione per questo giorno!</p>
 
+  <p-confirmDialog header="Conferma" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
   
 

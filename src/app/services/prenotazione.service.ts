@@ -18,28 +18,16 @@ export class PrenotazioneService {
   
 
   addRichiestaPrenotazione(json){
-    alert(JSON.stringify(json))
-    this.httpClient.post("http://localhost:8080/restex/prenotazione",json).subscribe(
-      response => console.log(response)
-    );
+    return this.httpClient.post<Prenotazione>("http://localhost:8080/restex/prenotazione",json);
   }
 
   deletePrenotazione(prenotazione){
-    alert(prenotazione);
-    this.httpClient.delete("http://localhost:8080/restex/prenotazione/"+prenotazione.id).subscribe(
-      response => {
-        console.log(response);
-      }
-    );
+    return this.httpClient.delete("http://localhost:8080/restex/prenotazione/"+prenotazione.id);
     
   }
 
   updateStato(prenotazione: Prenotazione) {
-    this.httpClient.put("http://localhost:8080/restex/prenotazione",prenotazione).subscribe(
-      response => {
-        console.log(response);
-      }
-    );
+    this.httpClient.put("http://localhost:8080/restex/prenotazione/",prenotazione).subscribe();
   }
 
   getCodaUrgenti() {
@@ -82,13 +70,21 @@ export class PrenotazioneService {
   
   @Output() fire: EventEmitter<any> = new EventEmitter();
   refreshPanelDetail(prenotazione: Prenotazione) {
-    console.log('change started');
      this.fire.emit(prenotazione);
    }
 
    getDetailChanged() {
      return this.fire;
    }
+
+   @Output() firePush: EventEmitter<any> = new EventEmitter();
+  refreshPrenotazione(prenotazione: Prenotazione) {
+     this.firePush.emit(prenotazione);
+   }
+
+   getPrenotazioneChanged() {
+    return this.firePush;
+  }
 
 
 }

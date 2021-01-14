@@ -11,22 +11,16 @@ export class RegistrazioneService {
   ) { }
   
   registrazionePaziente(json){
-    this.httpClient.post("http://localhost:8080/restex/paziente",json).subscribe(
-      response => console.log(response)
-    );
+    this.httpClient.post("http://localhost:8080/restex/paziente",json).subscribe();
   }
   
   registrazioneDottore(json){
     console.log("ciao");
-    this.httpClient.post("http://localhost:8080/restex/dottore",json).subscribe(
-      response => console.log(response)
-    );   
+    this.httpClient.post("http://localhost:8080/restex/dottore",json).subscribe(); 
   }
 
   registrazioneSegretaria(json){
-    this.httpClient.post("http://localhost:8080/restex/segretaria",json).subscribe(
-      response => console.log(response)
-    );   
+    this.httpClient.post("http://localhost:8080/restex/segretaria",json).subscribe();  
   }
 
 }

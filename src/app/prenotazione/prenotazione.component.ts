@@ -5,6 +5,7 @@ import * as $ from 'jquery';
 import { HomeService } from '../services/home.service';
 import { Paziente } from '../richiesta-prenotazione/richiesta-prenotazione.component';
 import { Dottore } from '../services/dottore.service';
+import { ConfirmationService } from 'primeng/api';
 export class Prenotazione{
 
   constructor(
@@ -36,17 +37,22 @@ export class PrenotazioneComponent implements OnInit {
   data: Date;
 
 
-  constructor(private root: Router, private service: PrenotazioneService, private homeService: HomeService) {
+  constructor(private root: Router, private confirmationService: ConfirmationService, private service: PrenotazioneService, private homeService: HomeService) {
    }
 
   ngOnInit() {
+
+    this.service.getPrenotazioneChanged().subscribe(
+      item => {
+        this.prenotazioni.splice(0,0,item);
+      }
+    );
 
     this.data = new Date();
 
     if(sessionStorage.getItem('profile')=="paziente")
       this.homeService.getPaziente(sessionStorage.getItem('user')).subscribe(
         response => {
-          console.log(response);
           this.paziente = response;
           this.getAllPrenotazioniByPaziente(this.paziente);
         }
@@ -54,7 +60,6 @@ export class PrenotazioneComponent implements OnInit {
     else if(sessionStorage.getItem('profile')=="dottore")
       this.homeService.getDottore(sessionStorage.getItem('user')).subscribe(
         response => {
-          console.log(response);
           this.dottore = response;
           this.getAllPrenotazioniByDoctor(this.dottore);
         }
@@ -76,7 +81,6 @@ export class PrenotazioneComponent implements OnInit {
     
     this.service.getAllPrenotazioniByPaziente(paziente).subscribe(
       response => {​​​​
-        console.log(response);
         this.prenotazioni = response;
       }​​​​
     );
@@ -87,7 +91,6 @@ export class PrenotazioneComponent implements OnInit {
     
     this.service.getAllPrenotazioniByDoctorAndDate(dottore,this.data).subscribe(
       response => {​​​​
-        console.log(response);
         this.prenotazioni = response;
       }​​​​
     );
@@ -111,6 +114,18 @@ export class PrenotazioneComponent implements OnInit {
   }
 
   deletePrenotazione(prenotazione){
-    this.service.deletePrenotazione(prenotazione);
+
+    this.confirmationService.confirm({
+      message: 'Sei sicuro di cancellare?',
+      accept: () => {
+        this.service.deletePrenotazione(prenotazione).subscribe(
+          response =>{
+            let index=this.prenotazioni.indexOf(prenotazione);
+            this.prenotazioni.splice(index,1);
+            this.service.refreshPanelDetail(null);
+          }
+        );
+      }
+    });
   }
 }

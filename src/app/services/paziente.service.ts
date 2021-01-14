@@ -21,7 +21,7 @@ export class PazienteService {
       passwordVecchia: passwordVecchia,
       passwordNuova: passwordNuova
     };
-    return this.httpClient.put("http://localhost:8080/restex/updatePassword", json);
+    return this.httpClient.put("http://localhost:8080/restex/updatePasswordPaziente", json);
   }
 
   updatePaziente(paziente: Paziente){

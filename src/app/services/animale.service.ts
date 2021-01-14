@@ -13,12 +13,17 @@ export class AnimaleService {
 
     return this.httpClient.put("http://localhost:8080/restex/animale", json);
   }
+
   add(json: any){
 
-    return this.httpClient.post("http://localhost:8080/restex/animale", json);
+    return this.httpClient.post<Animale>("http://localhost:8080/restex/animale", json);
   }
 
   getAnimali(paziente: Paziente){
     return this.httpClient.post<Animale[]>("http://localhost:8080/restex/animaleByPaziente",paziente);
+  }
+
+  deleteAnimale(animale : Animale){
+    return this.httpClient.delete("http://localhost:8080/restex/animale/"+animale.id);
   }
 }

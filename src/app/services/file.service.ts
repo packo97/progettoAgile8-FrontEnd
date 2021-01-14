@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Ricevuta } from '../cartella-clinica/cartella-clinica.component';
+import { Esame, Prescrizione, Ricevuta } from '../cartella-clinica/cartella-clinica.component';
 import { Animale, Paziente } from '../richiesta-prenotazione/richiesta-prenotazione.component';
 
 @Injectable({
@@ -11,15 +11,15 @@ export class FileService {
   constructor(private httpClient: HttpClient) { }
 
   uploadPrescrizione(fd: FormData){
-    return this.httpClient.post("http://localhost:8080/restex/prescrizione",fd);
+    return this.httpClient.post<Prescrizione>("http://localhost:8080/restex/prescrizione",fd);
   }
 
   uploadRicevute(fd: FormData){
-    return this.httpClient.post("http://localhost:8080/restex/ricevuta",fd);
+    return this.httpClient.post<Ricevuta>("http://localhost:8080/restex/ricevuta",fd);
   }
 
   uploadEsami(fd: FormData){
-    return this.httpClient.post("http://localhost:8080/restex/esame",fd);
+    return this.httpClient.post<Esame>("http://localhost:8080/restex/esame",fd);
   }
 
   getAllPrescrizioniByAnimale(animale: Animale){

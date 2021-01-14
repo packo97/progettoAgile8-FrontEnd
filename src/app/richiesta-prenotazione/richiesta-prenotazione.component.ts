@@ -44,13 +44,13 @@ export class RichiestaPrenotazioneComponent implements OnInit {
   private paziente: Paziente;
   urgente: boolean;
 
-  constructor( private service: PrenotazioneService, private dottoreService: DottoreService, private homeService: HomeService) { }
+  constructor(private component : PrenotazioneComponent, private service: PrenotazioneService, private dottoreService: DottoreService, private homeService: HomeService) { }
 
   ngOnInit() {
     this.getDottori()
     this.homeService.getPaziente(sessionStorage.getItem('user')).subscribe(
       response =>  {
-        console.log(response);
+
         this.paziente = response;
       }
     );
@@ -64,15 +64,22 @@ export class RichiestaPrenotazioneComponent implements OnInit {
       paziente: this.paziente,
       urgente: this.urgente
     }
-    this.service.addRichiestaPrenotazione(json)
+    this.service.addRichiestaPrenotazione(json).subscribe(
+      response =>{
+        
+        this.service.refreshPrenotazione(response);
+        //this.component.refreshPrenotazioni();
+        //this.component.prenotazioni.push(new Prenotazione(1,this.problema,this.paziente, this.dottori[dottoreSelezionato.selectedIndex],false,null,this.urgente));
+      }
+    );
+
     
   }
 
   getDottori(){
     this.dottoreService.getDottori().subscribe(
       response => {
-        console.log("sono qui")
-        console.log(response);
+
         this.dottori = response;
       }
     );

@@ -92,7 +92,6 @@ export class RegistrazioneComponent implements OnInit {
                 descrizione: this.descrizione,
                 codice_identificativo: this.codice_identificativo_veterinario,
               }
-              console.log("sonoqui");
               this.service.registrazioneDottore(jsonDottore);
               this.route.navigate(['login']);
             }
@@ -144,7 +143,6 @@ export class RegistrazioneComponent implements OnInit {
           descrizione: this.descrizione,
           codice_identificativo: this.codice_identificativo_veterinario,
         }
-        console.log("sonoqui");
         this.service.registrazioneDottore(jsonDottore);
         this.route.navigate(['login']);
       }

@@ -44,21 +44,24 @@
       <hr>
       <div class="p-grid">
         <label class="p-col-2">Animale: </label>
-        <p-dropdown class="p-col-8" [options]="this.pazienteSelezionato.animale" [(ngModel)]="this.animaleSelezionato" optionLabel="nome"></p-dropdown>
+        <p-dropdown class="p-col-6" [options]="this.pazienteSelezionato.animale" [(ngModel)]="this.animaleSelezionato" optionLabel="nome"></p-dropdown>
+        <div class="p-col-2">
+          <button pButton type="button" label="Elimina Animale" icon="pi pi-trash" (click)= eliminaAnimale() class=" p-button-danger"></button>
+        </div>
         <div class="p-col-2">
           <button pButton type="button" label="Inserisci Animale" icon="pi pi-plus" (click)= showDialogAnimale() class=" p-button-success"></button>
         </div>
         </div>
       <p-tabView>
         <p-tabPanel header="Animale" >
-          <div class="p-grid" *ngIf="pazienteSelezionato.animale">
+          <div class="p-grid" *ngIf="this.animaleSelezionato">
             <span class="p-float-label p-col-4">
               <input id="inputNome" type="text" pInputText [(ngModel)]="this.animaleSelezionato.nome"> 
               <label for="inputNome">Nome</label>
             </span>
             <span class="p-float-label p-col-4"> 
               <!-- <label for="inputData">Data Nascita</label> float label doesn't work with p-calendar -->
-              <p-calendar id="inputData" class="p-col-4" [(ngModel)]="this.animaleSelezionato.data_nascita" dateFormat="dd-mm-yy"></p-calendar>
+              <p-calendar id="inputData"  class="p-col-4" [(ngModel)]="this.animaleSelezionato.data_nascita" dateFormat="dd-mm-yy"></p-calendar>
             </span>
             <span class="p-float-label p-col-4">
               <input id="inputGenere" type="text" pInputText [(ngModel)]="this.animaleSelezionato.genere"> 
@@ -66,7 +69,7 @@
             </span>
           </div>
           <hr>
-          <div class="p-grid" *ngIf="pazienteSelezionato.animale">
+          <div class="p-grid" *ngIf="this.animaleSelezionato">
             <span class="p-float-label p-col-4">
               <input id="inputTipo" type="text" pInputText [(ngModel)]="this.animaleSelezionato.tipo"> 
               <label for="inputTipo">Tipo</label>
@@ -88,7 +91,7 @@
           <p-fileUpload *ngIf="whoIsLogged=='dottore'" name="myfile[]" customUpload="true" multiple="multiple" (uploadHandler)="onUploadPrescrizioni($event)" accept="application/pdf">
           </p-fileUpload>
           <br>
-          <button pButton type="button" label="Crea Prescrizione" class="p-button-info" (click)=showPrescrizione()></button>
+          <button *ngIf="whoIsLogged=='dottore'" pButton type="button" label="Crea Prescrizione" class="p-button-info" (click)=showPrescrizione()></button>
           <div id="pdfList" *ngFor="let prescrizione of prescrizioni">
             <button *ngIf="prescrizione.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download Prescrizione {{prescrizione.id}} associata all'animale {{prescrizione.animale.nome}}" class="p-button-text" (click)=downloadPrescrizione(prescrizione)></button>
           </div>
@@ -99,7 +102,7 @@
           <p-fileUpload *ngIf="whoIsLogged=='dottore'" name="myfile[]" customUpload="true" multiple="multiple" (uploadHandler)="onUploadRicevute($event)" accept="application/pdf">
           </p-fileUpload>
           <br>
-          <button pButton type="button" label="Crea Ricevuta" class="p-button-info" (click)=showRicevuta()></button>
+          <button *ngIf="whoIsLogged=='dottore'" pButton type="button" label="Crea Ricevuta" class="p-button-info" (click)=showRicevuta()></button>
 
           <div id="ricevuteList" *ngFor="let ricevuta of ricevute">
             <button *ngIf="ricevuta.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download Ricevuta {{ricevuta.id}} associata all'animale {{ricevuta.animale.nome}}" class="p-button-text" (click)=downloadRicevuta(ricevuta)></button>
@@ -119,8 +122,8 @@
             </tr>
               <!--<div id="esamiList" *ngFor="let esame of esami"> -->
            
-              <tr id="esamiList" *ngFor="let esame of esami">
-                <td>{{esame.descrizione}} di {{esame.animale.nome}}</td>
+              <tr  id="esamiList" *ngFor="let esame of esami">
+                <td *ngIf="esame.animale.id==this.animaleSelezionato.id">{{esame.descrizione}} di {{esame.animale.nome}}</td>
                 <td class="tuttoadestra">             
                    <button *ngIf="esame.animale.id==this.animaleSelezionato.id" pButton type="button" label="Download"  class="p-button-text"  (click)=downloadEsame(esame)></button>
                 </td>
@@ -164,7 +167,8 @@
   <div id="test"></div>
 </p-dialog>
 
-<p-dialog header="Inserisci animale" [(visible)]="displayAnimale" [style]="{width: '70vw', heigth: '200vw'}">
+<p-dialog header="Inserisci animale" [(visible)]="displayAnimale" >
+
   <div class="p-grid" >
     <span class="p-float-label p-col-4">
       <input id="inputNome" type="text" pInputText [(ngModel)]="this.newAnimale.nome"> 
@@ -172,7 +176,7 @@
     </span>
     <span class="p-float-label p-col-4"> 
       <!-- <label for="inputData">Data Nascita</label> float label doesn't work with p-calendar -->
-      <p-calendar id="inputData" class="p-col-4" [(ngModel)]="this.newAnimale.data_nascita" dateFormat="dd-mm-yy"></p-calendar>
+      <p-calendar id="inputData"  [(ngModel)]="this.newAnimale.data_nascita" dateFormat="dd-mm-yy"></p-calendar>
     </span>
     <span class="p-float-label p-col-4">
       <input id="inputGenere" type="text" pInputText [(ngModel)]="this.newAnimale.genere"> 
@@ -213,10 +217,12 @@
 <p-dialog header="Crea ricevuta" [(visible)]="display_ricevuta">
   <button pButton type="button" label="Aggiungi" icon="pi pi-plus" (click)= show_item_ricevuta() class="p-button-info"></button>
   <button pButton type="button" label="Salva" icon="pi pi-save" (click)= creaRicevuta() class="p-button-success"></button>
-
-  <p-table [value]="lista_item_ricevuta">
+  <button pButton type="button" (click)=deleteSelectItemsRicevuta() label="Cancella" icon="pi pi-trash" class="p-button-danger"></button>
+  
+  <p-table [value]="lista_item_ricevuta" [(selection)]="selectedItemRicevuta">
     <ng-template pTemplate="header">
         <tr>
+            <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
             <th>Codice</th>
             <th>Descrizione</th>
             <th>Quantità</th>
@@ -226,6 +232,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-item>
         <tr>
+            <td><p-tableCheckbox [value]="item">  </p-tableCheckbox></td>
             <td>{{item.codice}}</td>
             <td>{{item.descrizione}}</td>
             <td>{{item.quantita}}</td>
@@ -273,10 +280,11 @@
 <p-dialog header="Crea prescrizione" [(visible)]="display_prescrizione">
   <button pButton type="button" label="Aggiungi" icon="pi pi-plus" (click)= show_item_prescrizione() class="p-button-info"></button>
   <button pButton type="button" label="Salva" icon="pi pi-save" (click)= creaPrescrizione() class="p-button-success"></button>
-
-  <p-table [value]="lista_item_prescrizione">
+  <button pButton type="button" (click)=deleteSelectItemsPrescrizione() label="Cancella" icon="pi pi-trash" class="p-button-danger"></button>
+  <p-table [value]="lista_item_prescrizione" [(selection)]="selectedItemPrescrizione">
     <ng-template pTemplate="header">
         <tr>
+          <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
             <th>Descrizione</th>
             <th>Quantità</th>
             <th>Dose di impiego</th>
@@ -286,6 +294,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-item>
         <tr>
+          <td><p-tableCheckbox [value]="item">  </p-tableCheckbox></td>
             <td>{{item.medicinale}}</td>
             <td>{{item.quantita}}</td>
             <td>{{item.dose_di_impiego}}</td>
@@ -326,3 +335,4 @@
   <button pButton type="button" label="Salva" icon="pi pi-save" (click)= aggiungiItemPrescrizione(medicinale,quantita_medicinale,dose_di_impiego,giorni_trattamento,giorni_sospensione) class="p-button-success"></button>
 
 </p-dialog>
+<p-confirmDialog header="Conferma" icon="pi pi-exclamation-triangle"></p-confirmDialog>

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Prenotazione } from '../prenotazione/prenotazione.component';
 import { Animale, Paziente } from '../richiesta-prenotazione/richiesta-prenotazione.component';
@@ -89,7 +89,10 @@ export class CartellaClinicaComponent implements OnInit {
 
   display_descrizione: boolean;
 
-  constructor(private dialogService: DialogService,private prenotazioneService: PrenotazioneService, private homeService: HomeService, private pazienteService: PazienteService, private animaleService: AnimaleService, private messageService: MessageService, private fileService: FileService) { }
+  selectedItemPrescrizione : ItemPrescrizione[]=[];
+  selectedItemRicevuta : ItemRicevuta[]=[];
+
+  constructor(private dialogService: DialogService, private confirmationService: ConfirmationService, private prenotazioneService: PrenotazioneService, private homeService: HomeService, private pazienteService: PazienteService, private animaleService: AnimaleService, private messageService: MessageService, private fileService: FileService) { }
 
   ngOnInit() {
 
@@ -98,11 +101,11 @@ export class CartellaClinicaComponent implements OnInit {
     if(this.whoIsLogged=="paziente"){
       this.homeService.getPaziente(sessionStorage.getItem("user")).subscribe(
         response => {
-          console.log(response);
+
           this.pazienteSelezionato = response;
           this.animaleService.getAnimali(this.pazienteSelezionato).subscribe(
             response => {
-              console.log(response);
+
               this.loadAnimale(response);
 
             }
@@ -114,7 +117,7 @@ export class CartellaClinicaComponent implements OnInit {
     else if(this.whoIsLogged=="dottore"){
       this.homeService.getDottore(sessionStorage.getItem("user")).subscribe(
         response => {
-          console.log(response);
+
           this.dottore = response;  
         }
       );
@@ -125,8 +128,7 @@ export class CartellaClinicaComponent implements OnInit {
   ricerca(){
     this.pazienteService.ricerca(this.valoreRicerca).subscribe(
       response => {
-        console.log(this.valoreRicerca);
-        console.log(response);
+
         this.pazienti = response;
       }
     );
@@ -136,7 +138,7 @@ export class CartellaClinicaComponent implements OnInit {
     this.pazienteSelezionato = paziente;
     this.animaleService.getAnimali(this.pazienteSelezionato).subscribe(
       response => {
-        console.log(response);
+
         this.loadAnimale(response);
           
       } 
@@ -147,8 +149,7 @@ export class CartellaClinicaComponent implements OnInit {
          
     this.fileService.downloadPrescrizione(prescrizione.id).subscribe(
       response => {
-        console.log("download");
-        console.log(response);
+
         let file = new Blob([response], { type: 'application/pdf' });
               
         var fileURL = URL.createObjectURL(file);
@@ -161,8 +162,7 @@ export class CartellaClinicaComponent implements OnInit {
          
     this.fileService.downloadRicevuta(ricevuta.id).subscribe(
       response => {
-        console.log("download");
-        console.log(response);
+ 
         let file = new Blob([response], { type: 'application/pdf' });
               
         var fileURL = URL.createObjectURL(file);
@@ -175,8 +175,7 @@ export class CartellaClinicaComponent implements OnInit {
          
     this.fileService.downloadEsame(esame.id).subscribe(
       response => {
-        console.log("download");
-        console.log(response);
+
         let file = new Blob([response], { type: 'application/pdf' });
               
         var fileURL = URL.createObjectURL(file);
@@ -201,13 +200,12 @@ export class CartellaClinicaComponent implements OnInit {
   
       this.animaleService.salva(json).subscribe(
         response => {
-          console.log(response);
         }
       );
     }
     
 
-    this.messageService.add({key: 'saved', severity:'success', summary: 'Saved', detail: 'Cartella clinica salvata'});
+    this.messageService.add({key: 'saved', severity:'success', summary: 'Salvato', detail: 'Cartella clinica salvata'});
   }
 
   loadAnimale(response: Animale[]){
@@ -215,17 +213,19 @@ export class CartellaClinicaComponent implements OnInit {
     if(response.length >0){
       for(let r of response)
         r.data_nascita = new Date(r.data_nascita);
-        this.pazienteSelezionato.animale = response;
-        this.animaleSelezionato = this.pazienteSelezionato.animale[0];
-      }
-    else
-      this.animaleSelezionato = null;
+      this.pazienteSelezionato.animale = response;
+      this.animaleSelezionato = this.pazienteSelezionato.animale[0];
+    }
+   else{
+    this.animaleSelezionato = null;
+    this.pazienteSelezionato.animale=[];
+   }
 
     if(this.animaleSelezionato!=null)
     for(let animale of this.pazienteSelezionato.animale){
       this.fileService.getAllPrescrizioniByAnimale(animale).subscribe(
         response => {
-          console.log(response);
+
           for(let prescrizione of response){
             this.prescrizioni.push(prescrizione);
           }
@@ -234,7 +234,7 @@ export class CartellaClinicaComponent implements OnInit {
 
     this.fileService.getAllRicevuteByAnimale(animale).subscribe(
       response => {
-        console.log(response);
+
         for(let ricevuta of response){
           this.ricevute.push(ricevuta);
         }
@@ -243,7 +243,7 @@ export class CartellaClinicaComponent implements OnInit {
 
     this.fileService.getAllEsamiByAnimale(animale).subscribe(
       response => {
-        console.log(response);
+
         for(let esame of response){
           this.esami.push(esame);
         }
@@ -265,15 +265,17 @@ export class CartellaClinicaComponent implements OnInit {
    
       this.fileService.uploadPrescrizione(data).subscribe(
         response => {
-          console.log(response);
+          this.prescrizioni.push(response);
+
         }
       );
+      
     }
 
     this.messageService.add({
       key: 'saved',
       severity: 'success',
-      summary: 'File Uploaded',
+      summary: 'File Caricato',
       detail: ''
     });
   }
@@ -291,7 +293,7 @@ export class CartellaClinicaComponent implements OnInit {
    
       this.fileService.uploadRicevute(data).subscribe(
         response => {
-          console.log(response);
+          this.ricevute.push(response);
         }
       );
     }
@@ -299,7 +301,7 @@ export class CartellaClinicaComponent implements OnInit {
     this.messageService.add({
       key: 'saved',
       severity: 'success',
-      summary: 'File Uploaded',
+      summary: 'File Caricato',
       detail: ''
     });
   }
@@ -320,12 +322,10 @@ export class CartellaClinicaComponent implements OnInit {
     
     this.datiesame.append('descrizione', this.descrizione);
 
-    
-      
-      console.log(this.descrizione);
+ 
       this.fileService.uploadEsami(this.datiesame).subscribe(
         response => {
-          console.log(response);
+            this.esami.push(response);
         }
       );
     
@@ -333,7 +333,7 @@ export class CartellaClinicaComponent implements OnInit {
     this.messageService.add({
       key: 'saved',
       severity: 'success',
-      summary: 'File Uploaded',
+      summary: 'File Caricato',
       detail: ''
     });
 
@@ -368,24 +368,40 @@ export class CartellaClinicaComponent implements OnInit {
   inserisciPrenotazione(){
     let ora = Number(this.slotSelezionato.replace("Time-slot libero alle ",""));
     this.data.setHours(ora+1); //TODO bug da risolvere
-    alert(this.data);
-   
     let p=new Prenotazione(1,this.problema,this.pazienteSelezionato,this.dottore,true,this.data,false);
-    this.prenotazioneService.addRichiestaPrenotazione(p)
-    this.messageService.add({key: 'saved', severity:'success', summary: 'Saved', detail: 'Prenotazione inserita'});
-    this.display=false;
-    
+    this.prenotazioneService.addRichiestaPrenotazione(p).subscribe(
+      response=>{
+        this.messageService.add({key: 'saved', severity:'success', summary: 'Salvato', detail: 'Prenotazione inserita'});
+        this.display=false;
+      }
+    )
     
   }
   inserisciAnimale(){
     this.newAnimale.paziente=this.pazienteSelezionato;
-    this.animaleService.add(this.newAnimale).subscribe(
-      response =>{
-        console.log(response);
-        this.messageService.add({key: 'saved', severity:'success', summary: 'Saved', detail: 'Animale inserito correttamente'});
-        this.displayAnimale=false;
-      }
-    );
+    if(this.newAnimale.tipo==null || this.newAnimale.altezza==null || this.newAnimale.data_nascita==null || this.newAnimale.genere==null || this.newAnimale.nome==null || this.newAnimale.peso==null)
+    {
+      this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'Inserisci tutti i campi'});
+    }
+    else{
+      this.animaleService.add(this.newAnimale).subscribe(
+        response =>{
+          this.messageService.add({key: 'saved', severity:'success', summary: 'Salvato', detail: 'Animale inserito correttamente'});
+          this.displayAnimale=false;
+          response.data_nascita=new Date(response.data_nascita);
+          this.pazienteSelezionato.animale.push(response);
+          this.animaleSelezionato=response;
+          this.newAnimale.altezza=null;
+          this.newAnimale.data_nascita=null;
+          this.newAnimale.genere=null;
+          this.newAnimale.nome=null;
+          this.newAnimale.peso=null;
+          this.newAnimale.tipo=null;
+  
+        }
+      );
+    }
+    
   }
   showDialogAnimale(){
     this.displayAnimale=true;
@@ -430,17 +446,21 @@ export class CartellaClinicaComponent implements OnInit {
     this.display_item_ricevuta = true;
   }
 
-  aggiungiItemRicevuta(codice,descrizione_item,quantita,prezzo_item){
+  aggiungiItemRicevuta(codice,descrizione_item,quantita_item,prezzo_item){
     
-    let item : ItemRicevuta = new ItemRicevuta(codice, descrizione_item, quantita, prezzo_item, prezzo_item*this.quantita_item);
+    let item : ItemRicevuta = new ItemRicevuta(codice, descrizione_item, quantita_item, prezzo_item, prezzo_item*this.quantita_item);
     this.lista_item_ricevuta.push(item);
     this.display_item_ricevuta = false;
+    this.codice=null;
+    this.descrizione_item=null;
+    this.quantita_item=null;
+    this.prezzo_item=null;
+
   }
 
   creaRicevuta(){
     this.fileService.creaRicevuta(this.dottore, this.pazienteSelezionato, this.lista_item_ricevuta, this.importo_pagato).subscribe(
       response => {
-        console.log(response);
         this.messageService.add({key: 'saved', severity:'success', summary: 'Creazione', detail: 'Ricevuta creata'});
         let file = new Blob([response], { type: 'application/pdf' });
               
@@ -448,6 +468,7 @@ export class CartellaClinicaComponent implements OnInit {
         
         window.open(fileURL, '_blank');
         this.display_ricevuta = false;
+
       }
     );
   }
@@ -473,12 +494,26 @@ export class CartellaClinicaComponent implements OnInit {
     let item : ItemPrescrizione = new ItemPrescrizione(medicinale, quantita_medicinale, dose_di_impiego, giorni_trattamento,giorni_sospensione);
     this.lista_item_prescrizione.push(item);
     this.display_item_prescrizione = false;
+    this.medicinale=null;
+    this.quantita_medicinale=null;
+    this.dose_di_impiego=null;
+    this.giorni_sospensione=null;
+    this.giorni_trattamento=null;
+
   }
 
   creaPrescrizione(){
+    
+  if(this.lista_item_prescrizione.length==0){
+    this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'Inserisci almeno un elemento nella prescrizione'});
+  }
+  else if(this.animaleSelezionato==null){
+    this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'Seleziona un animale'});
+
+  }
+  else if(this.lista_item_prescrizione.length>0){
     this.fileService.creaPrescrizione(this.dottore, this.pazienteSelezionato, this.lista_item_prescrizione, this.animaleSelezionato).subscribe(
       response => {
-        console.log(response);
         this.messageService.add({key: 'saved', severity:'success', summary: 'Creazione', detail: 'Prescrizione creata'});
         let file = new Blob([response], { type: 'application/pdf' });
               
@@ -488,6 +523,36 @@ export class CartellaClinicaComponent implements OnInit {
         this.display_prescrizione = false;
       }
     );
+}
+  }
+  deleteSelectItemsPrescrizione(){
+    this.lista_item_prescrizione=this.lista_item_prescrizione.filter(val=>!this.selectedItemPrescrizione.includes(val));
+    this.selectedItemPrescrizione=[];
+  }
+  deleteSelectItemsRicevuta(){
+    this.lista_item_ricevuta=this.lista_item_ricevuta.filter(val=>!this.selectedItemRicevuta.includes(val));
+    this.selectedItemRicevuta=[];
+  }
 
+  eliminaAnimale(){
+    if(this.animaleSelezionato!=null){
+    this.confirmationService.confirm({
+      message: 'Sei sicuro di cancellare?',
+      accept: () => {
+        this.animaleService.deleteAnimale(this.animaleSelezionato).subscribe(
+          response =>{
+            let index=this.pazienteSelezionato.animale.indexOf(this.animaleSelezionato);
+            this.pazienteSelezionato.animale.splice(index,1);
+            if(this.pazienteSelezionato.animale.length>0)
+              this.animaleSelezionato=this.pazienteSelezionato.animale[0];
+            else
+              this.animaleSelezionato=null;
+            this.messageService.add({key: 'saved', severity:'success', summary: 'Eliminazione', detail: 'Animale eliminato'});
+
+          }
+        );
+      }
+    });
+  }
   }
 }

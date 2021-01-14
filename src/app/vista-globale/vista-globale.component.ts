@@ -27,6 +27,7 @@ export class VistaGlobaleComponent implements OnInit {
       center: 'title',
       right: 'dayGridMonth dayGridWeek'
     },
+
   };
 
   constructor(private eventEmitterService: EventEmitterService, private prenotazioneService: PrenotazioneService, public config: DynamicDialogConfig) {
@@ -42,8 +43,7 @@ export class VistaGlobaleComponent implements OnInit {
     if(dottore != null){
       this.prenotazioneService.getAllPrenotazioniByDoctor(dottore).subscribe(
         response => {
-          console.log(response);
-       
+   
           for(let p of response){
             if(p.urgente)
               this.events.push({id: this.events.length,title: p.paziente.nome+" "+p.paziente.cognome, date: p.data_visita, display: 'block', color: 'red'})

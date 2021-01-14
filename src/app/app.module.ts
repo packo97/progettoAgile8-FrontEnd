@@ -40,7 +40,7 @@ import { VistaGlobaleComponent } from './vista-globale/vista-globale.component';
 import { CalendarModule } from 'primeng/calendar';
 import {ButtonModule} from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import {CheckboxModule} from 'primeng/checkbox';
 import {InputTextModule} from 'primeng/inputtext';
 import {OrderListModule} from 'primeng/orderlist';
@@ -63,6 +63,7 @@ import {AccordionModule} from 'primeng/accordion';
 import {DropdownModule} from 'primeng/dropdown';
 import { InfoAccountComponent } from './info-account/info-account.component';
 
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {TableModule} from 'primeng/table';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -117,8 +118,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AccordionModule,
     DropdownModule,
     TableModule,
+    ConfirmDialogModule,
   ],
-  providers: [EventEmitterService, RegistrazioneService, LoginService, PrenotazioneService, PazienteService, AnimaleService, DottoreService, SegretariaService, AutenticazioneService, RouteGuardService, HomeService, MessageService, FileService, DialogService, DynamicDialogConfig],
+  providers: [EventEmitterService, PrenotazioneComponent, RegistrazioneService, LoginService, PrenotazioneService, PazienteService, AnimaleService, DottoreService, SegretariaService, AutenticazioneService, RouteGuardService, HomeService, MessageService, FileService, DialogService, DynamicDialogConfig, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

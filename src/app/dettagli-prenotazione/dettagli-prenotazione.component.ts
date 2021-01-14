@@ -17,13 +17,14 @@ export class DettagliPrenotazioneComponent implements OnInit {
     let subscription = this.service.getDetailChanged().subscribe(
       item => {
         this.prenotazione=item;
-        this.prenotazione.data_visita=this.convertiData(this.prenotazione.data_visita)
-      }
+        if(item!=null){
+          this.prenotazione.data_visita=this.convertiData(this.prenotazione.data_visita)
+        }
+    }
     );
   }
 
   convertiData(data){
-    console.log(data);
     if(data==null || data=="La data della visita non è assegnata")
       return "La data della visita non è assegnata";
   

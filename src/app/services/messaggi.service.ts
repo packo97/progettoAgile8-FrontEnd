@@ -36,7 +36,6 @@ thereAreAnyNewMessageDottore(email: String) {
 cancellaMessaggio(messaggio: Messaggio) {
   this.httpClient.delete("http://localhost:8080/restex/cancellaMessaggio/"+messaggio.id).subscribe(
     response => {
-      console.log(response);
     }
   );}
 }

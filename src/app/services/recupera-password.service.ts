@@ -20,7 +20,6 @@ constructor(
     return this.httpClient.post<RecuperaPassword>("http://localhost:8080/restex/inviaEmailPaziente",recuperaPassword);
    }  
   else if(recuperaPassword.tipo_login=="segretaria"){
-    alert(JSON.stringify(recuperaPassword));
     return this.httpClient.post<RecuperaPassword>("http://localhost:8080/restex/inviaEmailSegretaria",recuperaPassword);
     
   }else if(recuperaPassword.tipo_login=="dottore")

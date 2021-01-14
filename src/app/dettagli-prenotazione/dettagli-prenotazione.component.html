@@ -1,4 +1,4 @@
-<h1 align="center">DETTAGLI</h1>
+<h1 align="center" *ngIf="prenotazione != null && prenotazione.id != null">DETTAGLI</h1>
 <div class="container" *ngIf="prenotazione != null && prenotazione.id != null">
   <div class="row">
     <div class="column col-sm-10"></div>

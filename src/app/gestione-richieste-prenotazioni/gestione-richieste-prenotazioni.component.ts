@@ -34,7 +34,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
   ngOnInit() {
     this.dottoreService.getDottori().subscribe(
       response => {
-        console.log(response);
+
         this.dottori = response;
       }
     );
@@ -126,7 +126,6 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
 
       hour++;
     }
-    console.log("data after refresh: " + this.data);
     for(let p of this.richieste){
       p.data_visita="La data della visita non è assegnata";
     }
@@ -137,9 +136,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
   
 
   refresh(prenotazione : Prenotazione){
-    console.log("data: " + this.data);
-    console.log("prenotazione: ");
-    console.log(prenotazione);
+
     this.prenotazioneService.refreshPanelDetail(prenotazione);
   }
 
@@ -200,7 +197,6 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
       response.push(new Prenotazione(null,"Time-slot libero alle " + (k+9+count),null,null,null,null,null));
     }
     this.prenotazioni_accettate = response;
-    console.log(this.prenotazioni_accettate);
   }
 
 
@@ -209,10 +205,15 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
 
     for(let p of cloned){
       var split_data_orario = p.data_visita.split("  ",2);
-      console.log(split_data_orario);
       var split_giorno_mese_anno = split_data_orario[0].split("-",3);
-      var dataFormatoCorretto= split_giorno_mese_anno[2]+"-"+split_giorno_mese_anno[1]+"-"+split_giorno_mese_anno[0]+"T".concat(split_data_orario[1]+":00.000Z");
+      var dataFormatoCorretto="";
+      if(Number(split_giorno_mese_anno[1]>=10))
+        dataFormatoCorretto= split_giorno_mese_anno[2]+"-"+split_giorno_mese_anno[1]+"-"+split_giorno_mese_anno[0]+"T".concat(split_data_orario[1]+":00.000000000");
+      else
+        dataFormatoCorretto= split_giorno_mese_anno[2]+"-0"+split_giorno_mese_anno[1]+"-"+split_giorno_mese_anno[0]+"T".concat(split_data_orario[1]+":00.000000000");
+     
       p.data_visita=dataFormatoCorretto;
+      p.confermato=true;
 
       //p.data_visita=new Date(p.data_visita);
 
@@ -220,7 +221,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
  
     this.prenotazioni_accettate.forEach(
       prenotazioni => {
-        if(prenotazioni.id)
+        if(prenotazioni.id!=null)
           prenotazioni.confermato = true;
       }
     )
@@ -244,6 +245,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
     for(let prenotazione of cloned){
       if(prenotazione.id != null){
         this.prenotazioneService.updateStato(prenotazione);
+        
       }
         
     }

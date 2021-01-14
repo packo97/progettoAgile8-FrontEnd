@@ -47,13 +47,11 @@ export class InfoAccountComponent implements OnInit {
   ngOnInit() {
     this.modifica = false;
     this.whoIsLogged = sessionStorage.getItem('profile');
-    console.log(this.whoIsLogged);
   
     if(this.whoIsLogged == "paziente"){
       let email = sessionStorage.getItem('user');
       this.pazienteService.getPaziente(email).subscribe(
         response => {
-          console.log(response);
           this.paziente = response;
 
           let base64img = this.paziente.img;
@@ -62,7 +60,6 @@ export class InfoAccountComponent implements OnInit {
 
           this.animaleService.getAnimali(this.paziente).subscribe(
             response => {
-              console.log(response);
               this.paziente.animale = response;
               this.nome = this.paziente.nome;
               this.cognome = this.paziente.cognome;
@@ -80,7 +77,6 @@ export class InfoAccountComponent implements OnInit {
       let email = sessionStorage.getItem('user');
       this.dottoreService.getDottore(email).subscribe(
         response => {
-          console.log(response);
           this.dottore = response; 
           
           this.nome = this.dottore.nome;
@@ -99,7 +95,6 @@ export class InfoAccountComponent implements OnInit {
       let email = sessionStorage.getItem('user');
       this.segretariaService.getSegretaria(email).subscribe(
         response => {
-          console.log(response);
           this.segretaria = response; 
           
           this.nome = this.segretaria.nome;
@@ -133,7 +128,7 @@ export class InfoAccountComponent implements OnInit {
 
       this.pazienteService.updatePaziente(this.paziente).subscribe(
         response => {
-          console.log(response);
+
           this.modifica = false;
           this.messageService.add({key: 'saved', severity:'success', summary: 'Salvato', detail: 'Dati utente aggiornati'});
         }
@@ -148,7 +143,7 @@ export class InfoAccountComponent implements OnInit {
 
       this.dottoreService.updateDottore(this.dottore).subscribe(
         response => {
-          console.log(response);
+  
           this.modifica = false;
           this.messageService.add({key: 'saved', severity:'success', summary: 'Salvato', detail: 'Dati utente aggiornati'});
         }
@@ -163,7 +158,7 @@ export class InfoAccountComponent implements OnInit {
 
       this.segretariaService.updateSegretaria(this.segretaria).subscribe(
         response => {
-          console.log(response);
+
           this.modifica = false;
           this.messageService.add({key: 'saved', severity:'success', summary: 'Salvato', detail: 'Dati utente aggiornati'});
         }
@@ -179,7 +174,7 @@ export class InfoAccountComponent implements OnInit {
     if(this.whoIsLogged == "paziente"){
       this.pazienteService.updatePassword(this.paziente, this.passwordVecchia,this.passwordNuova).subscribe(
         response => {
-          console.log(response);
+
           if(response == "BAD_REQUEST")
             this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'La password vecchia non corrisponde'});
           else
@@ -190,7 +185,7 @@ export class InfoAccountComponent implements OnInit {
     else if(this.whoIsLogged == "dottore"){
       this.dottoreService.updatePassword(this.dottore, this.passwordVecchia,this.passwordNuova).subscribe(
         response => {
-          console.log(response);
+
           if(response == "BAD_REQUEST")
             this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'La password vecchia non corrisponde'});
           else
@@ -201,7 +196,7 @@ export class InfoAccountComponent implements OnInit {
     else if(this.whoIsLogged == "segretaria"){
       this.segretariaService.updatePassword(this.segretaria, this.passwordVecchia,this.passwordNuova).subscribe(
         response => {
-          console.log(response);
+
           if(response == "BAD_REQUEST")
             this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'La password vecchia non corrisponde'});
           else
@@ -216,12 +211,14 @@ export class InfoAccountComponent implements OnInit {
     
     const uploadImageData = new FormData();
     uploadImageData.append('imageFile', event.files[0]);
+    //event=null;
     if(this.whoIsLogged=="paziente"){
       uploadImageData.append('pazienteID', this.paziente.id.toString());
 
       this.pazienteService.updateImg(uploadImageData).subscribe(
         response => {
           if (response.status === 200) {
+            this.ngOnInit();
             this.messageService.add({key: 'saved', severity:'success', summary: 'Salvata', detail: 'Nuova immagine del profilo salvata'});
           } else {
             this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'Immagine non salvata, la dimensione file non è adatta'});

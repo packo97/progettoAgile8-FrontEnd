@@ -76,7 +76,7 @@ export class RecuperaPasswordComponent implements OnInit {
           this.mostraConfermaCodice();
           this.recuperaPasswordService.inviaEmail(this.recuperaPassword).subscribe(
             response => {
-              console.log(response);
+
               this.recuperaPassword=response;
               
             }

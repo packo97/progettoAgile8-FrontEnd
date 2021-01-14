@@ -5,7 +5,7 @@
   <p-card class="p-col-8" align="center">
     <img *ngIf="img==null" src="/assets/dog.png"/>
     <img *ngIf="img!=null" [src]="img">
-    <p-fileUpload mode="basic" (uploadHandler)=upload($event) name="demo[]" customUpload="true" accept="image/*" maxFileSize="10000" chooseLabel="Modifica"></p-fileUpload>
+    <p-fileUpload mode="basic" (uploadHandler)=upload($event) customUpload="true" accept="image/*" maxFileSize="10000" chooseLabel="Modifica"></p-fileUpload>
     <hr>
     <b *ngIf="!modifica" id="nome-cognome">{{nome}} {{cognome}}</b>
     <input *ngIf="modifica" type="text" pInputText [(ngModel)]="nome"/>
@@ -18,7 +18,7 @@
   <div class="p-col-2"></div>
   <p-card class="p-col-4">
     <div class="p-grid">
-      <b class="p-col-3">Codice Fiscale: </b>
+      <b class="p-col-4">Codice Fiscale: </b>
       <div class="p-col-8"></div>
     </div>
     <p *ngIf="!modifica">{{codice_fiscale}}</p>
@@ -58,8 +58,8 @@
 
 <div id="footerAccount" class="p-grid">
   <div class="p-col-2"></div>
-  <button pButton type="button" label="Cambia Password" class="p-button-raised p-button-danger" (click)=cambiaPassword()></button>
-  <button *ngIf="!modifica" pButton type="button" label="Modifa dati" icon="pi pi-pencil" class="p-button-raised p-button-info" (click)=attivaModifica()></button>
+  <button pButton type="button" id="bottoneCambiaPassword" label="Cambia Password" class="p-button-raised p-button-danger" (click)=cambiaPassword()></button>
+  <button *ngIf="!modifica" pButton type="button" label="Modifica dati" icon="pi pi-pencil" class="p-button-raised p-button-info" (click)=attivaModifica()></button>
   <button *ngIf="modifica" pButton type="button" label="Salva dati" icon="pi pi-save" class="p-button-raised p-button-success" (click)=salvaModifica()></button>
   <div class="p-col-2"></div>
 </div>
