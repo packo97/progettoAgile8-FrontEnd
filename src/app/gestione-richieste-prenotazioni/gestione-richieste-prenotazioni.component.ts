@@ -244,7 +244,16 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
 
     for(let prenotazione of cloned){
       if(prenotazione.id != null){
-        this.prenotazioneService.updateStato(prenotazione);
+        this.prenotazioneService.controlloStessoOrarioDottoreDiverso(prenotazione).subscribe(
+          response => {
+            this.prenotazioneService.updateStato(prenotazione).subscribe();
+          },
+          error => {
+            let p: Prenotazione = error['error']
+            this.messageService.add({key: 'saved', severity:'warn', summary: 'Attenzione', detail: 'La prenotazione del paziente ' + p.paziente.nome + " " + p.paziente.cognome + " riguardante " + p.descrizione + " è stata assegnata in un orario in cui il paziente ha una prenotazione anche con un altro dottore"});
+            this.prenotazioneService.updateStato(prenotazione).subscribe();
+          }
+        )
         
       }
         
@@ -252,12 +261,12 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
 
     for(let prenotazione of this.richieste){
       if(prenotazione.id != null)
-        this.prenotazioneService.updateStato(prenotazione);
+        this.prenotazioneService.updateStato(prenotazione).subscribe();
     }
 
     for(let prenotazione of this.urgenti){
       if(prenotazione.id != null)
-        this.prenotazioneService.updateStato(prenotazione);
+        this.prenotazioneService.updateStato(prenotazione).subscribe();
     }
 
 

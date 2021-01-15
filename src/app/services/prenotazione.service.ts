@@ -27,7 +27,11 @@ export class PrenotazioneService {
   }
 
   updateStato(prenotazione: Prenotazione) {
-    this.httpClient.put("http://localhost:8080/restex/prenotazione/",prenotazione).subscribe();
+    return this.httpClient.put<Prenotazione>("http://localhost:8080/restex/prenotazione/",prenotazione);
+  }
+
+  controlloStessoOrarioDottoreDiverso(prenotazione: Prenotazione){
+    return this.httpClient.post<Prenotazione>("http://localhost:8080/restex/controlloStessoOrarioDottoreDiverso",prenotazione);
   }
 
   getCodaUrgenti() {
@@ -51,7 +55,7 @@ export class PrenotazioneService {
     return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/prenotazioniByDoctorAndDate",json);
   }
 
-  getAllPrenotazioniByDoctor(dottore: Dottore) {//aggiustare back-end
+  getAllPrenotazioniByDoctor(dottore: Dottore) {
     return this.httpClient.post<Prenotazione[]>("http://localhost:8080/restex/prenotazioniByDoctor",dottore);
   }
 
