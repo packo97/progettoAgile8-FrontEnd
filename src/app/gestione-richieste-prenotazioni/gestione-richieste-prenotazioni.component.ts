@@ -261,7 +261,7 @@ export class GestioneRichiestePrenotazioniComponent implements OnInit {
     }
 
 
-    this.messageService.add({key: 'saved', severity:'success', summary: 'Saved', detail: 'Prenotazione Salvate'});
+    this.messageService.add({key: 'saved', severity:'success', summary: 'Salvato', detail: 'Prenotazione Salvate'});
   }
 
   ref: DynamicDialogRef;

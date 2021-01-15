@@ -1,9 +1,3 @@
-
-  <!--<div *ngFor="let prenotazione of prenotazioniUrgenti">
-    <p>{{prenotazione.descrizione}}</p>
-  </div>
--->
-
 <p-calendar *ngIf="dottore!=null" [(ngModel)]="data" placeholder="Seleziona data" dateFormat="dd-mm-yy" (onSelect)=refreshPrenotazioni()></p-calendar>
   
 
@@ -20,8 +14,8 @@
          <img align= "right" src="/assets/trash.png" (click)=deletePrenotazione(prenotazione)/></li></ng-template>
     </ng-container>
   </ul>
-  <p class="text-center font-weight-bold" *ngIf="prenotazioni.length==0">Non ci sono prenotazione per questo giorno!</p>
-
+  <p class="text-center font-weight-bold" *ngIf="prenotazioni.length==0 && dottore!=null">Non ci sono prenotazione per questo giorno!</p>
+  <p class="text-center font-weight-bold" *ngIf="prenotazioni.length==0 && paziente!=null">Non ci sono prenotazioni!</p>
   <p-confirmDialog header="Conferma" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
   

@@ -171,7 +171,15 @@ export class InfoAccountComponent implements OnInit {
   }
 
   salvaPassword(){
-    if(this.whoIsLogged == "paziente"){
+
+    if(this.passwordVecchia==null || this.passwordNuova == null){
+      this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'Inserisci tutti i campi'});
+    }
+    else if(this.passwordNuova.length<8){
+      this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'Inserisci una password di almeno 8 caratteri'});
+    }
+    else{
+      if(this.whoIsLogged == "paziente"){
       this.pazienteService.updatePassword(this.paziente, this.passwordVecchia,this.passwordNuova).subscribe(
         response => {
 
@@ -181,30 +189,33 @@ export class InfoAccountComponent implements OnInit {
             this.messageService.add({key: 'saved', severity:'success', summary: 'Salvato', detail: 'Password cambiata'});
         }
       );
-    }
-    else if(this.whoIsLogged == "dottore"){
-      this.dottoreService.updatePassword(this.dottore, this.passwordVecchia,this.passwordNuova).subscribe(
-        response => {
+      }
+      else if(this.whoIsLogged == "dottore"){
+        this.dottoreService.updatePassword(this.dottore, this.passwordVecchia,this.passwordNuova).subscribe(
+          response => {
 
-          if(response == "BAD_REQUEST")
-            this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'La password vecchia non corrisponde'});
-          else
-            this.messageService.add({key: 'saved', severity:'success', summary: 'Salvato', detail: 'Password cambiata'});
-        }
-      );
-    }
-    else if(this.whoIsLogged == "segretaria"){
-      this.segretariaService.updatePassword(this.segretaria, this.passwordVecchia,this.passwordNuova).subscribe(
-        response => {
+            if(response == "BAD_REQUEST")
+              this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'La password vecchia non corrisponde'});
+            else
+              this.messageService.add({key: 'saved', severity:'success', summary: 'Salvato', detail: 'Password cambiata'});
+          }
+        );
+      }
+      else if(this.whoIsLogged == "segretaria"){
+        this.segretariaService.updatePassword(this.segretaria, this.passwordVecchia,this.passwordNuova).subscribe(
+          response => {
 
-          if(response == "BAD_REQUEST")
-            this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'La password vecchia non corrisponde'});
-          else
-            this.messageService.add({key: 'saved', severity:'success', summary: 'Salvato', detail: 'Password cambiata'});
-        }
-      );
+            if(response == "BAD_REQUEST")
+              this.messageService.add({key: 'saved', severity:'error', summary: 'Errore', detail: 'La password vecchia non corrisponde'});
+            else
+              this.messageService.add({key: 'saved', severity:'success', summary: 'Salvato', detail: 'Password cambiata'});
+          }
+        );
+      }
+      this.passwordVecchia=null;
+      this.passwordNuova=null;
+      this.showDialog = false;
     }
-    this.showDialog = false;
   }
 
   upload(event){
