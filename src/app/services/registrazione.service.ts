@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Paziente } from '../richiesta-prenotazione/richiesta-prenotazione.component';
+import { Dottore, Segretaria } from './dottore.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +13,15 @@ export class RegistrazioneService {
   ) { }
   
   registrazionePaziente(json){
-    this.httpClient.post("http://localhost:8080/restex/paziente",json).subscribe();
+    return this.httpClient.post<Paziente>("http://localhost:8080/restex/paziente",json);
   }
   
   registrazioneDottore(json){
-    console.log("ciao");
-    this.httpClient.post("http://localhost:8080/restex/dottore",json).subscribe(); 
+    return this.httpClient.post<Dottore>("http://localhost:8080/restex/dottore",json); 
   }
 
   registrazioneSegretaria(json){
-    this.httpClient.post("http://localhost:8080/restex/segretaria",json).subscribe();  
+    return this.httpClient.post<Segretaria>("http://localhost:8080/restex/segretaria",json);  
   }
 
 }

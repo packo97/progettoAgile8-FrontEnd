@@ -78,8 +78,15 @@ export class RegistrazioneComponent implements OnInit {
                 email:  this.email,
                 password:  this.password,
               }
-              this.service.registrazionePaziente(jsonPaziente);
-              this.route.navigate(['login']);
+              this.service.registrazionePaziente(jsonPaziente).subscribe(
+                response => {
+                  this.route.navigate(['login']);
+                },
+                error => {
+                  this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Email già presente!'});
+                }
+              );
+              
             }
             else if(this.tipo_registrazione == "dottore"){
               var jsonDottore = {
@@ -92,8 +99,14 @@ export class RegistrazioneComponent implements OnInit {
                 descrizione: this.descrizione,
                 codice_identificativo: this.codice_identificativo_veterinario,
               }
-              this.service.registrazioneDottore(jsonDottore);
-              this.route.navigate(['login']);
+              this.service.registrazioneDottore(jsonDottore).subscribe(
+                response => {
+                  this.route.navigate(['login']);
+                },
+                error => {
+                  this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Email già presente!'});
+                }
+              );
             }
             else if(this.tipo_registrazione == "segretaria"){
               var jsonSegretaria = {
@@ -104,8 +117,14 @@ export class RegistrazioneComponent implements OnInit {
                 email:  this.email,
                 password:  this.password,
               }
-              this.service.registrazioneSegretaria(jsonSegretaria);
-              this.route.navigate(['login']);
+              this.service.registrazioneSegretaria(jsonSegretaria).subscribe(
+                response => {
+                  this.route.navigate(['login']);
+                },
+                error => {
+                  this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Email già presente!'});
+                }
+              );
             }
             else{
               this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Seleziona una categoria di utente'});
@@ -119,7 +138,7 @@ export class RegistrazioneComponent implements OnInit {
       }
     }
 
-    else{
+    /*else{
       if(this.tipo_registrazione == "paziente"){
         var jsonPaziente = {
           nome: this.nome,
@@ -161,7 +180,7 @@ export class RegistrazioneComponent implements OnInit {
       else{
         this.messageService.add({key: 'saved', severity:'error', summary: 'Registrazione', detail: 'Seleziona una categoria di utente'});
       }
-    }
+    }*/
     
   }
 
